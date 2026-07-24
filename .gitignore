@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 인증키/환경
+.env
+*.key
+secrets.*
+
+# OS
+.DS_Store
+Thumbs.db

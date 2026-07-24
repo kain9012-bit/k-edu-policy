@@ -1,0 +1,31 @@
+name: Refresh budget data
+
+# 세출예산은 연 단위 갱신 → 매월 1일 + 수동 실행
+on:
+  schedule:
+    - cron: "0 21 1 * *"   # 매월 1일 06:00 KST
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Collect budget data
+        env:
+          EDUINFO_KEY: ${{ secrets.EDUINFO_KEY }}
+        run: python3 scripts/collect_budget.py --years 2022 2023 2024 2025 2026
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- data/budget.json; then
+            git add data/budget.json
+            git commit -m "chore: refresh budget data"
+            git push
+          else
+            echo "변경 없음"
+          fi
