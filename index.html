@@ -3,197 +3,236 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K-교육청 정책서랍 · 시도교육청 세출예산 검색·비교</title>
+<title>K-교육청 정책서랍 · 주요업무계획·세출예산 통합검색</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root{ --bg:#f4f6fb; --card:#fff; --ink:#1a2230; --sub:#5b6472; --line:#e4e8f0;
-         --brand:#3770bf; --brand2:#2b568f; --accent:#e8f0fb; }
+         --brand:#3770bf; --brand2:#2b568f; --accent:#e8f0fb; --tag:#fdf0e6; --tag2:#b3591b; }
   *{box-sizing:border-box}
-  body{margin:0;font-family:'Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;
-       background:var(--bg);color:var(--ink);}
-  header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:22px 20px;}
+  body{margin:0;font-family:'Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:20px 20px 0}
+  .head-in{max-width:1100px;margin:0 auto}
   header h1{margin:0;font-size:20px;letter-spacing:-.3px}
-  header p{margin:6px 0 0;font-size:13px;opacity:.9}
+  header p{margin:6px 0 14px;font-size:13px;opacity:.9}
+  .tabs{display:flex;gap:6px}
+  .tab{padding:10px 18px;background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:10px 10px 0 0;
+       font-size:14px;font-weight:600;cursor:pointer}
+  .tab.on{background:var(--bg);color:var(--brand2)}
   .wrap{max-width:1100px;margin:0 auto;padding:18px 16px 60px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;
-        box-shadow:0 1px 3px rgba(20,30,50,.04)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(20,30,50,.04)}
   .filters{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
   .field{display:flex;flex-direction:column;gap:4px}
   .field label{font-size:12px;color:var(--sub);font-weight:600}
   select,input[type=search]{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff}
-  input[type=search]{min-width:220px}
-  .regions{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-  .chip{font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;cursor:pointer;user-select:none;background:#fff}
-  .chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
-  .chip.small{padding:3px 8px}
+  input[type=search]{min-width:240px}
+  .grow{flex:1}
   h2{font-size:15px;margin:0 0 12px}
   .muted{color:var(--sub);font-size:12px}
+  .pill{display:inline-block;background:var(--accent);color:var(--brand2);border-radius:6px;padding:2px 8px;font-size:12px;margin-left:6px}
+  /* 계획 카드 */
+  .plan{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px;background:#fff}
+  .plan h3{margin:0 0 4px;font-size:15.5px}
+  .plan .meta{font-size:12px;color:var(--sub);margin-bottom:8px}
+  .badge{display:inline-block;background:var(--accent);color:var(--brand2);border-radius:999px;padding:2px 9px;font-size:11.5px;margin-right:5px}
+  .badge.dept{background:#eef7ee;color:#2f7d32}
+  .badge.tag{background:var(--tag);color:var(--tag2)}
+  .task{margin:8px 0 0}
+  .task .t{font-weight:600;font-size:13.5px;margin:6px 0 2px}
+  .task .t::before{content:"▸ ";color:var(--brand)}
+  .task ul{margin:2px 0 0;padding-left:18px}
+  .task li{font-size:13px;color:#333;margin:1px 0}
+  mark{background:#fff2ac;padding:0 1px;border-radius:3px}
+  .hi{color:var(--brand2)}
+  /* 예산 */
   table{width:100%;border-collapse:collapse;font-size:13.5px}
   th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left}
   th{background:#f8fafd;color:var(--sub);font-weight:600;cursor:pointer;white-space:nowrap}
   td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   tr:hover td{background:#fafcff}
-  .bar-td{padding:0}
+  .regions{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .chip{font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;cursor:pointer;user-select:none;background:#fff}
+  .chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .chip.small{padding:3px 8px}
   .minibar{height:8px;background:var(--brand);border-radius:4px}
-  .row-flex{display:flex;gap:16px;flex-wrap:wrap}
-  .row-flex>div{flex:1;min-width:300px}
-  .tot{font-weight:700}
   footer{max-width:1100px;margin:0 auto;padding:0 16px 40px;color:var(--sub);font-size:12px;line-height:1.6}
-  .pill{display:inline-block;background:var(--accent);color:var(--brand2);border-radius:6px;padding:2px 8px;font-size:12px;margin-left:6px}
+  .hidden{display:none}
 </style>
 </head>
 <body>
-<header>
+<header><div class="head-in">
   <h1>K-교육청 정책서랍</h1>
-  <p>전국 시도교육청 세출예산(교육비특별회계)을 정책사업별로 검색·비교합니다</p>
-</header>
+  <p>전국 시도교육청의 <b>주요업무계획</b>과 <b>세출예산</b>을 사업·부서·지역별로 검색·비교합니다</p>
+  <div class="tabs">
+    <button class="tab on" data-tab="plan" id="tabPlan">📋 주요업무계획 검색</button>
+    <button class="tab" data-tab="budget" id="tabBudget">💰 세출예산 검색·비교</button>
+  </div>
+</div></header>
 
-<div class="wrap">
+<!-- ===== 주요업무계획 ===== -->
+<div class="wrap" id="panelPlan">
   <div class="card">
     <div class="filters">
-      <div class="field">
-        <label>회계연도</label>
-        <select id="year"></select>
-      </div>
-      <div class="field">
-        <label>정책사업(항목)</label>
-        <select id="item"></select>
-      </div>
-      <div class="field" style="flex:1">
-        <label>사업명 검색</label>
-        <input type="search" id="q" placeholder="예: 교육복지, 인건비, 시설…">
-      </div>
+      <div class="field"><label>교육청</label><select id="pOffice"></select></div>
+      <div class="field"><label>분야</label><select id="pField"></select></div>
+      <div class="field"><label>담당부서</label><select id="pDept"></select></div>
+      <div class="field grow"><label>사업·과제·내용 검색</label>
+        <input type="search" id="pQ" placeholder="예: 늘봄, AI, 특수교육, 다문화, 학교폭력…"></div>
+    </div>
+    <div class="muted" style="margin-top:10px" id="pInfo"></div>
+  </div>
+  <div id="planList"></div>
+</div>
+
+<!-- ===== 세출예산 ===== -->
+<div class="wrap hidden" id="panelBudget">
+  <div class="card">
+    <div class="filters">
+      <div class="field"><label>회계연도</label><select id="year"></select></div>
+      <div class="field"><label>정책사업(항목)</label><select id="item"></select></div>
+      <div class="field grow"><label>사업명 검색</label>
+        <input type="search" id="q" placeholder="예: 교육복지, 인건비, 시설…"></div>
     </div>
     <div class="field" style="margin-top:12px">
       <label>교육청 선택 <span class="muted" id="regcount"></span></label>
       <div class="regions" id="regions"></div>
-      <div style="margin-top:6px">
-        <span class="chip small" id="allRegions">전체</span>
-        <span class="chip small" id="clearRegions">해제</span>
-      </div>
+      <div style="margin-top:6px"><span class="chip small" id="allRegions">전체</span>
+        <span class="chip small" id="clearRegions">해제</span></div>
     </div>
   </div>
-
+  <div class="card"><h2 id="chartTitle">지역별 비교</h2><canvas id="chart" height="120"></canvas></div>
   <div class="card">
-    <h2 id="chartTitle">지역별 비교</h2>
-    <canvas id="chart" height="120"></canvas>
-  </div>
-
-  <div class="card">
-    <div class="row-flex" style="align-items:center;justify-content:space-between">
-      <h2 style="margin:0">상세 내역 <span class="pill" id="cnt"></span></h2>
-      <span class="muted" id="hint">열 제목을 클릭하면 정렬됩니다</span>
-    </div>
-    <div style="overflow-x:auto;margin-top:10px">
-      <table id="tbl">
-        <thead><tr>
-          <th data-k="region">교육청</th>
-          <th data-k="item">정책사업</th>
-          <th data-k="amount" class="num">금액</th>
-          <th class="num">비중</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
+    <h2 style="margin:0 0 10px">상세 내역 <span class="pill" id="cnt"></span></h2>
+    <div style="overflow-x:auto">
+      <table id="tbl"><thead><tr>
+        <th data-k="region">교육청</th><th data-k="item">정책사업</th>
+        <th data-k="amount" class="num">금액</th><th class="num">비중</th>
+      </tr></thead><tbody></tbody></table>
     </div>
   </div>
 </div>
 
 <footer>
-  출처: 지방교육재정알리미 Open API(<code>opbdfnctByPoli</code>) · 이용허락: 공공누리 출처표시 ·
-  <span id="meta"></span><br>
-  ※ 세출예산액=교육청 총 세출, 유아및초중등교육=기능 대분류, 그 아래는 정책사업 그룹입니다.
+  계획 출처: 각 시도교육청 주요업무계획 공개자료 · 예산 출처: 지방교육재정알리미 Open API(<code>opbdfnctByPoli</code>, 공공누리 출처표시)<br>
+  <span id="meta"></span> · ※ 현재 계획 데이터는 전북 1곳(교육청별 순차 추가 예정)
 </footer>
 
 <script>
+/* ---------- 공통 ---------- */
 const won = n => n.toLocaleString('ko-KR');
-function eok(n){ // 원 → 조/억 표기
-  if(n>=1e12) return (n/1e12).toFixed(2)+'조';
-  if(n>=1e8)  return Math.round(n/1e8).toLocaleString('ko-KR')+'억';
-  return won(n);
+const eok = n => n>=1e12 ? (n/1e12).toFixed(2)+'조' : n>=1e8 ? Math.round(n/1e8).toLocaleString('ko-KR')+'억' : won(n);
+const esc = s => s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function hl(text, q){ text=esc(text); if(!q) return text;
+  const t=q.trim(); if(!t) return text;
+  try{ return text.replace(new RegExp('('+t.replace(/[.*+?^${}()|[\\]\\\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>'); }catch(e){ return text; } }
+
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  const t=b.dataset.tab;
+  document.getElementById('panelPlan').classList.toggle('hidden', t!=='plan');
+  document.getElementById('panelBudget').classList.toggle('hidden', t!=='budget');
+});
+
+/* ---------- 주요업무계획 ---------- */
+let PLANS=null;
+fetch('data/plans.json').then(r=>r.json()).then(d=>{ PLANS=d; initPlan(); })
+  .catch(e=>document.getElementById('planList').innerHTML='<div class="card">계획 데이터를 불러오지 못했습니다: '+e+'</div>');
+
+function fillSelect(el, arr, allLabel){ el.innerHTML='';
+  const o=document.createElement('option'); o.value=''; o.textContent=allLabel; el.appendChild(o);
+  arr.forEach(v=>{ const x=document.createElement('option'); x.value=v; x.textContent=v; el.appendChild(x); }); }
+
+function initPlan(){
+  fillSelect(document.getElementById('pOffice'), PLANS.offices, '전체 교육청');
+  fillSelect(document.getElementById('pField'), PLANS.fields, '전체 분야');
+  fillSelect(document.getElementById('pDept'), PLANS.depts, '전체 부서');
+  ['pOffice','pField','pDept'].forEach(id=>document.getElementById(id).onchange=renderPlan);
+  document.getElementById('pQ').oninput=renderPlan;
+  renderPlan();
 }
+
+function renderPlan(){
+  const office=document.getElementById('pOffice').value;
+  const field=document.getElementById('pField').value;
+  const dept=document.getElementById('pDept').value;
+  const q=document.getElementById('pQ').value.trim();
+  let rows=PLANS.plans.filter(p=>
+    (!office||p.office===office) && (!field||p.field===field) &&
+    (!dept||p.dept.includes(dept)) &&
+    (!q||p.searchtext.toLowerCase().includes(q.toLowerCase())));
+
+  document.getElementById('pInfo').innerHTML=`검색결과 <b class="hi">${rows.length}</b>개 사업`+
+    (q?` · "<b>${esc(q)}</b>"`:'')+` <span class="muted">(전체 ${PLANS.plans.length}개 중)</span>`;
+
+  const box=document.getElementById('planList');
+  if(!rows.length){ box.innerHTML='<div class="card muted">일치하는 사업이 없습니다.</div>'; return; }
+  box.innerHTML=rows.map(p=>{
+    const tags=(p.tags||[]).map(t=>`<span class="badge tag">${t}</span>`).join('');
+    const tasks=(p.tasks||[]).map(t=>{
+      const lis=(t.details||[]).map(d=>`<li>${hl(d,q)}</li>`).join('');
+      return `<div class="task"><div class="t">${hl(t.title,q)}</div>${lis?`<ul>${lis}</ul>`:''}</div>`;
+    }).join('');
+    return `<div class="plan">
+      <h3>${hl(p.name,q)} <span class="muted">[${p.code}]</span></h3>
+      <div class="meta">
+        <span class="badge">${p.office}</span>
+        <span class="badge">${p.field} · ${p.area}</span>
+        <span class="badge dept">${hl(p.dept,q)}</span> ${tags}
+      </div>${tasks}</div>`;
+  }).join('');
+}
+
+/* ---------- 세출예산 ---------- */
 let DATA=null, sortK='amount', sortAsc=false, selRegions=new Set(), chart=null;
+fetch('data/budget.json').then(r=>r.json()).then(d=>{ DATA=d; initBudget(); });
 
-fetch('data/budget.json').then(r=>r.json()).then(d=>{ DATA=d; init(); })
-  .catch(e=>{ document.querySelector('.wrap').innerHTML='<div class="card">데이터를 불러오지 못했습니다: '+e+'</div>'; });
-
-function init(){
+function initBudget(){
   const yy=document.getElementById('year');
   DATA.years.slice().reverse().forEach(y=>{ const o=document.createElement('option');o.value=y;o.textContent=y+'년';yy.appendChild(o); });
   const it=document.getElementById('item');
-  ['세출예산액', ...DATA.policy_items].forEach(v=>{ const o=document.createElement('option');o.value=v;o.textContent=v;it.appendChild(o); });
-  // 기본 정책사업: 교육복지
+  ['세출예산액',...DATA.policy_items].forEach(v=>{ const o=document.createElement('option');o.value=v;o.textContent=v;it.appendChild(o); });
   it.value = DATA.policy_items.includes('교육복지') ? '교육복지' : it.options[0].value;
-
   const rc=document.getElementById('regions');
-  DATA.regions.forEach(r=>{ const c=document.createElement('span');c.className='chip on';c.textContent=r;c.dataset.r=r;
-    selRegions.add(r); c.onclick=()=>{ c.classList.toggle('on'); if(c.classList.contains('on'))selRegions.add(r);else selRegions.delete(r); render(); };
+  DATA.regions.forEach(r=>{ const c=document.createElement('span');c.className='chip on';c.textContent=r;
+    selRegions.add(r); c.onclick=()=>{ c.classList.toggle('on'); c.classList.contains('on')?selRegions.add(r):selRegions.delete(r); renderBudget(); };
     rc.appendChild(c); });
-
-  document.getElementById('allRegions').onclick=()=>{ selRegions=new Set(DATA.regions); rc.querySelectorAll('.chip').forEach(c=>c.classList.add('on')); render(); };
-  document.getElementById('clearRegions').onclick=()=>{ selRegions.clear(); rc.querySelectorAll('.chip').forEach(c=>c.classList.remove('on')); render(); };
-  yy.onchange=it.onchange=render;
-  document.getElementById('q').oninput=render;
-  document.querySelectorAll('#tbl th[data-k]').forEach(th=>th.onclick=()=>{
-    const k=th.dataset.k; if(sortK===k)sortAsc=!sortAsc; else{sortK=k;sortAsc=(k!=='amount');} render(); });
-  document.getElementById('meta').textContent = '생성 '+DATA.generated_at+' · '+DATA.regions.length+'개 교육청 · '+DATA.years.length+'개년';
-  render();
+  document.getElementById('allRegions').onclick=()=>{ selRegions=new Set(DATA.regions); rc.querySelectorAll('.chip').forEach(c=>c.classList.add('on')); renderBudget(); };
+  document.getElementById('clearRegions').onclick=()=>{ selRegions.clear(); rc.querySelectorAll('.chip').forEach(c=>c.classList.remove('on')); renderBudget(); };
+  yy.onchange=it.onchange=renderBudget;
+  document.getElementById('q').oninput=renderBudget;
+  document.querySelectorAll('#tbl th[data-k]').forEach(th=>th.onclick=()=>{ const k=th.dataset.k; if(sortK===k)sortAsc=!sortAsc; else{sortK=k;sortAsc=(k!=='amount');} renderBudget(); });
+  document.getElementById('meta').textContent='예산 '+DATA.years.length+'개년·'+DATA.regions.length+'개 교육청 (생성 '+DATA.generated_at+')';
+  renderBudget();
 }
-
-function currentRows(){
-  const y=+document.getElementById('year').value;
-  const item=document.getElementById('item').value;
-  const q=document.getElementById('q').value.trim();
+function curRows(){
+  const y=+document.getElementById('year').value, item=document.getElementById('item').value, q=document.getElementById('q').value.trim();
   let rows=DATA.rows.filter(r=>r.year===y && selRegions.has(r.region) && !r.is_sub);
-  if(q){ rows=rows.filter(r=>r.item.includes(q)); }
-  else { rows=rows.filter(r=>r.item===item); }
-  return rows;
+  return q ? rows.filter(r=>r.item.includes(q)) : rows.filter(r=>r.item===item);
 }
-
-function render(){
+function renderBudget(){
   document.getElementById('regcount').textContent='('+selRegions.size+'개 선택)';
-  const rows=currentRows();
-  const q=document.getElementById('q').value.trim();
-  const item=document.getElementById('item').value;
-
-  // 차트: 검색어 없을 때만 지역 비교(선택 항목), 있으면 항목별 합계
-  const title=document.getElementById('chartTitle');
-  let labels, values;
-  if(!q){
-    title.textContent=`지역별 비교 · ${item} · ${document.getElementById('year').value}년`;
-    const sorted=[...rows].sort((a,b)=>b.amount-a.amount);
-    labels=sorted.map(r=>r.region); values=sorted.map(r=>r.amount);
-  } else {
-    title.textContent=`"${q}" 검색 · 항목별 합계`;
-    const m={}; rows.forEach(r=>{ m[r.item]=(m[r.item]||0)+r.amount; });
-    const ent=Object.entries(m).sort((a,b)=>b[1]-a[1]);
-    labels=ent.map(e=>e[0]); values=ent.map(e=>e[1]);
-  }
+  const rows=curRows(), q=document.getElementById('q').value.trim(), item=document.getElementById('item').value;
+  const title=document.getElementById('chartTitle'); let labels,values;
+  if(!q){ title.textContent=`지역별 비교 · ${item} · ${document.getElementById('year').value}년`;
+    const s=[...rows].sort((a,b)=>b.amount-a.amount); labels=s.map(r=>r.region); values=s.map(r=>r.amount);
+  } else { title.textContent=`"${q}" 검색 · 항목별 합계`;
+    const m={}; rows.forEach(r=>m[r.item]=(m[r.item]||0)+r.amount);
+    const e=Object.entries(m).sort((a,b)=>b[1]-a[1]); labels=e.map(x=>x[0]); values=e.map(x=>x[1]); }
   drawChart(labels,values);
-
-  // 표
   const total=rows.reduce((s,r)=>s+r.amount,0);
-  rows.sort((a,b)=>{ let x=a[sortK],y=b[sortK]; if(typeof x==='string'){return sortAsc?x.localeCompare(y):y.localeCompare(x);} return sortAsc?x-y:y-x; });
-  const tb=document.querySelector('#tbl tbody'); tb.innerHTML='';
-  const max=Math.max(1,...rows.map(r=>r.amount));
-  rows.forEach(r=>{
-    const tr=document.createElement('tr');
-    const pct=total? (r.amount/total*100):0;
-    tr.innerHTML=`<td><b>${r.region}</b></td><td>${r.item}</td>
-      <td class="num">${eok(r.amount)}<div class="muted">${won(r.amount)}원</div></td>
-      <td class="num" style="min-width:120px">
-        <div class="minibar" style="width:${Math.max(2,r.amount/max*100)}%"></div>
-        <span class="muted">${pct.toFixed(1)}%</span></td>`;
-    tb.appendChild(tr);
-  });
+  rows.sort((a,b)=>{ let x=a[sortK],y=b[sortK]; return typeof x==='string'?(sortAsc?x.localeCompare(y):y.localeCompare(x)):(sortAsc?x-y:y-x); });
+  const tb=document.querySelector('#tbl tbody'); const max=Math.max(1,...rows.map(r=>r.amount));
+  tb.innerHTML=rows.map(r=>{ const pct=total?r.amount/total*100:0; return `<tr>
+    <td><b>${r.region}</b></td><td>${r.item}</td>
+    <td class="num">${eok(r.amount)}<div class="muted">${won(r.amount)}원</div></td>
+    <td class="num" style="min-width:120px"><div class="minibar" style="width:${Math.max(2,r.amount/max*100)}%"></div><span class="muted">${pct.toFixed(1)}%</span></td>
+  </tr>`; }).join('');
   document.getElementById('cnt').textContent=rows.length+'건 · 합계 '+eok(total);
 }
-
-function drawChart(labels,values){
-  const ctx=document.getElementById('chart');
-  if(chart)chart.destroy();
+function drawChart(labels,values){ const ctx=document.getElementById('chart'); if(chart)chart.destroy();
   chart=new Chart(ctx,{type:'bar',data:{labels,datasets:[{data:values,backgroundColor:'#3770bf',borderRadius:4}]},
     options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>eok(c.raw)+' ('+won(c.raw)+'원)'}}},
-      scales:{y:{ticks:{callback:v=>eok(v)}},x:{ticks:{autoSkip:false,maxRotation:60,minRotation:0,font:{size:11}}}}}});
+      scales:{y:{ticks:{callback:v=>eok(v)}},x:{ticks:{autoSkip:false,maxRotation:60,font:{size:11}}}}}});
 }
 </script>
 </body>
