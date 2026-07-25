@@ -86,5 +86,43 @@
       "bbs_sn": "1464",
       "base": "https://www.gne.go.kr"
     }
+  },
+  {
+    "id": "daejeon-integrated",
+    "office": "daejeon",
+    "board_name": "통합자료실",
+    "menu_path": "정보마당 > 통합자료실",
+    "collector_type": "dje",
+    "board_type": "분산형",
+    "is_active": true,
+    "login_required": false,
+    "keep_all": true,
+    "max_pages": 6,
+    "config": {
+      "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10395&m=031401&s=dje",
+      "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+      "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=10395&lev=0&m=031401&s=dje&boardSeq=",
+      "params": {"s": "dje", "m": "031401", "boardID": "10395"},
+      "page_param": "page",
+      "base": "https://www.dje.go.kr"
+    }
+  },
+  {
+    "id": "daegu-open-data",
+    "office": "daegu",
+    "board_name": "공개자료실",
+    "menu_path": "교육청안내 > 공개자료실",
+    "collector_type": "dge",
+    "board_type": "분산형",
+    "is_active": true,
+    "login_required": false,
+    "keep_all": true,
+    "max_pages": 6,
+    "config": {
+      "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1795&mi=6744",
+      "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1795&mi=6744&nttSn=",
+      "page_param": "currPage",
+      "base": "https://www.dge.go.kr"
+    }
   }
 ]
