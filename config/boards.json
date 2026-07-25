@@ -63,5 +63,22 @@
       "page_param": "pageIndex",
       "base": "https://www.gwe.go.kr"
     }
+  },
+  {
+    "id": "gyeongnam-businessdata",
+    "office": "gyeongnam",
+    "board_name": "업무공유자료실",
+    "menu_path": "업무공유자료실",
+    "collector_type": "gne",
+    "board_type": "분산형",
+    "is_active": true,
+    "login_required": false,
+    "max_pages": 6,
+    "config": {
+      "list_url": "https://www.gne.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_clsfNo=1&q_bbsSn=1464&q_menu=businessdata",
+      "page_param": "q_currPage",
+      "bbs_sn": "1464",
+      "base": "https://www.gne.go.kr"
+    }
   }
 ]
