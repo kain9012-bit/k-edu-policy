@@ -132,6 +132,7 @@ def build_document(office, short_name, board, raw):
         "document_type": dtype or "",
         "policy_category": cats,
         "post_url": raw["post_url"],
+        "login_required": bool(board.get("login_required", False)),
         "attachments": raw.get("attachments", []),
         "attachment_names": att_names,
         "classification_status": status,

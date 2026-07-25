@@ -103,7 +103,7 @@
     </div>
     <div class="opts">
       <label><input type="checkbox" id="dTitleOnly"> 제목만 검색</label>
-      <label><input type="checkbox" id="dJeonbuk"> 전북 포함</label>
+      <label><input type="checkbox" id="dJeonbuk" checked> 전북 포함</label>
       <span class="muted" id="dInfo" style="margin-left:auto"></span>
     </div>
   </div>
@@ -219,6 +219,7 @@ function renderDocs(){
   box.innerHTML=rows.slice(0,300).map(d=>{
     const cats=d.policy_category.filter(c=>c!=='기타').map(c=>`<span class="badge b-cat">${c}</span>`).join('');
     const warn=d.classification_status!=='정책계획서'?`<span class="badge b-warn">${d.classification_status}</span>`:'';
+    const login=d.login_required?`<span class="badge b-warn">🔒 로그인 필요</span>`:'';
     const atts=(d.attachments||[]).map(a=>a.file_name);
     const attHtml=atts.length?`<div class="att">📎 ${atts.map(n=>hl(n,q)).join(' · ')}</div>`:'';
     return `<div class="doc">
@@ -228,7 +229,7 @@ function renderDocs(){
         <span class="badge b-office">${d.short_name}</span>
         ${d.document_type?`<span class="badge b-type">${d.document_type}</span>`:''}
         ${d.department?`<span class="badge b-dept">${hl(d.department,q)}</span>`:''}
-        ${cats} ${warn}
+        ${cats} ${warn} ${login}
       </div>
       <div class="muted" style="margin-top:6px">등록 ${d.published_date||'-'} · 적용연도 ${d.policy_year||'-'} · ${d.board_name}</div>
       ${attHtml}

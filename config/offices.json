@@ -14,5 +14,5 @@
   {"id":"jeonnamgwangju","name":"전남광주통합특별시교육청","short_name":"전남광주","homepage_url":"https://www.jge.go.kr/","is_active":false,"display_order":13},
   {"id":"gyeongbuk","name":"경상북도교육청","short_name":"경북","homepage_url":"https://www.gbe.kr/","is_active":false,"display_order":14},
   {"id":"gyeongnam","name":"경상남도교육청","short_name":"경남","homepage_url":"https://www.gne.go.kr/","is_active":false,"display_order":15},
-  {"id":"jeju","name":"제주특별자치도교육청","short_name":"제주","homepage_url":"https://www.jje.go.kr/","is_active":false,"display_order":16}
+  {"id":"jeju","name":"제주특별자치도교육청","short_name":"제주","homepage_url":"https://www.jje.go.kr/","is_active":true,"display_order":16}
 ]

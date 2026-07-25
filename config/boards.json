@@ -7,6 +7,7 @@
     "collector_type": "jbe",
     "board_type": "계획서전용",
     "is_active": true,
+    "login_required": true,
     "max_pages": 8,
     "config": {
       "list_url": "https://www.jbe.go.kr/board/list.jbe?boardId=BBS_0000083&menuCd=DOM_000000106001001000&contentsSid=332&cpath=",
@@ -28,6 +29,22 @@
       "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=1995&mi=11008&nttSn=",
       "page_param": "currPage",
       "base": "https://www.goe.go.kr"
+    }
+  },
+  {
+    "id": "jeju-basic-plan",
+    "office": "jeju",
+    "board_name": "사업별 기본계획",
+    "menu_path": "교육청소개 > 제주교육정책 > 사업별 기본계획 > 기본계획",
+    "collector_type": "jje",
+    "board_type": "계획서전용",
+    "is_active": true,
+    "login_required": false,
+    "max_pages": 8,
+    "config": {
+      "list_url": "https://www.jje.go.kr/board/list.jje?boardId=BBS_0000819&menuCd=DOM_000000106007001000",
+      "page_param": "startPage",
+      "base": "https://www.jje.go.kr"
     }
   }
 ]
