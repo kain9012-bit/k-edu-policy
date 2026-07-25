@@ -12,9 +12,9 @@ import os, sys, json, argparse, datetime
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from collectors import base_collector as bc
-from collectors import jbe_collector, goe_collector, jje_collector
+from collectors import jbe_collector, goe_collector, jje_collector, gwe_collector
 
-COLLECTORS = {"jbe": jbe_collector, "goe": goe_collector, "jje": jje_collector}
+COLLECTORS = {"jbe": jbe_collector, "goe": goe_collector, "jje": jje_collector, "gwe": gwe_collector}
 DATA_PATH = os.path.join(bc.ROOT, "data", "documents.json")
 KEEP_STATUS = {"정책계획서", "정책참고자료", "확인필요"}  # 제외대상은 저장 안 함
 

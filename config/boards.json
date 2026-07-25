@@ -46,5 +46,22 @@
       "page_param": "startPage",
       "base": "https://www.jje.go.kr"
     }
+  },
+  {
+    "id": "gangwon-plan",
+    "office": "gangwon",
+    "board_name": "계획 게시판",
+    "menu_path": "강원교육청 계획 게시판",
+    "collector_type": "gwe",
+    "board_type": "정책집중",
+    "is_active": true,
+    "login_required": false,
+    "max_pages": 8,
+    "config": {
+      "list_url": "https://www.gwe.go.kr/main/bbs/list.do?key=bTIzMDcyMTExOTg3ODE=",
+      "view_url": "https://www.gwe.go.kr/main/bbs/view.do?key=bTIzMDcyMTExOTg3ODE=&bbsSn=",
+      "page_param": "pageIndex",
+      "base": "https://www.gwe.go.kr"
+    }
   }
 ]
