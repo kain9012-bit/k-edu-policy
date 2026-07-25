@@ -77,6 +77,7 @@
   <p>16개 시도교육청이 공개한 기본계획·추진계획·운영계획을 한 번에 검색합니다 · 원문 게시글로 바로 연결</p>
   <div class="tabs">
     <button class="tab on" data-tab="docs">📚 정책계획 통합검색</button>
+    <button class="tab" data-tab="compare">📊 주요업무계획 비교</button>
     <button class="tab" data-tab="plan">📋 전북 주요업무계획</button>
     <button class="tab" data-tab="budget">💰 세출예산 비교</button>
   </div>
@@ -108,6 +109,19 @@
     </div>
   </div>
   <div id="docList"></div>
+</div>
+
+<!-- ===== 주요업무계획 비교 ===== -->
+<div class="wrap hidden" id="panelCompare">
+  <div class="card">
+    <div class="filters">
+      <div class="field"><label>정책 분야</label><select id="cCat"></select></div>
+      <div class="field grow"><label>사업명 검색</label>
+        <input type="search" id="cQ" placeholder="예: 특수교육, 늘봄, AI, 다문화, 기초학력…"></div>
+    </div>
+    <div class="muted" style="margin-top:10px" id="cInfo"></div>
+  </div>
+  <div id="compareGrid" style="display:flex;gap:14px;align-items:flex-start"></div>
 </div>
 
 <!-- ===== 전북 주요업무계획 ===== -->
@@ -159,6 +173,7 @@ document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on')); b.classList.add('on');
   const t=b.dataset.tab;
   document.getElementById('panelDocs').classList.toggle('hidden',t!=='docs');
+  document.getElementById('panelCompare').classList.toggle('hidden',t!=='compare');
   document.getElementById('panelPlan').classList.toggle('hidden',t!=='plan');
   document.getElementById('panelBudget').classList.toggle('hidden',t!=='budget');
 });
@@ -258,6 +273,40 @@ function renderPlan(){
     return `<div class="plan"><h3>${hl(p.name,q)} <span class="muted">[${p.code}]</span></h3>
       <div><span class="badge b-office">${p.office}</span><span class="badge b-type">${p.field} · ${p.area}</span><span class="badge b-cat">${hl(p.dept,q)}</span> ${tags}</div>${tasks}</div>`;
   }).join('')||'<div class="card muted">일치하는 사업이 없습니다.</div>';
+}
+
+/* ============ 주요업무계획 비교 ============ */
+let CMP=null;
+fetch('data/plan_compare.json').then(r=>r.json()).then(d=>{ CMP=d; initCmp(); }).catch(()=>{
+  const g=document.getElementById('compareGrid'); if(g) g.innerHTML='<div class="card muted">비교 데이터가 없습니다.</div>';
+});
+function initCmp(){
+  opt(document.getElementById('cCat'),CMP.categories.filter(c=>c!=='기타'),'전체 분야');
+  document.getElementById('cCat').value = CMP.categories.includes('특수교육') ? '특수교육' : '';
+  document.getElementById('cCat').onchange=renderCmp;
+  document.getElementById('cQ').oninput=renderCmp;
+  renderCmp();
+}
+function renderCmp(){
+  const cat=document.getElementById('cCat').value, q=document.getElementById('cQ').value.trim();
+  const sel=CMP.items.filter(it=>(!cat||it.categories.includes(cat))&&(!q||it.searchtext.toLowerCase().includes(q.toLowerCase())));
+  document.getElementById('cInfo').innerHTML='분야 <b class="hi">'+(cat||'전체')+'</b>'+(q?' · "'+esc(q)+'"':'')+
+    ' — 매칭 세부사업 <b class="hi">'+sel.length+'</b>개 (전북 '+CMP.counts['전북']+' + 경기 '+CMP.counts['경기']+' 중)';
+  const grid=document.getElementById('compareGrid');
+  grid.innerHTML=CMP.offices.map(off=>{
+    const rows=sel.filter(it=>it.office===off);
+    const cards=rows.map(it=>`<div class="plan" style="margin-bottom:10px">
+        <h3 style="font-size:14.5px">${hl(it.name,q)}</h3>
+        <div class="meta"><span class="badge b-office">${off}</span>
+          ${it.dept?`<span class="badge b-dept">${esc(it.dept)}</span>`:''}
+          ${it.categories.filter(c=>c!=='기타').map(c=>`<span class="badge b-cat">${c}</span>`).join('')}</div>
+        ${it.tasks&&it.tasks.length?`<ul style="margin:6px 0 0;padding-left:18px">${it.tasks.slice(0,4).map(t=>`<li style="font-size:12.5px;color:#333">${hl(t,q)}</li>`).join('')}</ul>`:''}
+      </div>`).join('') || '<div class="muted" style="padding:8px">해당 분야 사업 없음</div>';
+    return `<div style="flex:1;min-width:280px">
+      <div class="card" style="margin-bottom:10px;padding:10px 14px;background:var(--accent)">
+        <b>${off}</b> <span class="muted">· ${rows.length}개 세부사업</span></div>
+      ${cards}</div>`;
+  }).join('');
 }
 
 /* ============ 세출예산 ============ */
