@@ -178,6 +178,7 @@ function initDocs(){
   opt(document.getElementById('dType'),DOCS.document_types,'전체 유형');
   opt(document.getElementById('dCat'),DOCS.categories,'전체 분야');
   opt(document.getElementById('dStatus'),DOCS.statuses,'전체 상태');
+  if(DOCS.statuses.includes('정책계획서')) document.getElementById('dStatus').value='정책계획서'; // 기본: 정책계획서만
   const oc=document.getElementById('dOffices');
   DOCS.offices.forEach(o=>{ const c=document.createElement('span');c.className='chip on';c.textContent=o;
     dOff.add(o); c.onclick=()=>{ c.classList.toggle('on'); c.classList.contains('on')?dOff.add(o):dOff.delete(o); renderDocs(); };

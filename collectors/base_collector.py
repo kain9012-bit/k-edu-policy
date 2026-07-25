@@ -90,16 +90,21 @@ def classify(title, attach_names):
     cfg = classify_config()
     hay = title + " " + " ".join(attach_names or [])
     n = _norm(hay)
-    has_include = detect_document_type(hay) is not None
-    has_exclude = any(_norm(k) in n for k in cfg["exclude_keywords"])
-    is_ref = any(_norm(k) in n for k in cfg["reference_keywords"])
     dtype = detect_document_type(hay)
     cats = detect_categories(hay)
+    has_include = dtype is not None
+    has_exclude = any(_norm(k) in n for k in cfg["exclude_keywords"])
+    is_ref = any(_norm(k) in n for k in cfg["reference_keywords"])
+
+    # 제목 접두 [안내]/[공고]/[모집] 등은 계획서가 아닌 공지·안내물 → 제외대상
+    pm = re.match(r"^\s*\[([^\]]+)\]", title)
+    if pm and any(p in pm.group(1) for p in cfg.get("exclude_title_prefix", [])):
+        return "제외대상", dtype, cats
 
     if has_include and not has_exclude:
         return "정책계획서", dtype, cats
     if has_include and has_exclude:
-        return "확인필요", dtype, cats           # 포함·제외 동시 → 관리자 검토
+        return "확인필요", dtype, cats           # 포함·제외 동시(예: 시행세부계획 공고) → 관리자 검토
     if is_ref:
         return "정책참고자료", dtype, cats
     if "계획" in hay and not has_exclude:

@@ -8,6 +8,7 @@
     "board_type": "계획서전용",
     "is_active": true,
     "login_required": true,
+    "keep_all": true,
     "max_pages": 8,
     "config": {
       "list_url": "https://www.jbe.go.kr/board/list.jbe?boardId=BBS_0000083&menuCd=DOM_000000106001001000&contentsSid=332&cpath=",
@@ -23,6 +24,8 @@
     "collector_type": "goe",
     "board_type": "정책집중",
     "is_active": true,
+    "login_required": false,
+    "keep_all": true,
     "max_pages": 6,
     "config": {
       "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=1995&mi=11008",
@@ -40,6 +43,7 @@
     "board_type": "계획서전용",
     "is_active": true,
     "login_required": false,
+    "keep_all": true,
     "max_pages": 8,
     "config": {
       "list_url": "https://www.jje.go.kr/board/list.jje?boardId=BBS_0000819&menuCd=DOM_000000106007001000",
@@ -56,6 +60,7 @@
     "board_type": "정책집중",
     "is_active": true,
     "login_required": false,
+    "keep_all": true,
     "max_pages": 8,
     "config": {
       "list_url": "https://www.gwe.go.kr/main/bbs/list.do?key=bTIzMDcyMTExOTg3ODE=",
@@ -68,11 +73,12 @@
     "id": "gyeongnam-businessdata",
     "office": "gyeongnam",
     "board_name": "업무공유자료실",
-    "menu_path": "업무공유자료실",
+    "menu_path": "행정정보 > 업무·공유 자료실",
     "collector_type": "gne",
     "board_type": "분산형",
     "is_active": true,
     "login_required": false,
+    "keep_all": true,
     "max_pages": 6,
     "config": {
       "list_url": "https://www.gne.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_clsfNo=1&q_bbsSn=1464&q_menu=businessdata",

@@ -17,7 +17,11 @@ from collectors import jbe_collector, goe_collector, jje_collector, gwe_collecto
 COLLECTORS = {"jbe": jbe_collector, "goe": goe_collector, "jje": jje_collector,
               "gwe": gwe_collector, "gne": gne_collector}
 DATA_PATH = os.path.join(bc.ROOT, "data", "documents.json")
-KEEP_STATUS = {"정책계획서", "정책참고자료", "확인필요", "제외대상"}  # 일단 전부 저장(판별상태는 태그로 남겨 UI에서 필터)
+# 게시판별 keep 정책:
+#  keep_all=true  → 제외대상 포함 전부 저장(통합 게시판, 자료실 등)
+#  keep_all=false → 계획서·참고자료·확인필요만 저장(부서 분산형 자료실: 노이즈 제외)
+KEEP_ALL = {"정책계획서", "정책참고자료", "확인필요", "제외대상"}
+KEEP_FILTERED = {"정책계획서", "정책참고자료", "확인필요"}
 
 
 def run(office_filter=None):
@@ -57,10 +61,11 @@ def run(office_filter=None):
             print(f"  [FAIL] {board['id']}: {e}")
             continue
 
+        keep_status = KEEP_ALL if board.get("keep_all") else KEEP_FILTERED
         kept = 0
         for raw in raws:
             doc = bc.build_document(off["id"], off["short_name"], board, raw)
-            if doc["classification_status"] not in KEEP_STATUS:
+            if doc["classification_status"] not in keep_status:
                 log["skipped_count"] += 1
                 continue
             if doc["id"] in existing:
