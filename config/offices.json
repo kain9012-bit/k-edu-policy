@@ -1,0 +1,18 @@
+[
+  {"id":"seoul","name":"서울특별시교육청","short_name":"서울","homepage_url":"https://www.sen.go.kr/","is_active":false,"display_order":1},
+  {"id":"busan","name":"부산광역시교육청","short_name":"부산","homepage_url":"https://www.pen.go.kr/","is_active":false,"display_order":2},
+  {"id":"daegu","name":"대구광역시교육청","short_name":"대구","homepage_url":"https://www.dge.go.kr/","is_active":false,"display_order":3},
+  {"id":"incheon","name":"인천광역시교육청","short_name":"인천","homepage_url":"https://www.ice.go.kr/","is_active":false,"display_order":4},
+  {"id":"daejeon","name":"대전광역시교육청","short_name":"대전","homepage_url":"https://www.dje.go.kr/","is_active":false,"display_order":5},
+  {"id":"ulsan","name":"울산광역시교육청","short_name":"울산","homepage_url":"https://www.use.go.kr/","is_active":false,"display_order":6},
+  {"id":"sejong","name":"세종특별자치시교육청","short_name":"세종","homepage_url":"https://www.sje.go.kr/","is_active":false,"display_order":7},
+  {"id":"gyeonggi","name":"경기도교육청","short_name":"경기","homepage_url":"https://www.goe.go.kr/","is_active":true,"display_order":8},
+  {"id":"gangwon","name":"강원특별자치도교육청","short_name":"강원","homepage_url":"https://www.gwe.go.kr/","is_active":false,"display_order":9},
+  {"id":"chungbuk","name":"충청북도교육청","short_name":"충북","homepage_url":"https://www.cbe.go.kr/","is_active":false,"display_order":10},
+  {"id":"chungnam","name":"충청남도교육청","short_name":"충남","homepage_url":"https://www.cne.go.kr/","is_active":false,"display_order":11},
+  {"id":"jeonbuk","name":"전북특별자치도교육청","short_name":"전북","homepage_url":"https://www.jbe.go.kr/","is_active":true,"display_order":12},
+  {"id":"jeonnamgwangju","name":"전남광주통합특별시교육청","short_name":"전남광주","homepage_url":"https://www.jge.go.kr/","is_active":false,"display_order":13},
+  {"id":"gyeongbuk","name":"경상북도교육청","short_name":"경북","homepage_url":"https://www.gbe.kr/","is_active":false,"display_order":14},
+  {"id":"gyeongnam","name":"경상남도교육청","short_name":"경남","homepage_url":"https://www.gne.go.kr/","is_active":false,"display_order":15},
+  {"id":"jeju","name":"제주특별자치도교육청","short_name":"제주","homepage_url":"https://www.jje.go.kr/","is_active":false,"display_order":16}
+]

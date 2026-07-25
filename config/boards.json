@@ -1,0 +1,33 @@
+[
+  {
+    "id": "jeonbuk-basic-plan",
+    "office": "jeonbuk",
+    "board_name": "기본계획안내",
+    "menu_path": "행정정보 > 정책자료 > 기본계획안내",
+    "collector_type": "jbe",
+    "board_type": "계획서전용",
+    "is_active": true,
+    "max_pages": 8,
+    "config": {
+      "list_url": "https://www.jbe.go.kr/board/list.jbe?boardId=BBS_0000083&menuCd=DOM_000000106001001000&contentsSid=332&cpath=",
+      "page_param": "startPage",
+      "base": "https://www.jbe.go.kr"
+    }
+  },
+  {
+    "id": "gyeonggi-edu-policy",
+    "office": "gyeonggi",
+    "board_name": "교육정책",
+    "menu_path": "교육청소개 > 경기교육정책 > 교육정책",
+    "collector_type": "goe",
+    "board_type": "정책집중",
+    "is_active": true,
+    "max_pages": 6,
+    "config": {
+      "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=1995&mi=11008",
+      "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=1995&mi=11008&nttSn=",
+      "page_param": "currPage",
+      "base": "https://www.goe.go.kr"
+    }
+  }
+]
