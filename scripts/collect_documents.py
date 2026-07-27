@@ -85,6 +85,26 @@ def run(office_filter=None):
     docs = list(existing.values())
     docs.sort(key=lambda d: (d.get("published_date") or ""), reverse=True)
 
+    # 출처·수집현황(모든 활성 게시판)
+    sources = []
+    for board in boards:
+        off = offices.get(board["office"])
+        if not board.get("is_active") or not off or not off.get("is_active"):
+            continue
+        bdocs = [d for d in docs if d["board_id"] == board["id"]]
+        blog = next((l for l in logs if l["board_id"] == board["id"]), {})
+        sources.append({
+            "office": off["short_name"], "office_name": off["name"],
+            "board_name": board["board_name"], "board_type": board["board_type"],
+            "menu_path": board.get("menu_path", ""),
+            "list_url": board["config"].get("list_url", ""),
+            "login_required": bool(board.get("login_required")),
+            "count": len(bdocs),
+            "plan_count": sum(1 for d in bdocs if d["classification_status"] == "정책계획서"),
+            "last_collected": blog.get("finished_at") or blog.get("started_at", ""),
+        })
+    total_offices = sum(1 for o in offices.values() if o.get("is_active"))
+
     def uniq(key):
         return sorted({v for d in docs for v in ([d[key]] if isinstance(d[key], str) else d[key]) if v})
 
@@ -97,6 +117,8 @@ def run(office_filter=None):
         "categories": sorted({c for d in docs for c in d["policy_category"]}),
         "statuses": sorted({d["classification_status"] for d in docs}),
         "count": len(docs),
+        "coverage": {"connected": len(sources), "total": 16, "active_offices": total_offices},
+        "sources": sources,
         "logs": logs,
         "documents": docs,
     }

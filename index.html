@@ -103,6 +103,20 @@
   footer{background:var(--g90);color:var(--g30);font-size:12px;line-height:1.7}
   footer .in{padding:22px 16px 28px}
   footer a{color:var(--g20)}
+  /* ---- 둘러보기/예시칩/커버리지 ---- */
+  .ex{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-4px 0 12px}
+  .ex .muted{margin-right:4px}
+  .ex button{background:var(--g5);border:1px solid var(--g10);color:var(--g70);border-radius:999px;padding:5px 12px;font-size:12.5px;cursor:pointer;font-family:inherit}
+  .ex button:hover{background:var(--primary-surface);border-color:var(--primary-border);color:var(--primary-strong)}
+  .browse-row{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--g5)}
+  .browse-row:first-of-type{border-top:0}
+  .browse-label{flex:none;width:72px;font-size:12.5px;font-weight:700;color:var(--g70);padding-top:6px}
+  .browse-row .chip .n{color:var(--g40);font-weight:400;margin-left:3px}
+  .cov{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  .cov .big{font-size:30px;font-weight:800;color:var(--primary)}
+  .cov-bar{flex:1;min-width:180px;height:12px;background:var(--g10);border-radius:999px;overflow:hidden}
+  .cov-bar>span{display:block;height:100%;background:var(--primary);border-radius:999px}
+  .lock{color:var(--danger-text);font-size:11px;font-weight:600}
   .hidden{display:none}
 </style>
 </head>
@@ -122,6 +136,7 @@
       <button class="tab" data-tab="compare">주요업무계획 비교</button>
       <button class="tab" data-tab="plan">전북 주요업무계획</button>
       <button class="tab" data-tab="budget">세출예산 비교</button>
+      <button class="tab" data-tab="sources">출처·수집현황</button>
     </div>
   </div></nav>
 </header>
@@ -132,6 +147,7 @@
     <div class="searchbar">
       <input type="search" id="dQ" placeholder="검색어를 입력하세요 (예: 늘봄, 특수교육, 기초학력, AI, 다문화)">
     </div>
+    <div class="ex" id="dExamples"><span class="muted">이렇게 검색해보세요</span></div>
     <div class="filters">
       <div class="field"><label>등록 연도</label><select id="dYear"></select></div>
       <div class="field"><label>담당부서</label><select id="dDept"></select></div>
@@ -150,6 +166,12 @@
       <label><input type="checkbox" id="dJeonbuk" checked> 전북 포함</label>
       <span class="muted" id="dInfo" style="margin-left:auto"></span>
     </div>
+  </div>
+  <div class="card" id="browseCard">
+    <h2>둘러보기</h2>
+    <div class="browse-row"><span class="browse-label">정책 분야</span><div class="chips" id="brCat"></div></div>
+    <div class="browse-row"><span class="browse-label">계획 유형</span><div class="chips" id="brType"></div></div>
+    <div class="browse-row"><span class="browse-label">교육청</span><div class="chips" id="brOffice"></div></div>
   </div>
   <div id="docList"></div>
 </div>
@@ -203,6 +225,21 @@
   </div>
 </div>
 
+<!-- ===== 출처·수집현황 ===== -->
+<div class="wrap hidden" id="panelSources">
+  <div class="card" id="coverageCard"></div>
+  <div class="card">
+    <h2>수집 대상 게시판</h2>
+    <div class="muted" style="margin-bottom:10px">각 교육청이 공개한 게시판을 주기적으로 수집합니다. 원문·정본은 각 교육청 게시글에 있습니다.</div>
+    <div style="overflow-x:auto">
+      <table id="srcTable"><thead><tr>
+        <th>교육청</th><th>게시판</th><th>메뉴 경로</th><th>유형</th>
+        <th class="num">수집</th><th class="num">계획서</th><th>최근수집</th><th>원문</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</div>
+
 <footer><div class="in">
   정책계획 출처: 각 시도교육청 공개 게시판(원문 링크 연결) · 예산 출처: 지방교육재정알리미 Open API(공공누리 출처표시)<br>
   <span id="meta"></span> · 원본 계획서 파일은 재배포하지 않으며 해당 교육청 원문 게시글로 연결합니다.<br>
@@ -220,6 +257,7 @@ document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
   document.getElementById('panelCompare').classList.toggle('hidden',t!=='compare');
   document.getElementById('panelPlan').classList.toggle('hidden',t!=='plan');
   document.getElementById('panelBudget').classList.toggle('hidden',t!=='budget');
+  document.getElementById('panelSources').classList.toggle('hidden',t!=='sources');
 });
 
 /* ============ 정책계획 통합검색 ============ */
@@ -246,7 +284,48 @@ function initDocs(){
   ['dTitleOnly','dJeonbuk'].forEach(id=>document.getElementById(id).onchange=renderDocs);
   document.getElementById('dQ').oninput=renderDocs;
   document.getElementById('meta').textContent='정책계획 '+DOCS.count+'건·'+DOCS.offices.length+'개 교육청 (수집 '+DOCS.generated_at+')';
+  buildExamples(); buildBrowse(); buildSources();
   renderDocs();
+}
+function setSearch(v){ document.getElementById('dQ').value=v; renderDocs();
+  document.getElementById('panelDocs').scrollIntoView({behavior:'smooth',block:'start'}); }
+function buildExamples(){
+  const ex=['늘봄','특수교육','기초학력','AI','다문화','학교폭력','유아교육','진로'];
+  const box=document.getElementById('dExamples');
+  ex.forEach(k=>{ const b=document.createElement('button'); b.textContent=k; b.onclick=()=>setSearch(k); box.appendChild(b); });
+}
+function countBy(pred){ return DOCS.documents.filter(d=>d.classification_status==='정책계획서').filter(pred).length; }
+function browseChip(label,count,onclick){
+  const c=document.createElement('span'); c.className='chip'; c.innerHTML=esc(label)+' <span class="n">'+count+'</span>'; c.onclick=onclick; return c;
+}
+function buildBrowse(){
+  // 분야: 계획서 수 상위, 유형: 전체, 교육청: 전체
+  const catCount={}; DOCS.documents.filter(d=>d.classification_status==='정책계획서').forEach(d=>d.policy_category.forEach(c=>{if(c!=='기타')catCount[c]=(catCount[c]||0)+1;}));
+  const cats=Object.entries(catCount).sort((a,b)=>b[1]-a[1]).slice(0,14);
+  const brCat=document.getElementById('brCat');
+  cats.forEach(([c,n])=>brCat.appendChild(browseChip(c,n,()=>{ document.getElementById('dCat').value=c; document.getElementById('dQ').value=''; renderDocs(); document.getElementById('docList').scrollIntoView({behavior:'smooth'}); })));
+  const brType=document.getElementById('brType');
+  DOCS.document_types.forEach(t=>{ const n=countBy(d=>d.document_type===t); if(!n)return;
+    brType.appendChild(browseChip(t,n,()=>{ document.getElementById('dType').value=t; document.getElementById('dQ').value=''; renderDocs(); document.getElementById('docList').scrollIntoView({behavior:'smooth'}); })); });
+  const brOff=document.getElementById('brOffice');
+  DOCS.offices.forEach(o=>{ const n=countBy(d=>d.short_name===o);
+    brOff.appendChild(browseChip(o,n,()=>{ dOff=new Set([o]); document.getElementById('dOffices').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.textContent===o)); document.getElementById('dJeonbuk').checked=true; document.getElementById('dQ').value=''; renderDocs(); document.getElementById('docList').scrollIntoView({behavior:'smooth'}); })); });
+}
+function buildSources(){
+  const cov=DOCS.coverage||{connected:(DOCS.sources||[]).length,total:16};
+  const pct=Math.round(cov.connected/cov.total*100);
+  document.getElementById('coverageCard').innerHTML='<h2>수집 커버리지</h2><div class="cov">'+
+    '<div><div class="big">'+cov.connected+' / '+cov.total+'</div><div class="muted">시도교육청 연결</div></div>'+
+    '<div class="cov-bar"><span style="width:'+pct+'%"></span></div>'+
+    '<div><div class="big" style="color:var(--g80)">'+DOCS.count+'</div><div class="muted">수집 문서(계획서 '+DOCS.documents.filter(d=>d.classification_status==='정책계획서').length+')</div></div></div>';
+  const tb=document.querySelector('#srcTable tbody');
+  tb.innerHTML=(DOCS.sources||[]).map(s=>`<tr>
+    <td><b>${s.office}</b>${s.login_required?' <span class="lock">🔒로그인</span>':''}</td>
+    <td>${esc(s.board_name)}</td><td class="muted">${esc(s.menu_path||'-')}</td>
+    <td><span class="badge b-dept">${s.board_type}</span></td>
+    <td class="num">${s.count}</td><td class="num"><b>${s.plan_count}</b></td>
+    <td class="muted">${(s.last_collected||'').slice(0,10)||'-'}</td>
+    <td>${s.list_url?`<a href="${s.list_url}" target="_blank" rel="noopener">게시판 ↗</a>`:'-'}</td></tr>`).join('');
 }
 function renderDocs(){
   const q=document.getElementById('dQ').value.trim();
