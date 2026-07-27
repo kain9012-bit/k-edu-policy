@@ -9,6 +9,9 @@
     "is_active": true,
     "login_required": true,
     "keep_all": true,
+    "license": "기관 공개자료(로그인 필요) · 공공누리 표기 확인",
+    "robots": "허용",
+    "rss": true,
     "max_pages": 8,
     "config": {
       "list_url": "https://www.jbe.go.kr/board/list.jbe?boardId=BBS_0000083&menuCd=DOM_000000106001001000&contentsSid=332&cpath=",
@@ -26,6 +29,8 @@
     "is_active": true,
     "login_required": false,
     "keep_all": true,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "허용",
     "max_pages": 6,
     "config": {
       "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=1995&mi=11008",
@@ -44,6 +49,8 @@
     "is_active": true,
     "login_required": false,
     "keep_all": true,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "제한(robots.txt Disallow /)",
     "max_pages": 8,
     "config": {
       "list_url": "https://www.jje.go.kr/board/list.jje?boardId=BBS_0000819&menuCd=DOM_000000106007001000",
@@ -61,6 +68,8 @@
     "is_active": true,
     "login_required": false,
     "keep_all": true,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "허용",
     "max_pages": 8,
     "config": {
       "list_url": "https://www.gwe.go.kr/main/bbs/list.do?key=bTIzMDcyMTExOTg3ODE=",
@@ -79,6 +88,8 @@
     "is_active": true,
     "login_required": false,
     "keep_all": true,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "허용(robots.txt 없음)",
     "max_pages": 6,
     "config": {
       "list_url": "https://www.gne.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_clsfNo=1&q_bbsSn=1464&q_menu=businessdata",
@@ -97,6 +108,8 @@
     "is_active": true,
     "login_required": false,
     "keep_all": true,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "제한(robots.txt Disallow /)",
     "max_pages": 6,
     "config": {
       "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10395&m=031401&s=dje",
@@ -117,6 +130,9 @@
     "is_active": true,
     "login_required": false,
     "keep_all": true,
+    "license": "공공누리 제1유형(출처표시)",
+    "robots": "허용",
+    "rss": true,
     "max_pages": 6,
     "config": {
       "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1795&mi=6744",

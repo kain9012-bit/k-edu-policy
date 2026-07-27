@@ -148,6 +148,15 @@
       <input type="search" id="dQ" placeholder="검색어를 입력하세요 (예: 늘봄, 특수교육, 기초학력, AI, 다문화)">
     </div>
     <div class="ex" id="dExamples"><span class="muted">이렇게 검색해보세요</span></div>
+  </div>
+  <div class="card" id="browseCard">
+    <h2>둘러보기 <span class="muted" style="font-weight:400">— 분야·유형·교육청을 눌러 바로 탐색</span></h2>
+    <div class="browse-row"><span class="browse-label">정책 분야</span><div class="chips" id="brCat"></div></div>
+    <div class="browse-row"><span class="browse-label">계획 유형</span><div class="chips" id="brType"></div></div>
+    <div class="browse-row"><span class="browse-label">교육청</span><div class="chips" id="brOffice"></div></div>
+  </div>
+  <div class="card">
+    <h2 style="margin-bottom:14px">상세 필터 <span class="pill" id="dInfo"></span></h2>
     <div class="filters">
       <div class="field"><label>등록 연도</label><select id="dYear"></select></div>
       <div class="field"><label>담당부서</label><select id="dDept"></select></div>
@@ -164,14 +173,7 @@
     <div class="opts">
       <label><input type="checkbox" id="dTitleOnly"> 제목만 검색</label>
       <label><input type="checkbox" id="dJeonbuk" checked> 전북 포함</label>
-      <span class="muted" id="dInfo" style="margin-left:auto"></span>
     </div>
-  </div>
-  <div class="card" id="browseCard">
-    <h2>둘러보기</h2>
-    <div class="browse-row"><span class="browse-label">정책 분야</span><div class="chips" id="brCat"></div></div>
-    <div class="browse-row"><span class="browse-label">계획 유형</span><div class="chips" id="brType"></div></div>
-    <div class="browse-row"><span class="browse-label">교육청</span><div class="chips" id="brOffice"></div></div>
   </div>
   <div id="docList"></div>
 </div>
@@ -230,11 +232,11 @@
   <div class="card" id="coverageCard"></div>
   <div class="card">
     <h2>수집 대상 게시판</h2>
-    <div class="muted" style="margin-bottom:10px">각 교육청이 공개한 게시판을 주기적으로 수집합니다. 원문·정본은 각 교육청 게시글에 있습니다.</div>
+    <div class="muted" style="margin-bottom:10px">각 교육청이 공개한 게시판을 주기적으로 수집하며, 원문·정본은 각 교육청 게시글에 있습니다. robots.txt·이용약관을 확인해 표시하며(⚠ 제한 표기 게시판은 재검토 대상), 자료는 공공누리 조건을 따릅니다. 첨부물에 제3자 저작물이 포함된 경우 별도 라이선스가 적용될 수 있습니다.</div>
     <div style="overflow-x:auto">
       <table id="srcTable"><thead><tr>
-        <th>교육청</th><th>게시판</th><th>메뉴 경로</th><th>유형</th>
-        <th class="num">수집</th><th class="num">계획서</th><th>최근수집</th><th>원문</th>
+        <th>교육청</th><th>게시판 / 메뉴</th><th>수집방식</th><th>robots</th><th>공공누리</th>
+        <th class="num">수집</th><th class="num">계획서</th><th>원문</th>
       </tr></thead><tbody></tbody></table>
     </div>
   </div>
@@ -319,12 +321,15 @@ function buildSources(){
     '<div class="cov-bar"><span style="width:'+pct+'%"></span></div>'+
     '<div><div class="big" style="color:var(--g80)">'+DOCS.count+'</div><div class="muted">수집 문서(계획서 '+DOCS.documents.filter(d=>d.classification_status==='정책계획서').length+')</div></div></div>';
   const tb=document.querySelector('#srcTable tbody');
+  const robotsBadge=r=>{ const blocked=/제한/.test(r);
+    return `<span class="badge ${blocked?'b-warn':'b-cat'}">${blocked?'⚠ '+esc(r):'✓ 허용'}</span>`; };
   tb.innerHTML=(DOCS.sources||[]).map(s=>`<tr>
-    <td><b>${s.office}</b>${s.login_required?' <span class="lock">🔒로그인</span>':''}</td>
-    <td>${esc(s.board_name)}</td><td class="muted">${esc(s.menu_path||'-')}</td>
-    <td><span class="badge b-dept">${s.board_type}</span></td>
+    <td><b>${s.office}</b>${s.login_required?'<br><span class="lock">🔒 로그인 필요</span>':''}</td>
+    <td>${esc(s.board_name)}<div class="muted">${esc(s.menu_path||'')}</div></td>
+    <td><span class="badge b-dept">${s.board_type}</span>${s.rss?' <span class="badge b-type">RSS</span>':''}</td>
+    <td>${robotsBadge(s.robots||'')}</td>
+    <td class="muted" style="font-size:11.5px">${esc(s.license||'-')}</td>
     <td class="num">${s.count}</td><td class="num"><b>${s.plan_count}</b></td>
-    <td class="muted">${(s.last_collected||'').slice(0,10)||'-'}</td>
     <td>${s.list_url?`<a href="${s.list_url}" target="_blank" rel="noopener">게시판 ↗</a>`:'-'}</td></tr>`).join('');
 }
 function renderDocs(){
