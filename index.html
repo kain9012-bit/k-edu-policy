@@ -103,15 +103,11 @@
   footer{background:var(--g90);color:var(--g30);font-size:12px;line-height:1.7}
   footer .in{padding:22px 16px 28px}
   footer a{color:var(--g20)}
-  /* ---- 둘러보기/예시칩/커버리지 ---- */
+  /* ---- 예시칩/커버리지 ---- */
   .ex{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-4px 0 12px}
   .ex .muted{margin-right:4px}
   .ex button{background:var(--g5);border:1px solid var(--g10);color:var(--g70);border-radius:999px;padding:5px 12px;font-size:12.5px;cursor:pointer;font-family:inherit}
   .ex button:hover{background:var(--primary-surface);border-color:var(--primary-border);color:var(--primary-strong)}
-  .browse-row{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--g5)}
-  .browse-row:first-of-type{border-top:0}
-  .browse-label{flex:none;width:72px;font-size:12.5px;font-weight:700;color:var(--g70);padding-top:6px}
-  .browse-row .chip .n{color:var(--g40);font-weight:400;margin-left:3px}
   .cov{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
   .cov .big{font-size:30px;font-weight:800;color:var(--primary)}
   .cov-bar{flex:1;min-width:180px;height:12px;background:var(--g10);border-radius:999px;overflow:hidden}
@@ -133,8 +129,6 @@
   <nav class="gnb"><div class="in">
     <div class="tabs">
       <button class="tab on" data-tab="docs">정책계획 통합검색</button>
-      <button class="tab" data-tab="compare">주요업무계획 비교</button>
-      <button class="tab" data-tab="plan">전북 주요업무계획</button>
       <button class="tab" data-tab="budget">세출예산 비교</button>
       <button class="tab" data-tab="sources">출처·수집현황</button>
     </div>
@@ -149,18 +143,11 @@
     </div>
     <div class="ex" id="dExamples"><span class="muted">이렇게 검색해보세요</span></div>
   </div>
-  <div class="card" id="browseCard">
-    <h2>둘러보기 <span class="muted" style="font-weight:400">— 분야·유형·교육청을 눌러 바로 탐색</span></h2>
-    <div class="browse-row"><span class="browse-label">정책 분야</span><div class="chips" id="brCat"></div></div>
-    <div class="browse-row"><span class="browse-label">계획 유형</span><div class="chips" id="brType"></div></div>
-    <div class="browse-row"><span class="browse-label">교육청</span><div class="chips" id="brOffice"></div></div>
-  </div>
   <div class="card">
     <h2 style="margin-bottom:14px">상세 필터 <span class="pill" id="dInfo"></span></h2>
     <div class="filters">
       <div class="field"><label>등록 연도</label><select id="dYear"></select></div>
       <div class="field"><label>담당부서</label><select id="dDept"></select></div>
-      <div class="field"><label>계획 유형</label><select id="dType"></select></div>
       <div class="field"><label>정책 분야</label><select id="dCat"></select></div>
       <div class="field"><label>판별 상태</label><select id="dStatus"></select></div>
       <div class="field"><label>정렬</label><select id="dSort">
@@ -176,33 +163,6 @@
     </div>
   </div>
   <div id="docList"></div>
-</div>
-
-<!-- ===== 주요업무계획 비교 ===== -->
-<div class="wrap hidden" id="panelCompare">
-  <div class="card">
-    <div class="filters">
-      <div class="field"><label>정책 분야</label><select id="cCat"></select></div>
-      <div class="field grow"><label>사업명 검색</label>
-        <input type="search" id="cQ" placeholder="예: 특수교육, 늘봄, AI, 다문화, 기초학력…"></div>
-    </div>
-    <div class="muted" style="margin-top:10px" id="cInfo"></div>
-  </div>
-  <div id="compareGrid" style="display:flex;gap:14px;align-items:flex-start"></div>
-</div>
-
-<!-- ===== 전북 주요업무계획 ===== -->
-<div class="wrap hidden" id="panelPlan">
-  <div class="card">
-    <div class="filters">
-      <div class="field"><label>분야</label><select id="pField"></select></div>
-      <div class="field"><label>담당부서</label><select id="pDept"></select></div>
-      <div class="field grow"><label>사업·과제·내용 검색</label>
-        <input type="search" id="pQ" placeholder="예: 늘봄, AI, 특수교육, 다문화, 학교폭력…"></div>
-    </div>
-    <div class="muted" style="margin-top:10px" id="pInfo"></div>
-  </div>
-  <div id="planList"></div>
 </div>
 
 <!-- ===== 세출예산 ===== -->
@@ -256,8 +216,6 @@ document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on')); b.classList.add('on');
   const t=b.dataset.tab;
   document.getElementById('panelDocs').classList.toggle('hidden',t!=='docs');
-  document.getElementById('panelCompare').classList.toggle('hidden',t!=='compare');
-  document.getElementById('panelPlan').classList.toggle('hidden',t!=='plan');
   document.getElementById('panelBudget').classList.toggle('hidden',t!=='budget');
   document.getElementById('panelSources').classList.toggle('hidden',t!=='sources');
 });
@@ -274,7 +232,6 @@ function initDocs(){
   const recent=DOCS.years.slice(0,5);
   opt(document.getElementById('dYear'),DOCS.years,'전체 연도');
   opt(document.getElementById('dDept'),DOCS.departments,'전체 부서');
-  opt(document.getElementById('dType'),DOCS.document_types,'전체 유형');
   opt(document.getElementById('dCat'),DOCS.categories,'전체 분야');
   opt(document.getElementById('dStatus'),DOCS.statuses,'전체 상태');
   if(DOCS.statuses.includes('정책계획서')) document.getElementById('dStatus').value='정책계획서'; // 기본: 정책계획서만
@@ -282,11 +239,11 @@ function initDocs(){
   DOCS.offices.forEach(o=>{ const c=document.createElement('span');c.className='chip on';c.textContent=o;
     dOff.add(o); c.onclick=()=>{ c.classList.toggle('on'); c.classList.contains('on')?dOff.add(o):dOff.delete(o); renderDocs(); };
     oc.appendChild(c); });
-  ['dYear','dDept','dType','dCat','dStatus','dSort'].forEach(id=>document.getElementById(id).onchange=renderDocs);
+  ['dYear','dDept','dCat','dStatus','dSort'].forEach(id=>document.getElementById(id).onchange=renderDocs);
   ['dTitleOnly','dJeonbuk'].forEach(id=>document.getElementById(id).onchange=renderDocs);
   document.getElementById('dQ').oninput=renderDocs;
   document.getElementById('meta').textContent='정책계획 '+DOCS.count+'건·'+DOCS.offices.length+'개 교육청 (수집 '+DOCS.generated_at+')';
-  buildExamples(); buildBrowse(); buildSources();
+  buildExamples(); buildSources();
   renderDocs();
 }
 function setSearch(v){ document.getElementById('dQ').value=v; renderDocs();
@@ -295,23 +252,6 @@ function buildExamples(){
   const ex=['늘봄','특수교육','기초학력','AI','다문화','학교폭력','유아교육','진로'];
   const box=document.getElementById('dExamples');
   ex.forEach(k=>{ const b=document.createElement('button'); b.textContent=k; b.onclick=()=>setSearch(k); box.appendChild(b); });
-}
-function countBy(pred){ return DOCS.documents.filter(d=>d.classification_status==='정책계획서').filter(pred).length; }
-function browseChip(label,count,onclick){
-  const c=document.createElement('span'); c.className='chip'; c.innerHTML=esc(label)+' <span class="n">'+count+'</span>'; c.onclick=onclick; return c;
-}
-function buildBrowse(){
-  // 분야: 계획서 수 상위, 유형: 전체, 교육청: 전체
-  const catCount={}; DOCS.documents.filter(d=>d.classification_status==='정책계획서').forEach(d=>d.policy_category.forEach(c=>{if(c!=='기타')catCount[c]=(catCount[c]||0)+1;}));
-  const cats=Object.entries(catCount).sort((a,b)=>b[1]-a[1]).slice(0,14);
-  const brCat=document.getElementById('brCat');
-  cats.forEach(([c,n])=>brCat.appendChild(browseChip(c,n,()=>{ document.getElementById('dCat').value=c; document.getElementById('dQ').value=''; renderDocs(); document.getElementById('docList').scrollIntoView({behavior:'smooth'}); })));
-  const brType=document.getElementById('brType');
-  DOCS.document_types.forEach(t=>{ const n=countBy(d=>d.document_type===t); if(!n)return;
-    brType.appendChild(browseChip(t,n,()=>{ document.getElementById('dType').value=t; document.getElementById('dQ').value=''; renderDocs(); document.getElementById('docList').scrollIntoView({behavior:'smooth'}); })); });
-  const brOff=document.getElementById('brOffice');
-  DOCS.offices.forEach(o=>{ const n=countBy(d=>d.short_name===o);
-    brOff.appendChild(browseChip(o,n,()=>{ dOff=new Set([o]); document.getElementById('dOffices').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.textContent===o)); document.getElementById('dJeonbuk').checked=true; document.getElementById('dQ').value=''; renderDocs(); document.getElementById('docList').scrollIntoView({behavior:'smooth'}); })); });
 }
 function buildSources(){
   const cov=DOCS.coverage||{connected:(DOCS.sources||[]).length,total:16};
@@ -335,7 +275,7 @@ function buildSources(){
 function renderDocs(){
   const q=document.getElementById('dQ').value.trim();
   const yr=document.getElementById('dYear').value, dept=document.getElementById('dDept').value;
-  const type=document.getElementById('dType').value, cat=document.getElementById('dCat').value;
+  const cat=document.getElementById('dCat').value;
   const status=document.getElementById('dStatus').value, sort=document.getElementById('dSort').value;
   const titleOnly=document.getElementById('dTitleOnly').checked, incJB=document.getElementById('dJeonbuk').checked;
   document.getElementById('dOffCount').textContent='('+dOff.size+'개 선택)';
@@ -344,7 +284,6 @@ function renderDocs(){
     if(!incJB && d.short_name==='전북') return false;
     if(yr && String(d.policy_year)!==yr) return false;
     if(dept && d.department!==dept) return false;
-    if(type && d.document_type!==type) return false;
     if(cat && !d.policy_category.includes(cat)) return false;
     if(status && d.classification_status!==status) return false;
     if(q){ const hay=titleOnly?d.title:d.searchtext; if(!hay.toLowerCase().includes(q.toLowerCase())) return false; }
@@ -371,69 +310,12 @@ function renderDocs(){
       <h3><a href="${d.post_url}" target="_blank" rel="noopener">${hl(d.title,q)}</a></h3>
       <div>
         <span class="badge b-office">${d.short_name}</span>
-        ${d.document_type?`<span class="badge b-type">${d.document_type}</span>`:''}
         ${d.department?`<span class="badge b-dept">${hl(d.department,q)}</span>`:''}
         ${cats} ${warn} ${login}
       </div>
       <div class="muted" style="margin-top:6px">등록 ${d.published_date||'-'} · 적용연도 ${d.policy_year||'-'} · ${d.board_name}</div>
       ${attHtml}
     </div>`;
-  }).join('');
-}
-
-/* ============ 전북 주요업무계획 ============ */
-let PLANS=null;
-fetch('data/plans.json').then(r=>r.json()).then(d=>{ PLANS=d; initPlan(); }).catch(()=>{});
-function initPlan(){
-  opt(document.getElementById('pField'),PLANS.fields,'전체 분야');
-  opt(document.getElementById('pDept'),PLANS.depts,'전체 부서');
-  ['pField','pDept'].forEach(id=>document.getElementById(id).onchange=renderPlan);
-  document.getElementById('pQ').oninput=renderPlan; renderPlan();
-}
-function renderPlan(){
-  if(!PLANS) return;
-  const field=document.getElementById('pField').value,dept=document.getElementById('pDept').value,q=document.getElementById('pQ').value.trim();
-  let rows=PLANS.plans.filter(p=>(!field||p.field===field)&&(!dept||p.dept.includes(dept))&&(!q||p.searchtext.toLowerCase().includes(q.toLowerCase())));
-  document.getElementById('pInfo').innerHTML='검색결과 <b class="hi">'+rows.length+'</b>개 사업 <span class="muted">(전북 전체 '+PLANS.plans.length+'개)</span>';
-  document.getElementById('planList').innerHTML=rows.map(p=>{
-    const tasks=(p.tasks||[]).map(t=>`<div class="task"><div class="t">${hl(t.title,q)}</div>${(t.details||[]).length?'<ul>'+t.details.map(d=>`<li>${hl(d,q)}</li>`).join('')+'</ul>':''}</div>`).join('');
-    const tags=(p.tags||[]).map(t=>`<span class="badge b-warn">${t}</span>`).join('');
-    return `<div class="plan"><h3>${hl(p.name,q)} <span class="muted">[${p.code}]</span></h3>
-      <div><span class="badge b-office">${p.office}</span><span class="badge b-type">${p.field} · ${p.area}</span><span class="badge b-cat">${hl(p.dept,q)}</span> ${tags}</div>${tasks}</div>`;
-  }).join('')||'<div class="card muted">일치하는 사업이 없습니다.</div>';
-}
-
-/* ============ 주요업무계획 비교 ============ */
-let CMP=null;
-fetch('data/plan_compare.json').then(r=>r.json()).then(d=>{ CMP=d; initCmp(); }).catch(()=>{
-  const g=document.getElementById('compareGrid'); if(g) g.innerHTML='<div class="card muted">비교 데이터가 없습니다.</div>';
-});
-function initCmp(){
-  opt(document.getElementById('cCat'),CMP.categories.filter(c=>c!=='기타'),'전체 분야');
-  document.getElementById('cCat').value = CMP.categories.includes('특수교육') ? '특수교육' : '';
-  document.getElementById('cCat').onchange=renderCmp;
-  document.getElementById('cQ').oninput=renderCmp;
-  renderCmp();
-}
-function renderCmp(){
-  const cat=document.getElementById('cCat').value, q=document.getElementById('cQ').value.trim();
-  const sel=CMP.items.filter(it=>(!cat||it.categories.includes(cat))&&(!q||it.searchtext.toLowerCase().includes(q.toLowerCase())));
-  document.getElementById('cInfo').innerHTML='분야 <b class="hi">'+(cat||'전체')+'</b>'+(q?' · "'+esc(q)+'"':'')+
-    ' — 매칭 세부사업 <b class="hi">'+sel.length+'</b>개 (전북 '+CMP.counts['전북']+' + 경기 '+CMP.counts['경기']+' 중)';
-  const grid=document.getElementById('compareGrid');
-  grid.innerHTML=CMP.offices.map(off=>{
-    const rows=sel.filter(it=>it.office===off);
-    const cards=rows.map(it=>`<div class="plan" style="margin-bottom:10px">
-        <h3 style="font-size:14.5px">${hl(it.name,q)}</h3>
-        <div class="meta"><span class="badge b-office">${off}</span>
-          ${it.dept?`<span class="badge b-dept">${esc(it.dept)}</span>`:''}
-          ${it.categories.filter(c=>c!=='기타').map(c=>`<span class="badge b-cat">${c}</span>`).join('')}</div>
-        ${it.tasks&&it.tasks.length?`<ul style="margin:6px 0 0;padding-left:18px">${it.tasks.slice(0,4).map(t=>`<li style="font-size:12.5px;color:#333">${hl(t,q)}</li>`).join('')}</ul>`:''}
-      </div>`).join('') || '<div class="muted" style="padding:8px">해당 분야 사업 없음</div>';
-    return `<div style="flex:1;min-width:280px">
-      <div class="card" style="margin-bottom:10px;padding:10px 14px;background:var(--accent)">
-        <b>${off}</b> <span class="muted">· ${rows.length}개 세부사업</span></div>
-      ${cards}</div>`;
   }).join('');
 }
 

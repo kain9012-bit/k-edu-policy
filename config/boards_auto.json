@@ -2776,6 +2776,158 @@
         "page_param": "page",
         "base": "https://www.dje.go.kr"
       }
+    },
+    {
+      "id": "gwangju-30",
+      "office": "gwangju",
+      "board_name": "사전정보공표",
+      "menu_path": "사전정보공표",
+      "collector_type": "gen",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "http://www.gen.go.kr/opengen/xboard/board.php?tbnum=30",
+        "page_param": "page",
+        "base": "http://www.gen.go.kr"
+      }
+    },
+    {
+      "id": "gwangju-162",
+      "office": "gwangju",
+      "board_name": "학생봉사활동",
+      "menu_path": "학생봉사활동",
+      "collector_type": "gen",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=162",
+        "page_param": "page",
+        "base": "http://www.gen.go.kr"
+      }
+    },
+    {
+      "id": "gwangju-130",
+      "office": "gwangju",
+      "board_name": "맞춤형복지 자료실",
+      "menu_path": "맞춤형복지 자료실",
+      "collector_type": "gen",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=130",
+        "page_param": "page",
+        "base": "http://www.gen.go.kr"
+      }
+    },
+    {
+      "id": "gwangju-406",
+      "office": "gwangju",
+      "board_name": "학교업무최적화",
+      "menu_path": "학교업무최적화",
+      "collector_type": "gen",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=406",
+        "page_param": "page",
+        "base": "http://www.gen.go.kr"
+      }
+    },
+    {
+      "id": "gwangju-258",
+      "office": "gwangju",
+      "board_name": "학교평가",
+      "menu_path": "학교평가",
+      "collector_type": "gen",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=258",
+        "page_param": "page",
+        "base": "http://www.gen.go.kr"
+      }
+    },
+    {
+      "id": "gwangju-156",
+      "office": "gwangju",
+      "board_name": "지침 등",
+      "menu_path": "지침 등",
+      "collector_type": "gen",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=156",
+        "page_param": "page",
+        "base": "http://www.gen.go.kr"
+      }
+    },
+    {
+      "id": "gwangju-320",
+      "office": "gwangju",
+      "board_name": "공공구매자료관리",
+      "menu_path": "공공구매자료관리",
+      "collector_type": "gen",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=320",
+        "page_param": "page",
+        "base": "http://www.gen.go.kr"
+      }
+    },
+    {
+      "id": "gwangju-408",
+      "office": "gwangju",
+      "board_name": "장애인 교육공무직원",
+      "menu_path": "장애인 교육공무직원",
+      "collector_type": "gen",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=408",
+        "page_param": "page",
+        "base": "http://www.gen.go.kr"
+      }
     }
   ]
 }

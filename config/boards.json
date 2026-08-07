@@ -240,7 +240,7 @@
     "menu_path": "정보공개 > 정책실명제",
     "collector_type": "gen",
     "board_type": "정책집중",
-    "is_active": true,
+    "is_active": false,
     "login_required": false,
     "keep_all": false,
     "license": "공공누리(기관 표기 확인)",
