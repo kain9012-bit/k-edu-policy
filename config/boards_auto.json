@@ -2928,6 +2928,106 @@
         "page_param": "page",
         "base": "http://www.gen.go.kr"
       }
+    },
+    {
+      "id": "chungnam-931",
+      "office": "chungnam",
+      "board_name": "행정자료실",
+      "menu_path": "행정자료실",
+      "collector_type": "cne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=931&m=021607&s=cne",
+        "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=931&lev=0&m=021607&s=cne&boardSeq=",
+        "page_param": "page",
+        "base": "https://www.cne.go.kr"
+      }
+    },
+    {
+      "id": "chungnam-926",
+      "office": "chungnam",
+      "board_name": "각종 지침",
+      "menu_path": "각종 지침",
+      "collector_type": "cne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=926&m=021603&s=cne",
+        "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=926&lev=0&m=021603&s=cne&boardSeq=",
+        "page_param": "page",
+        "base": "https://www.cne.go.kr"
+      }
+    },
+    {
+      "id": "chungnam-927",
+      "office": "chungnam",
+      "board_name": "계획서",
+      "menu_path": "계획서",
+      "collector_type": "cne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=927&m=021604&s=cne",
+        "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=927&lev=0&m=021604&s=cne&boardSeq=",
+        "page_param": "page",
+        "base": "https://www.cne.go.kr"
+      }
+    },
+    {
+      "id": "chungnam-11081",
+      "office": "chungnam",
+      "board_name": "민간보조사업",
+      "menu_path": "민간보조사업",
+      "collector_type": "cne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=11081&m=031401&s=cne",
+        "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=11081&lev=0&m=031401&s=cne&boardSeq=",
+        "page_param": "page",
+        "base": "https://www.cne.go.kr"
+      }
+    },
+    {
+      "id": "chungnam-21493",
+      "office": "chungnam",
+      "board_name": "주요업무계획",
+      "menu_path": "주요업무계획",
+      "collector_type": "cne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=21493&m=080219&s=cne",
+        "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=21493&lev=0&m=080219&s=cne&boardSeq=",
+        "page_param": "page",
+        "base": "https://www.cne.go.kr"
+      }
     }
   ]
 }

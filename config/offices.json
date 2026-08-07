@@ -84,7 +84,7 @@
     "name": "충청남도교육청",
     "short_name": "충남",
     "homepage_url": "https://www.cne.go.kr/",
-    "is_active": false,
+    "is_active": true,
     "display_order": 11
   },
   {
