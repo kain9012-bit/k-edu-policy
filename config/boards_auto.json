@@ -2338,6 +2338,444 @@
         "bbs_sn": "1743",
         "base": "https://www.ice.go.kr"
       }
+    },
+    {
+      "id": "daegu-1028",
+      "office": "daegu",
+      "board_name": "기관별감사계획",
+      "menu_path": "기관별감사계획",
+      "collector_type": "dge",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리 제1유형(출처표시)",
+      "robots": "허용",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=4967",
+        "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1028&mi=4967&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1028",
+        "base": "https://www.dge.go.kr"
+      }
+    },
+    {
+      "id": "daegu-1041",
+      "office": "daegu",
+      "board_name": "안내자료실",
+      "menu_path": "안내자료실",
+      "collector_type": "dge",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리 제1유형(출처표시)",
+      "robots": "허용",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1041&mi=5019",
+        "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1041&mi=5019&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1041",
+        "base": "https://www.dge.go.kr"
+      }
+    },
+    {
+      "id": "daegu-1096",
+      "office": "daegu",
+      "board_name": "학습자료실",
+      "menu_path": "학습자료실",
+      "collector_type": "dge",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리 제1유형(출처표시)",
+      "robots": "허용",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1096&mi=5762",
+        "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1096&mi=5762&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1096",
+        "base": "https://www.dge.go.kr"
+      }
+    },
+    {
+      "id": "daegu-1072",
+      "office": "daegu",
+      "board_name": "계획서/보고서",
+      "menu_path": "계획서/보고서",
+      "collector_type": "dge",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리 제1유형(출처표시)",
+      "robots": "허용",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1072&mi=5703",
+        "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1072&mi=5703&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1072",
+        "base": "https://www.dge.go.kr"
+      }
+    },
+    {
+      "id": "daegu-1080",
+      "office": "daegu",
+      "board_name": "자료실",
+      "menu_path": "자료실",
+      "collector_type": "dge",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리 제1유형(출처표시)",
+      "robots": "허용",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1080&mi=5711",
+        "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1080&mi=5711&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1080",
+        "base": "https://www.dge.go.kr"
+      }
+    },
+    {
+      "id": "daegu-1092",
+      "office": "daegu",
+      "board_name": "공개자료실",
+      "menu_path": "공개자료실",
+      "collector_type": "dge",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리 제1유형(출처표시)",
+      "robots": "허용",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1092&mi=5748",
+        "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1092&mi=5748&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1092",
+        "base": "https://www.dge.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-569",
+      "office": "daejeon",
+      "board_name": "장학사업현황",
+      "menu_path": "장학사업현황",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=569&m=021903&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=569&lev=0&m=021903&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "021903",
+          "boardID": "569"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-10453",
+      "office": "daejeon",
+      "board_name": "주민참여예산위원회",
+      "menu_path": "주민참여예산위원회",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10453&m=0302&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=10453&lev=0&m=0302&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "0302",
+          "boardID": "10453"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-451",
+      "office": "daejeon",
+      "board_name": "고시·공고",
+      "menu_path": "고시·공고",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=451&m=030102&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=451&lev=0&m=030102&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "030102",
+          "boardID": "451"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-65",
+      "office": "daejeon",
+      "board_name": "검정고시",
+      "menu_path": "검정고시",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=65&m=031702&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=65&lev=0&m=031702&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "031702",
+          "boardID": "65"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-546",
+      "office": "daejeon",
+      "board_name": "연수·교육안내",
+      "menu_path": "연수·교육안내",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=546&m=031201&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=546&lev=0&m=031201&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "031201",
+          "boardID": "546"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-46",
+      "office": "daejeon",
+      "board_name": "학교업무지원자료실",
+      "menu_path": "학교업무지원자료실",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=46&m=030602&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=46&lev=0&m=030602&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "030602",
+          "boardID": "46"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-10395",
+      "office": "daejeon",
+      "board_name": "통합자료실",
+      "menu_path": "통합자료실",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10395&m=031401&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=10395&lev=0&m=031401&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "031401",
+          "boardID": "10395"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-282",
+      "office": "daejeon",
+      "board_name": "학교급식",
+      "menu_path": "학교급식",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=282&m=1702&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=282&lev=0&m=1702&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "1702",
+          "boardID": "282"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-10650",
+      "office": "daejeon",
+      "board_name": "학교안전",
+      "menu_path": "학교안전",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10650&m=2001&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=10650&lev=0&m=2001&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "2001",
+          "boardID": "10650"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-10477",
+      "office": "daejeon",
+      "board_name": "중기지방재정계획",
+      "menu_path": "중기지방재정계획",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10477&m=0203&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=10477&lev=0&m=0203&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "0203",
+          "boardID": "10477"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-77",
+      "office": "daejeon",
+      "board_name": "국정감사",
+      "menu_path": "국정감사",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=77&m=101604&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=77&lev=0&m=101604&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "101604",
+          "boardID": "77"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
+    },
+    {
+      "id": "daejeon-573",
+      "office": "daejeon",
+      "board_name": "공무국외출장공개",
+      "menu_path": "공무국외출장공개",
+      "collector_type": "dje",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "제한(robots.txt Disallow /)",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=573&m=101502&s=dje",
+        "post_url": "https://www.dje.go.kr/boardCnts/list.do",
+        "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=573&lev=0&m=101502&s=dje&boardSeq=",
+        "params": {
+          "s": "dje",
+          "m": "101502",
+          "boardID": "573"
+        },
+        "page_param": "page",
+        "base": "https://www.dje.go.kr"
+      }
     }
   ]
 }
