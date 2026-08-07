@@ -1,0 +1,530 @@
+{
+  "generated_at": "2026-08-07 16:29:00",
+  "boards": [
+    {
+      "id": "seoul-bu01",
+      "office": "seoul",
+      "board_name": "대변인 부서업무방",
+      "menu_path": "부서 홈페이지 > 대변인 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "대변인",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu01/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1172",
+        "page_param": "q_currPage",
+        "bbs_sn": "1172",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu02",
+      "office": "seoul",
+      "board_name": "감사관 부서업무방",
+      "menu_path": "부서 홈페이지 > 감사관 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "감사관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu02/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1178",
+        "page_param": "q_currPage",
+        "bbs_sn": "1178",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu03",
+      "office": "seoul",
+      "board_name": "총무과 부서업무방",
+      "menu_path": "부서 홈페이지 > 총무과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "총무과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu03/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1183",
+        "page_param": "q_currPage",
+        "bbs_sn": "1183",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu04",
+      "office": "seoul",
+      "board_name": "정책기획관 부서업무방",
+      "menu_path": "부서 홈페이지 > 정책기획관 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "정책기획관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu04/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1192",
+        "page_param": "q_currPage",
+        "bbs_sn": "1192",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu05",
+      "office": "seoul",
+      "board_name": "예산담당관 부서업무방",
+      "menu_path": "부서 홈페이지 > 예산담당관 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "예산담당관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu05/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1199",
+        "page_param": "q_currPage",
+        "bbs_sn": "1199",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu06",
+      "office": "seoul",
+      "board_name": "행정관리담당관 부서업무방",
+      "menu_path": "부서 홈페이지 > 행정관리담당관 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "행정관리담당관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu06/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1206",
+        "page_param": "q_currPage",
+        "bbs_sn": "1206",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu07",
+      "office": "seoul",
+      "board_name": "학생맞춤지원담당관 부서업무방",
+      "menu_path": "부서 홈페이지 > 학생맞춤지원담당관 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "학생맞춤지원담당관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu07/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1216",
+        "page_param": "q_currPage",
+        "bbs_sn": "1216",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu08",
+      "office": "seoul",
+      "board_name": "노사협력담당관 부서업무방",
+      "menu_path": "부서 홈페이지 > 노사협력담당관 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "노사협력담당관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu08/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1232",
+        "page_param": "q_currPage",
+        "bbs_sn": "1232",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu09",
+      "office": "seoul",
+      "board_name": "교육협력담당관 부서업무방",
+      "menu_path": "부서 홈페이지 > 교육협력담당관 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교육협력담당관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu09/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1236",
+        "page_param": "q_currPage",
+        "bbs_sn": "1236",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu10",
+      "office": "seoul",
+      "board_name": "창의미래교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 창의미래교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "창의미래교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu10/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1240",
+        "page_param": "q_currPage",
+        "bbs_sn": "1240",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu11",
+      "office": "seoul",
+      "board_name": "유아교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 유아교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "유아교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu11/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1258",
+        "page_param": "q_currPage",
+        "bbs_sn": "1258",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu12",
+      "office": "seoul",
+      "board_name": "초등교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 초등교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "초등교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu12/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1266",
+        "page_param": "q_currPage",
+        "bbs_sn": "1266",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu13",
+      "office": "seoul",
+      "board_name": "중등교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 중등교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "중등교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu13/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1288",
+        "page_param": "q_currPage",
+        "bbs_sn": "1288",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu14",
+      "office": "seoul",
+      "board_name": "평생교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 평생교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "평생교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu14/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1321",
+        "page_param": "q_currPage",
+        "bbs_sn": "1321",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu15",
+      "office": "seoul",
+      "board_name": "민주시민교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 민주시민교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "민주시민교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu15/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1331",
+        "page_param": "q_currPage",
+        "bbs_sn": "1331",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu16",
+      "office": "seoul",
+      "board_name": "진로직업교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 진로직업교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "진로직업교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu16/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1345",
+        "page_param": "q_currPage",
+        "bbs_sn": "1345",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu17",
+      "office": "seoul",
+      "board_name": "체육건강예술교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 체육건강예술교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "체육건강예술교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu17/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1360",
+        "page_param": "q_currPage",
+        "bbs_sn": "1360",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu18",
+      "office": "seoul",
+      "board_name": "학교지원과 부서업무방",
+      "menu_path": "부서 홈페이지 > 학교지원과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "학교지원과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu18/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1385",
+        "page_param": "q_currPage",
+        "bbs_sn": "1385",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu19",
+      "office": "seoul",
+      "board_name": "교육재정과 부서업무방",
+      "menu_path": "부서 홈페이지 > 교육재정과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교육재정과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu19/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1401",
+        "page_param": "q_currPage",
+        "bbs_sn": "1401",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu20",
+      "office": "seoul",
+      "board_name": "교육시설안전과 부서업무방",
+      "menu_path": "부서 홈페이지 > 교육시설안전과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교육시설안전과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu20/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1412",
+        "page_param": "q_currPage",
+        "bbs_sn": "1412",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu21",
+      "office": "seoul",
+      "board_name": "특수교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 특수교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "특수교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu21/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1420",
+        "page_param": "q_currPage",
+        "bbs_sn": "1420",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu23",
+      "office": "seoul",
+      "board_name": "미래학교추진단 부서업무방",
+      "menu_path": "부서 홈페이지 > 미래학교추진단 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "미래학교추진단",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu23/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1430",
+        "page_param": "q_currPage",
+        "bbs_sn": "1430",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu27",
+      "office": "seoul",
+      "board_name": "안전총괄담당관 부서업무방",
+      "menu_path": "부서 홈페이지 > 안전총괄담당관 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "안전총괄담당관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu27/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1452",
+        "page_param": "q_currPage",
+        "bbs_sn": "1452",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu28",
+      "office": "seoul",
+      "board_name": "학생역량·혁신교육과 부서업무방",
+      "menu_path": "부서 홈페이지 > 학생역량·혁신교육과 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "학생역량·혁신교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu28/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1454",
+        "page_param": "q_currPage",
+        "bbs_sn": "1454",
+        "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "seoul-bu30",
+      "office": "seoul",
+      "board_name": "유보통합추진단 부서업무방",
+      "menu_path": "부서 홈페이지 > 유보통합추진단 > 부서업무방",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "유보통합추진단",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 1,
+      "config": {
+        "list_url": "https://buseo.sen.go.kr/buseo/bu30/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1484",
+        "page_param": "q_currPage",
+        "bbs_sn": "1484",
+        "base": "https://buseo.sen.go.kr"
+      }
+    }
+  ]
+}

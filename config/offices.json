@@ -1,5 +1,5 @@
 [
-  {"id":"seoul","name":"서울특별시교육청","short_name":"서울","homepage_url":"https://www.sen.go.kr/","is_active":false,"display_order":1},
+  {"id":"seoul","name":"서울특별시교육청","short_name":"서울","homepage_url":"https://www.sen.go.kr/","is_active":true,"display_order":1},
   {"id":"busan","name":"부산광역시교육청","short_name":"부산","homepage_url":"https://www.pen.go.kr/","is_active":false,"display_order":2},
   {"id":"daegu","name":"대구광역시교육청","short_name":"대구","homepage_url":"https://www.dge.go.kr/","is_active":true,"display_order":3},
   {"id":"incheon","name":"인천광역시교육청","short_name":"인천","homepage_url":"https://www.ice.go.kr/","is_active":false,"display_order":4},

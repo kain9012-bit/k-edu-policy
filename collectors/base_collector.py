@@ -120,6 +120,7 @@ def build_document(office, short_name, board, raw):
     """raw: {external_post_id, title, department, author, published_date, post_url, attachments[{file_name,file_url}]}"""
     att_names = [a.get("file_name", "") for a in raw.get("attachments", [])]
     status, dtype, cats = classify(raw["title"], att_names)
+    dept = (raw.get("department") or "").strip() or board.get("dept_default", "")
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return {
         "id": doc_id(office, raw["external_post_id"]),
@@ -130,7 +131,7 @@ def build_document(office, short_name, board, raw):
         "board_type": board["board_type"],
         "external_post_id": str(raw["external_post_id"]),
         "title": raw["title"].strip(),
-        "department": (raw.get("department") or "").strip(),
+        "department": dept,
         "author": (raw.get("author") or "").strip(),
         "published_date": raw.get("published_date", ""),
         "policy_year": extract_year(raw["title"], raw.get("published_date")),

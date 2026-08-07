@@ -29,6 +29,13 @@ KEEP_FILTERED = {"정책계획서", "정책참고자료", "확인필요"}
 def run(office_filter=None):
     offices = {o["id"]: o for o in bc.load_json("config/offices.json")}
     boards = bc.load_json("config/boards.json")
+    # 자동 발견된 부서 게시판(config/boards_auto.json) 병합
+    auto_path = os.path.join(bc.ROOT, "config", "boards_auto.json")
+    if os.path.exists(auto_path):
+        try:
+            boards += json.load(open(auto_path, encoding="utf-8")).get("boards", [])
+        except Exception:
+            pass
     session = bc.make_session()
 
     # 기존 문서 로드(병합)
@@ -120,7 +127,8 @@ def run(office_filter=None):
         "categories": sorted({c for d in docs for c in d["policy_category"]}),
         "statuses": sorted({d["classification_status"] for d in docs}),
         "count": len(docs),
-        "coverage": {"connected": len(sources), "total": 16, "active_offices": total_offices},
+        "coverage": {"connected": len({s["office"] for s in sources}), "total": 16,
+                     "boards": len(sources), "active_offices": total_offices},
         "sources": sources,
         "logs": logs,
         "documents": docs,
