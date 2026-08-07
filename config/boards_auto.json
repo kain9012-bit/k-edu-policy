@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-07 16:29:00",
+  "generated_at": "2026-08-07 17:00:42",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -524,6 +524,314 @@
         "page_param": "q_currPage",
         "bbs_sn": "1484",
         "base": "https://buseo.sen.go.kr"
+      }
+    },
+    {
+      "id": "sejong-955",
+      "office": "sejong",
+      "board_name": "소통담당관 자료실",
+      "menu_path": "부서별통합자료실 > 소통담당관",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "소통담당관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=955",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=955&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "955",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-128",
+      "office": "sejong",
+      "board_name": "감사관 자료실",
+      "menu_path": "부서별통합자료실 > 감사관",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "감사관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=128",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=128&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "128",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-130",
+      "office": "sejong",
+      "board_name": "미래기획관 자료실",
+      "menu_path": "부서별통합자료실 > 미래기획관",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "미래기획관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=130",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=130&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "130",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-1040988",
+      "office": "sejong",
+      "board_name": "학교정책과 자료실",
+      "menu_path": "부서별통합자료실 > 학교정책과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "학교정책과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1040988",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1040988&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1040988",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-1183",
+      "office": "sejong",
+      "board_name": "유초등교육과 자료실",
+      "menu_path": "부서별통합자료실 > 유초등교육과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "유초등교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1183",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1183&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1183",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-136",
+      "office": "sejong",
+      "board_name": "중등교육과 자료실",
+      "menu_path": "부서별통합자료실 > 중등교육과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "중등교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=136",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=136&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "136",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-134",
+      "office": "sejong",
+      "board_name": "교원인사과 자료실",
+      "menu_path": "부서별통합자료실 > 교원인사과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교원인사과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=134",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=134&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "134",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-138",
+      "office": "sejong",
+      "board_name": "운영지원과 자료실",
+      "menu_path": "부서별통합자료실 > 운영지원과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "운영지원과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=138",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=138&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "138",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-142",
+      "office": "sejong",
+      "board_name": "재무행정과 자료실",
+      "menu_path": "부서별통합자료실 > 재무행정과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "재무행정과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=142",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=142&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "142",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-1309",
+      "office": "sejong",
+      "board_name": "교육복지과 자료실",
+      "menu_path": "부서별통합자료실 > 교육복지과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교육복지과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1309",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1309&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1309",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-702",
+      "office": "sejong",
+      "board_name": "교육시설과 자료실",
+      "menu_path": "부서별통합자료실 > 교육시설과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교육시설과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=702",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=702&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "702",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-132",
+      "office": "sejong",
+      "board_name": "조직예산과 자료실",
+      "menu_path": "부서별통합자료실 > 조직예산과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "조직예산과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=132",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=132&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "132",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-1040944",
+      "office": "sejong",
+      "board_name": "학교안전과 자료실",
+      "menu_path": "부서별통합자료실 > 학교안전과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "학교안전과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1040944",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1040944&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1040944",
+        "base": "https://www.sje.go.kr"
+      }
+    },
+    {
+      "id": "sejong-1040989",
+      "office": "sejong",
+      "board_name": "노사정책과 자료실",
+      "menu_path": "부서별통합자료실 > 노사정책과",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "노사정책과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "허용",
+      "max_pages": 3,
+      "config": {
+        "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1040989",
+        "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1040989&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1040989",
+        "base": "https://www.sje.go.kr"
       }
     }
   ]

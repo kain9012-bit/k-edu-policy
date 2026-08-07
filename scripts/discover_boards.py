@@ -71,7 +71,46 @@ def discover_seoul(max_bu=35, delay=0.4):
     return boards
 
 
-ADAPTERS = {"seoul": discover_seoul}
+def discover_sejong(delay=0.4):
+    """세종: 부서별통합자료실 페이지의 부서 드롭다운(bbsId→부서명)을 파싱."""
+    sess = requests.Session(); sess.headers.update({"User-Agent": UA})
+    base = "https://www.sje.go.kr/sje/na/ntt"
+    r = sess.get(f"{base}/selectNttList.do?mi=52522&bbsId=955", timeout=15)
+    s = BeautifulSoup(r.text, "lxml")
+    boards, seen = [], set()
+    for o in s.select("option"):
+        val = (o.get("value") or "").strip()
+        name = o.get_text(strip=True)
+        if not val.isdigit() or int(val) < 120:      # 페이지크기(10~100) 제외
+            continue
+        if re.search(r"건|제목|내용|작성자|전체", name) or len(name) > 12 or not name:
+            continue
+        if val in seen:
+            continue
+        seen.add(val)
+        boards.append({
+            "id": f"sejong-{val}",
+            "office": "sejong",
+            "board_name": f"{name} 자료실",
+            "menu_path": f"부서별통합자료실 > {name}",
+            "collector_type": "goe",
+            "board_type": "분산형",
+            "is_active": True, "login_required": False, "keep_all": False,
+            "dept_default": name,
+            "license": "공공누리(기관 표기 확인)", "robots": "허용",
+            "max_pages": 3,
+            "config": {
+                "list_url": f"{base}/selectNttList.do?mi=52522&bbsId={val}",
+                "view_url": f"{base}/selectNttInfo.do?mi=52522&bbsId={val}&nttSn=",
+                "page_param": "currPage", "bbs_sn": val,
+                "base": "https://www.sje.go.kr",
+            },
+        })
+        time.sleep(delay * 0)  # 목록 파싱은 단일 요청
+    return boards
+
+
+ADAPTERS = {"seoul": discover_seoul, "sejong": discover_sejong}
 
 
 def main():
