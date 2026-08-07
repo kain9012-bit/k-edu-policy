@@ -3028,6 +3028,342 @@
         "page_param": "page",
         "base": "https://www.cne.go.kr"
       }
+    },
+    {
+      "id": "ulsan-1950",
+      "office": "ulsan",
+      "board_name": "감사관 자료실",
+      "menu_path": "부서별누리집 > 감사관 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "감사관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1950",
+        "page_param": "q_currPage",
+        "bbs_sn": "1950",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1971",
+      "office": "ulsan",
+      "board_name": "중등교육과 자료실",
+      "menu_path": "부서별누리집 > 중등교육과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "중등교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1971",
+        "page_param": "q_currPage",
+        "bbs_sn": "1971",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1977",
+      "office": "ulsan",
+      "board_name": "중등교육과 자료실",
+      "menu_path": "부서별누리집 > 중등교육과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "중등교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1977",
+        "page_param": "q_currPage",
+        "bbs_sn": "1977",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1981",
+      "office": "ulsan",
+      "board_name": "미래교육과 자료실",
+      "menu_path": "부서별누리집 > 미래교육과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "미래교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1981",
+        "page_param": "q_currPage",
+        "bbs_sn": "1981",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1989",
+      "office": "ulsan",
+      "board_name": "체육예술건강과 자료실",
+      "menu_path": "부서별누리집 > 체육예술건강과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "체육예술건강과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1989",
+        "page_param": "q_currPage",
+        "bbs_sn": "1989",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1955",
+      "office": "ulsan",
+      "board_name": "교육협력담당관 자료실",
+      "menu_path": "부서별누리집 > 교육협력담당관 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교육협력담당관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1955",
+        "page_param": "q_currPage",
+        "bbs_sn": "1955",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1961",
+      "office": "ulsan",
+      "board_name": "정책관 자료실",
+      "menu_path": "부서별누리집 > 정책관 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "정책관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1961",
+        "page_param": "q_currPage",
+        "bbs_sn": "1961",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1964",
+      "office": "ulsan",
+      "board_name": "교육혁신과 자료실",
+      "menu_path": "부서별누리집 > 교육혁신과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교육혁신과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1964",
+        "page_param": "q_currPage",
+        "bbs_sn": "1964",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1994",
+      "office": "ulsan",
+      "board_name": "체육예술건강과 자료실",
+      "menu_path": "부서별누리집 > 체육예술건강과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "체육예술건강과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1994",
+        "page_param": "q_currPage",
+        "bbs_sn": "1994",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-2007",
+      "office": "ulsan",
+      "board_name": "정책관 자료실",
+      "menu_path": "부서별누리집 > 정책관 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "정책관",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2007",
+        "page_param": "q_currPage",
+        "bbs_sn": "2007",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-2000",
+      "office": "ulsan",
+      "board_name": "민주시민교육과 자료실",
+      "menu_path": "부서별누리집 > 민주시민교육과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "민주시민교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2000",
+        "page_param": "q_currPage",
+        "bbs_sn": "2000",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-2034",
+      "office": "ulsan",
+      "board_name": "교육여건개선과 자료실",
+      "menu_path": "부서별누리집 > 교육여건개선과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교육여건개선과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2034",
+        "page_param": "q_currPage",
+        "bbs_sn": "2034",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1999",
+      "office": "ulsan",
+      "board_name": "민주시민교육과 자료실",
+      "menu_path": "부서별누리집 > 민주시민교육과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "민주시민교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1999",
+        "page_param": "q_currPage",
+        "bbs_sn": "1999",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-2032",
+      "office": "ulsan",
+      "board_name": "교육여건개선과 자료실",
+      "menu_path": "부서별누리집 > 교육여건개선과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "교육여건개선과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2032",
+        "page_param": "q_currPage",
+        "bbs_sn": "2032",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-1998",
+      "office": "ulsan",
+      "board_name": "민주시민교육과 자료실",
+      "menu_path": "부서별누리집 > 민주시민교육과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "민주시민교육과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1998",
+        "page_param": "q_currPage",
+        "bbs_sn": "1998",
+        "base": "https://use.go.kr"
+      }
+    },
+    {
+      "id": "ulsan-2005",
+      "office": "ulsan",
+      "board_name": "재정복지과 자료실",
+      "menu_path": "부서별누리집 > 재정복지과 > 자료실",
+      "collector_type": "gne",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "dept_default": "재정복지과",
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2005",
+        "page_param": "q_currPage",
+        "bbs_sn": "2005",
+        "base": "https://use.go.kr"
+      }
     }
   ]
 }

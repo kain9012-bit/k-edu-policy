@@ -139,7 +139,7 @@
 <div class="wrap" id="panelDocs">
   <div class="card">
     <div class="searchbar">
-      <input type="search" id="dQ" placeholder="검색어를 입력하세요 (예: 늘봄, 특수교육, 기초학력, AI, 다문화)">
+      <input type="search" id="dQ" placeholder="계획서 제목 검색 (예: 늘봄, 특수교육, 기초학력, AI, 다문화)">
     </div>
     <div class="ex" id="dExamples"><span class="muted">이렇게 검색해보세요</span></div>
   </div>
@@ -158,7 +158,6 @@
       <div class="chips" id="dOffices"></div>
     </div>
     <div class="opts">
-      <label><input type="checkbox" id="dTitleOnly"> 제목만 검색</label>
       <label><input type="checkbox" id="dJeonbuk" checked> 전북 포함</label>
     </div>
   </div>
@@ -240,7 +239,7 @@ function initDocs(){
     dOff.add(o); c.onclick=()=>{ c.classList.toggle('on'); c.classList.contains('on')?dOff.add(o):dOff.delete(o); renderDocs(); };
     oc.appendChild(c); });
   ['dYear','dDept','dCat','dStatus','dSort'].forEach(id=>document.getElementById(id).onchange=renderDocs);
-  ['dTitleOnly','dJeonbuk'].forEach(id=>document.getElementById(id).onchange=renderDocs);
+  document.getElementById('dJeonbuk').onchange=renderDocs;
   document.getElementById('dQ').oninput=renderDocs;
   document.getElementById('meta').textContent='정책계획 '+DOCS.count+'건·'+DOCS.offices.length+'개 교육청 (수집 '+DOCS.generated_at+')';
   buildExamples(); buildSources();
@@ -277,7 +276,7 @@ function renderDocs(){
   const yr=document.getElementById('dYear').value, dept=document.getElementById('dDept').value;
   const cat=document.getElementById('dCat').value;
   const status=document.getElementById('dStatus').value, sort=document.getElementById('dSort').value;
-  const titleOnly=document.getElementById('dTitleOnly').checked, incJB=document.getElementById('dJeonbuk').checked;
+  const incJB=document.getElementById('dJeonbuk').checked;
   document.getElementById('dOffCount').textContent='('+dOff.size+'개 선택)';
   let rows=DOCS.documents.filter(d=>{
     if(!dOff.has(d.short_name)) return false;
@@ -286,7 +285,7 @@ function renderDocs(){
     if(dept && d.department!==dept) return false;
     if(cat && !d.policy_category.includes(cat)) return false;
     if(status && d.classification_status!==status) return false;
-    if(q){ const hay=titleOnly?d.title:d.searchtext; if(!hay.toLowerCase().includes(q.toLowerCase())) return false; }
+    if(q && !d.title.toLowerCase().includes(q.toLowerCase())) return false;   // 계획서 제목만 검색
     return true;
   });
   // 정렬

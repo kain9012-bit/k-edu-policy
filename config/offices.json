@@ -44,7 +44,7 @@
     "name": "울산광역시교육청",
     "short_name": "울산",
     "homepage_url": "https://www.use.go.kr/",
-    "is_active": false,
+    "is_active": true,
     "display_order": 6
   },
   {
