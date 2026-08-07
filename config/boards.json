@@ -115,7 +115,11 @@
       "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10395&m=031401&s=dje",
       "post_url": "https://www.dje.go.kr/boardCnts/list.do",
       "view_url": "https://www.dje.go.kr/boardCnts/view.do?boardID=10395&lev=0&m=031401&s=dje&boardSeq=",
-      "params": {"s": "dje", "m": "031401", "boardID": "10395"},
+      "params": {
+        "s": "dje",
+        "m": "031401",
+        "boardID": "10395"
+      },
       "page_param": "page",
       "base": "https://www.dje.go.kr"
     }
@@ -139,6 +143,113 @@
       "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1795&mi=6744&nttSn=",
       "page_param": "currPage",
       "base": "https://www.dge.go.kr"
+    }
+  },
+  {
+    "id": "gyeongbuk-integrated",
+    "office": "gyeongbuk",
+    "board_name": "통합자료실",
+    "menu_path": "통합자료실",
+    "collector_type": "goe",
+    "board_type": "분산형",
+    "is_active": true,
+    "login_required": false,
+    "keep_all": false,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "확인 필요",
+    "max_pages": 5,
+    "config": {
+      "list_url": "https://www.gbe.kr/main/na/ntt/selectNttList.do?bbsId=2852&mi=9138",
+      "view_url": "https://www.gbe.kr/main/na/ntt/selectNttInfo.do?bbsId=2852&mi=9138&nttSn=",
+      "page_param": "currPage",
+      "base": "https://www.gbe.kr"
+    }
+  },
+  {
+    "id": "busan-info-archive",
+    "office": "busan",
+    "board_name": "사전정보공표",
+    "menu_path": "정보공개 > 사전정보공표",
+    "collector_type": "goe",
+    "board_type": "분산형",
+    "is_active": false,
+    "login_required": false,
+    "keep_all": false,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "확인 필요",
+    "max_pages": 5,
+    "config": {
+      "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2288&mi=30434",
+      "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2288&mi=30434&nttSn=",
+      "page_param": "currPage",
+      "base": "https://www.pen.go.kr"
+    }
+  },
+  {
+    "id": "incheon-policy-planning",
+    "office": "incheon",
+    "board_name": "정책기획조정관 자료",
+    "menu_path": "부서 > 정책기획조정관",
+    "collector_type": "goe",
+    "board_type": "분산형",
+    "is_active": true,
+    "login_required": false,
+    "keep_all": false,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "확인 필요",
+    "max_pages": 5,
+    "config": {
+      "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?mi=12097&bbsId=2070",
+      "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?mi=12097&bbsId=2070&nttSn=",
+      "page_param": "currPage",
+      "base": "https://www.ice.go.kr"
+    },
+    "dept_default": "정책기획조정관"
+  },
+  {
+    "id": "chungnam-preinfo",
+    "office": "chungnam",
+    "board_name": "사전정보공표목록",
+    "menu_path": "정보공개 > 사전정보공표목록",
+    "collector_type": "dje",
+    "board_type": "분산형",
+    "is_active": false,
+    "login_required": false,
+    "keep_all": false,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "확인 필요",
+    "max_pages": 6,
+    "config": {
+      "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=20633&m=050803&s=cne",
+      "post_url": "https://www.cne.go.kr/boardCnts/list.do",
+      "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=20633&lev=0&m=050803&s=cne&boardSeq=",
+      "params": {
+        "s": "cne",
+        "m": "050803",
+        "boardID": "20633"
+      },
+      "page_param": "page",
+      "base": "https://www.cne.go.kr"
+    },
+    "note": "사전정보공표가 카탈로그형(문서목록 아님) → 수집 대상 아님, 대체 게시판 탐색 필요"
+  },
+  {
+    "id": "gwangju-policy-name",
+    "office": "gwangju",
+    "board_name": "정책실명제",
+    "menu_path": "정보공개 > 정책실명제",
+    "collector_type": "gen",
+    "board_type": "정책집중",
+    "is_active": true,
+    "login_required": false,
+    "keep_all": false,
+    "license": "공공누리(기관 표기 확인)",
+    "robots": "확인 필요",
+    "max_pages": 5,
+    "config": {
+      "list_url": "http://www.gen.go.kr/opengen/xboard/board.php?tbnum=28",
+      "page_param": "page",
+      "base": "http://www.gen.go.kr"
     }
   }
 ]

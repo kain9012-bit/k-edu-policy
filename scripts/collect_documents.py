@@ -13,11 +13,11 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from collectors import base_collector as bc
 from collectors import (jbe_collector, goe_collector, jje_collector, gwe_collector,
-                        gne_collector, dje_collector, dge_collector)
+                        gne_collector, dje_collector, dge_collector, gen_collector)
 
 COLLECTORS = {"jbe": jbe_collector, "goe": goe_collector, "jje": jje_collector,
               "gwe": gwe_collector, "gne": gne_collector, "dje": dje_collector,
-              "dge": dge_collector}
+              "dge": dge_collector, "gen": gen_collector}
 DATA_PATH = os.path.join(bc.ROOT, "data", "documents.json")
 # 게시판별 keep 정책:
 #  keep_all=true  → 제외대상 포함 전부 저장(통합 게시판, 자료실 등)

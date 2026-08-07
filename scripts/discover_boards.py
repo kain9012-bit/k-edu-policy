@@ -110,7 +110,108 @@ def discover_sejong(delay=0.4):
     return boards
 
 
-ADAPTERS = {"seoul": discover_seoul, "sejong": discover_sejong}
+def discover_by_plan_density(office, sitemap_url, list_base, base, exclude=r"(채용|입찰|임용|인사|민원|추진비|MOU|통계|보도|공지|알림|시험)",
+                             min_hits=3, max_boards=25, delay=0.2):
+    """사이트맵의 게시판을 훑어 '계획' 밀도가 높은 게시판만 자동 선별한다.
+    계획 전용/통합 게시판이 없고 주제·부서별로 흩어진 교육청(충북 등)에 사용."""
+    sess = requests.Session(); sess.headers.update({"User-Agent": UA})
+    try:
+        s = BeautifulSoup(sess.get(sitemap_url, timeout=15).text, "lxml")
+    except Exception:
+        return []
+    links = {}
+    for a in s.select("a[href*='bbsId']"):
+        nm = re.sub(r"\s+", " ", a.get_text(" ", strip=True)); h = a.get("href", "")
+        m = re.search(r"bbsId=(\d+)", h); mi = re.search(r"mi=(\d+)", h)
+        if m and nm and len(nm) <= 22:
+            links.setdefault((m.group(1), mi.group(1) if mi else ""), nm)
+    scored = []
+    for (bid, mi), nm in links.items():
+        if re.search(exclude, nm):
+            continue
+        url = f"{list_base}?bbsId={bid}" + (f"&mi={mi}" if mi else "")
+        try:
+            ss = BeautifulSoup(sess.get(url, timeout=10).text, "lxml")
+            titles = [a.get_text(" ", strip=True) for a in ss.select("table tbody tr a[data-id]")]
+        except Exception:
+            continue
+        time.sleep(delay)
+        if not titles:
+            continue
+        hits = sum(1 for t in titles if re.search(r"계획|기본방향", t))
+        if hits >= min_hits:
+            scored.append((hits / len(titles), hits, bid, mi, nm))
+    scored.sort(reverse=True)
+    boards = []
+    for ratio, hits, bid, mi, nm in scored[:max_boards]:
+        boards.append({
+            "id": f"{office}-{bid}", "office": office,
+            "board_name": nm, "menu_path": nm,
+            "collector_type": "goe", "board_type": "분산형",
+            "is_active": True, "login_required": False, "keep_all": False,
+            "license": "공공누리(기관 표기 확인)", "robots": "확인 필요",
+            "max_pages": 2,
+            "config": {
+                "list_url": f"{list_base}?bbsId={bid}" + (f"&mi={mi}" if mi else ""),
+                "view_url": f"{list_base.replace('selectNttList', 'selectNttInfo')}?bbsId={bid}" + (f"&mi={mi}" if mi else "") + "&nttSn=",
+                "page_param": "currPage", "bbs_sn": bid, "base": base,
+            },
+        })
+    return boards
+
+
+def discover_chungbuk(max_dept=40, delay=0.15):
+    """충북: 본청(cbe) + 부서 서브사이트(dept-NN)를 모두 훑어 계획 밀도 높은 게시판 선별.
+    한 부서 안에서도 게시판이 여러 개로 쪼개져 있어 부서 사이트까지 스캔해야 한다."""
+    sess = requests.Session(); sess.headers.update({"User-Agent": UA})
+    boards = discover_by_plan_density(
+        "chungbuk", "https://www.cbe.go.kr/cbe/sitemap.do",
+        "https://www.cbe.go.kr/cbe/na/ntt/selectNttList.do", "https://www.cbe.go.kr")
+    seen = {b["config"]["bbs_sn"] for b in boards}
+    for n in range(1, max_dept + 1):
+        sm = f"https://www.cbe.go.kr/dept-{n}/sitemap.do"
+        try:
+            r = sess.get(sm, timeout=10); time.sleep(delay)
+        except Exception:
+            continue
+        if r.status_code != 200 or "bbsId=" not in r.text:
+            continue
+        s = BeautifulSoup(r.text, "lxml")
+        title = (s.select_one("title").get_text(strip=True) if s.select_one("title") else "")
+        dept = re.sub(r"^충북교육청\s*", "", title).strip() or f"dept-{n}"
+        if dept in ("충청북도교육청",):
+            continue
+        found = discover_by_plan_density(
+            "chungbuk", sm, f"https://www.cbe.go.kr/dept-{n}/na/ntt/selectNttList.do",
+            "https://www.cbe.go.kr", min_hits=3, max_boards=6, delay=0.1)
+        for b in found:
+            if b["config"]["bbs_sn"] in seen:
+                continue
+            seen.add(b["config"]["bbs_sn"])
+            b["id"] = f"chungbuk-d{n}-{b['config']['bbs_sn']}"
+            b["dept_default"] = dept
+            b["menu_path"] = f"{dept} > {b['board_name']}"
+            boards.append(b)
+    return boards
+
+
+def discover_busan():
+    return discover_by_plan_density("busan", "https://www.pen.go.kr/main/sitemap.do",
+                                    "https://www.pen.go.kr/main/na/ntt/selectNttList.do", "https://www.pen.go.kr")
+
+
+def discover_incheon():
+    return discover_by_plan_density("incheon", "https://www.ice.go.kr/ice/sitemap.do",
+                                    "https://www.ice.go.kr/ice/na/ntt/selectNttList.do", "https://www.ice.go.kr")
+
+
+def discover_gyeongbuk():
+    return discover_by_plan_density("gyeongbuk", "https://www.gbe.kr/main/sitemap.do",
+                                    "https://www.gbe.kr/main/na/ntt/selectNttList.do", "https://www.gbe.kr")
+
+
+ADAPTERS = {"seoul": discover_seoul, "sejong": discover_sejong, "chungbuk": discover_chungbuk,
+            "busan": discover_busan, "incheon": discover_incheon, "gyeongbuk": discover_gyeongbuk}
 
 
 def main():
@@ -129,7 +230,7 @@ def main():
         existing += found
         print(f"[{office}] 발견 {len(found)}개 부서업무방")
         for b in found:
-            print(f"  {b['config']['bbs_sn']:>7} · {b['dept_default']}")
+            print(f"  {b['config']['bbs_sn']:>7} · {b.get('dept_default') or b['board_name']}")
     out = {"generated_at": time.strftime("%Y-%m-%d %H:%M:%S"), "boards": existing}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=2)

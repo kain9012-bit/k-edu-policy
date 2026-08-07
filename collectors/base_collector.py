@@ -119,8 +119,14 @@ def doc_id(office, external_post_id):
 def build_document(office, short_name, board, raw):
     """raw: {external_post_id, title, department, author, published_date, post_url, attachments[{file_name,file_url}]}"""
     att_names = [a.get("file_name", "") for a in raw.get("attachments", [])]
-    status, dtype, cats = classify(raw["title"], att_names)
     dept = (raw.get("department") or "").strip() or board.get("dept_default", "")
+    title_raw = raw["title"].strip()
+    # 제목이 '[부서명] 제목' 형태면 부서 추출 후 제목 정리(경북 통합자료실 등)
+    pm = re.match(r"^\[([^\]]{2,12})\]\s*(.+)$", title_raw)
+    if pm and re.search(r"(과|관|담당관|단|실|센터)$", pm.group(1)):
+        dept = dept or pm.group(1).strip()
+        title_raw = pm.group(2).strip()
+    status, dtype, cats = classify(title_raw, att_names)
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return {
         "id": doc_id(office, raw["external_post_id"]),
@@ -130,11 +136,11 @@ def build_document(office, short_name, board, raw):
         "board_name": board["board_name"],
         "board_type": board["board_type"],
         "external_post_id": str(raw["external_post_id"]),
-        "title": raw["title"].strip(),
+        "title": title_raw,
         "department": dept,
         "author": (raw.get("author") or "").strip(),
         "published_date": raw.get("published_date", ""),
-        "policy_year": extract_year(raw["title"], raw.get("published_date")),
+        "policy_year": extract_year(title_raw, raw.get("published_date")),
         "document_type": dtype or "",
         "policy_category": cats,
         "post_url": raw["post_url"],
@@ -143,5 +149,5 @@ def build_document(office, short_name, board, raw):
         "attachment_names": att_names,
         "classification_status": status,
         "collected_at": now,
-        "searchtext": " ".join([raw["title"], raw.get("department") or "", " ".join(att_names)]),
+        "searchtext": " ".join([title_raw, dept, " ".join(att_names)]),
     }
