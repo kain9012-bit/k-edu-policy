@@ -29,7 +29,7 @@ def discover_seoul(max_bu=35, delay=0.4):
         bu = f"bu{i:02d}"
         url = f"https://buseo.sen.go.kr/buseo/{bu}/index.do"
         try:
-            r = sess.get(url, timeout=12); time.sleep(delay)
+            r = sess.get(url, timeout=25); time.sleep(delay)
             if r.status_code != 200:
                 continue
         except Exception:
@@ -75,7 +75,10 @@ def discover_sejong(delay=0.4):
     """세종: 부서별통합자료실 페이지의 부서 드롭다운(bbsId→부서명)을 파싱."""
     sess = requests.Session(); sess.headers.update({"User-Agent": UA})
     base = "https://www.sje.go.kr/sje/na/ntt"
-    r = sess.get(f"{base}/selectNttList.do?mi=52522&bbsId=955", timeout=15)
+    try:
+        r = sess.get(f"{base}/selectNttList.do?mi=52522&bbsId=955", timeout=30)
+    except Exception:
+        return []
     s = BeautifulSoup(r.text, "lxml")
     boards, seen = [], set()
     for o in s.select("option"):
@@ -116,7 +119,7 @@ def discover_by_plan_density(office, sitemap_url, list_base, base, exclude=r"(�
     계획 전용/통합 게시판이 없고 주제·부서별로 흩어진 교육청(충북 등)에 사용."""
     sess = requests.Session(); sess.headers.update({"User-Agent": UA})
     try:
-        s = BeautifulSoup(sess.get(sitemap_url, timeout=15).text, "lxml")
+        s = BeautifulSoup(sess.get(sitemap_url, timeout=30).text, "lxml")
     except Exception:
         return []
     links = {}
@@ -131,7 +134,7 @@ def discover_by_plan_density(office, sitemap_url, list_base, base, exclude=r"(�
             continue
         url = f"{list_base}?bbsId={bid}" + (f"&mi={mi}" if mi else "")
         try:
-            ss = BeautifulSoup(sess.get(url, timeout=10).text, "lxml")
+            ss = BeautifulSoup(sess.get(url, timeout=20).text, "lxml")
             titles = [a.get_text(" ", strip=True) for a in ss.select("table tbody tr a[data-id]")]
         except Exception:
             continue
@@ -171,7 +174,7 @@ def discover_chungbuk(max_dept=40, delay=0.15):
     for n in range(1, max_dept + 1):
         sm = f"https://www.cbe.go.kr/dept-{n}/sitemap.do"
         try:
-            r = sess.get(sm, timeout=10); time.sleep(delay)
+            r = sess.get(sm, timeout=20); time.sleep(delay)
         except Exception:
             continue
         if r.status_code != 200 or "bbsId=" not in r.text:
@@ -223,10 +226,22 @@ def main():
         except Exception:
             existing = []
     by_id = {b["id"]: b for b in existing}
+    failed = []
     for office, fn in ADAPTERS.items():
         if only and office != only:
             continue
-        found = fn()
+        # 어댑터 하나가 실패해도 전체가 죽지 않도록 격리한다.
+        # (사이트 점검·네트워크 오류 등으로 특정 교육청만 실패하는 일이 잦다)
+        try:
+            found = fn()
+        except Exception as e:
+            failed.append((office, str(e)[:80]))
+            print(f"[{office}] 실패: {type(e).__name__} {str(e)[:80]}")
+            continue
+        if not found:
+            failed.append((office, "발견 0건"))
+            print(f"[{office}] 발견 0건 — 기존 목록 유지")
+            continue
         new_cnt = 0
         found_ids = set()
         for b in found:
@@ -256,6 +271,10 @@ def main():
         for b in found[:40]:
             print(f"  {b['config']['bbs_sn']:>7} · {b.get('dept_default') or b['board_name']}")
     existing = list(by_id.values())
+    if failed:
+        print("\n[요약] 실패·0건 어댑터:")
+        for office, msg in failed:
+            print(f"  - {office}: {msg}")
     out = {"generated_at": time.strftime("%Y-%m-%d %H:%M:%S"), "boards": existing}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
