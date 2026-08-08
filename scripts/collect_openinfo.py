@@ -30,7 +30,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "data", "openinfo.json")
 LIST_PAGE = "https://www.open.go.kr/othicInfo/infoList/orginlInfoList.do"
 DETAIL = "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do"
-ROWS = 30           # 페이지당 건수
+ROWS = 500          # 페이지당 건수(최대 1000까지 동작) — 요청 수를 크게 줄인다
 DELAY = 1.2         # 요청 간격(초) — 서버 부담을 줄인다
 
 # 제외어: 회계·서무·인사 등 정책계획이 아닌 결재문서
@@ -66,6 +66,79 @@ def is_plan(title):
     return bool(t) and not any(w in t for w in EXCLUDE)
 
 
+# 소속·직속기관 판별어 (부서 경로 중간에 이런 기관명이 오면 본청이 아니다)
+SUB_ORG = (
+    "교육지원청", "도서관", "연수원", "교육원", "과학관", "수련원", "연구원", "진흥원",
+    "학생교육원", "학생수련원", "유아교육원", "특수교육원", "평생교육원", "교육연수원",
+    "과학교육원", "창의융합교육원", "미래교육연구원", "교육연구정보원", "교육정보원",
+    "학생문화원", "학생교육문화회관", "교육문화회관", "박물관", "체험관", "센터",
+    "문화관", "회관", "학교", "캠퍼스", "유치원", "지원단", "교육대학", "직업전문학교",
+    "학습관", "평생학습관", "교육관", "지원청", "연구정보원", "복지관", "체육관", "지원센터",
+)
+# 본청 내부 조직 단위(국·관 등). '평생학습관'처럼 기관명도 '관'으로 끝나므로
+# SUB_ORG 검사를 먼저 한 뒤에만 사용한다.
+HEAD_UNIT_SUFFIX = ("국", "관", "단", "실", "본부")
+# 기관명에 흔한 지역·수식어가 붙은 조직은 본청 조직이 아니다(예: '서울특별시교육청마포평생학습관')
+def _looks_like_institution(token, office):
+    """토큰이 기관명처럼 보이는지: 교육청명을 포함하거나 SUB_ORG 키워드를 가진 경우."""
+    if any(k in token for k in SUB_ORG):
+        return True
+    # '서울특별시교육청○○' 처럼 교육청명이 접두로 붙은 별도 기관
+    if office and token.startswith(office) and token != office:
+        return True
+    if token.endswith("교육청"):
+        return True
+    return False
+
+
+# 기관 개편 전 구명칭 → 현 명칭. 같은 교육청이 두 이름으로 쪼개지지 않게 한다.
+# (예: 2024-01-18 전북특별자치도 출범 이전 문서는 '전라북도교육청'으로 남아 있다)
+OFFICE_ALIAS = {
+    "전라북도교육청": "전북특별자치도교육청",
+    "강원도교육청": "강원특별자치도교육청",
+}
+
+
+def normalize_office(name):
+    return OFFICE_ALIAS.get((name or "").strip(), (name or "").strip())
+
+
+def is_head_office(row):
+    """본청 문서만 통과. 교육지원청·도서관·연수원 등 소속·직속기관은 제외.
+
+    판별은 NFLST_CHRG_DEPT_NM(전체 부서 경로)로 한다.
+    ALL_PROC_INSTT_NM은 소속기관 문서도 본청명으로 채워져 있어 쓸 수 없다.
+
+      본청   : '부산광역시교육청 교육국 유아교육과'      → 중간이 '교육국'(본청 조직)
+      본청   : '경상남도교육청 정책기획관'                → 2단
+      직속기관: '대구광역시교육청 대구미래교육연구원 행정정보부'
+      소속기관: '전라남도교육청 전라남도장성교육지원청 교육지원과'
+    """
+    office = (row.get("PROC_INSTT_NM") or "").strip()
+    full = (row.get("NFLST_CHRG_DEPT_NM") or "").strip()
+    if not office:
+        return False
+    if not full:
+        return True
+    tokens = full.split()
+    # 앞의 교육청명 토큰 제거(예: '전라남도교육청')
+    if tokens and tokens[0] == office:
+        tokens = tokens[1:]
+    if not tokens:
+        return True
+    if len(tokens) == 1:
+        # '정책기획관'이면 본청 부서, '글로벌선진학교문경캠퍼스'면 기관 자체
+        return not _looks_like_institution(tokens[0], office)
+    # 중간 토큰(마지막 부서명 제외)에 기관명이 있으면 소속·직속기관
+    for t in tokens[:-1]:
+        if _looks_like_institution(t, office):   # 기관 판별을 먼저(‘평생학습관’ 등)
+            return False
+        if t.endswith(HEAD_UNIT_SUFFIX):         # '교육국','행정국','기획조정실' 등 본청 조직
+            continue
+        return False                             # 정체불명 기관명 → 보수적으로 제외
+    return True
+
+
 def to_doc(row):
     dt = (row.get("PRDCTN_DT") or "")[:8]
     date = f"{dt[:4]}-{dt[4:6]}-{dt[6:8]}" if len(dt) == 8 else ""
@@ -78,8 +151,9 @@ def to_doc(row):
     return {
         "id": f"oi-{row.get('PRDCTN_INSTT_REGIST_NO','')}-{row.get('PRDCTN_DT','')}",
         "source": "원문정보",
-        "office": row.get("PROC_INSTT_NM", ""),         # 시도교육청
-        "org": row.get("ALL_PROC_INSTT_NM") or row.get("NFLST_CHRG_DEPT_NM", ""),
+        "office": normalize_office(row.get("PROC_INSTT_NM", "")),   # 시도교육청(구명칭 병합)
+        # 전체 부서 경로(본청/소속기관 판별 근거). ALL_PROC_INSTT_NM은 항상 본청명이라 쓰지 않는다.
+        "org": row.get("NFLST_CHRG_DEPT_NM") or row.get("ALL_PROC_INSTT_NM", ""),
         "department": row.get("CHRG_DEPT_NM", ""),       # 담당부서
         "title": (row.get("INFO_SJ") or "").strip(),
         "doc_no": row.get("DOC_NO", ""),                 # 문서번호(정보공개청구 시 특정용)
@@ -135,13 +209,13 @@ def collect_range(page_obj, kwd, start, end, existing):
         if not res:
             continue
         for row in res.get("rows") or []:
-            if not is_plan(row.get("INFO_SJ")):
+            if not is_head_office(row) or not is_plan(row.get("INFO_SJ")):
                 skipped += 1
                 continue
             d = to_doc(row)
             existing[d["id"]] = d
             added += 1
-        if p % 20 == 0:
+        if p % 3 == 0:
             print(f"    …{p}/{pages}페이지 (누적 {len(existing)})")
             save(existing)          # 중간 저장(중단 대비)
         time.sleep(DELAY)
