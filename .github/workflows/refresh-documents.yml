@@ -34,7 +34,9 @@ jobs:
           cache: pip
 
       - name: 의존성 설치
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium   # 원문정보 수집용
 
       - name: 수집 전 건수 기록
         id: before
@@ -52,6 +54,12 @@ jobs:
           else
             python scripts/collect_documents.py
           fi
+
+      - name: 원문정보 수집 (증분)
+        # 정보공개포털에서 각 교육청이 결재한 계획 문서 목록을 수집(최근 3일).
+        # 실패해도 게시판 수집 결과는 살리기 위해 continue-on-error.
+        continue-on-error: true
+        run: python scripts/collect_openinfo.py --days 3
 
       - name: 수집 결과 검증 (급감 감지)
         id: verify
@@ -97,12 +105,12 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- data/documents.json; then
+          if git diff --quiet -- data/documents.json data/openinfo.json; then
             echo "변경 없음"
             exit 0
           fi
-          git add data/documents.json
-          git commit -m "chore: 정책계획 수집 ($(TZ=Asia/Seoul date '+%Y-%m-%d'))"
+          git add data/documents.json data/openinfo.json
+          git commit -m "chore: 정책계획·원문정보 수집 ($(TZ=Asia/Seoul date '+%Y-%m-%d'))"
           # 다른 워크플로(게시판 재발견 등)가 먼저 푸시했을 수 있으므로
           # rebase 후 재시도한다. 수집 결과는 이미 커밋돼 있어 유실되지 않는다.
           for i in 1 2 3; do
