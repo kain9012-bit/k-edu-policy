@@ -1,31 +1,101 @@
-name: Refresh policy documents
+name: 정책계획 수집 (매일)
 
-# 각 교육청 계획 게시판을 매일 1회 수집 + 수동 실행
+# 매일 새벽 5시(KST)에 16개 시도교육청 게시판을 수집한다.
+# GitHub Actions는 UTC 기준이므로 20:00 UTC = 05:00 KST(+9)
 on:
   schedule:
-    - cron: "0 20 * * *"   # 매일 05:00 KST
-  workflow_dispatch:
+    - cron: "0 20 * * *"
+  workflow_dispatch:        # 수동 실행 버튼
+    inputs:
+      office:
+        description: "특정 교육청만 수집 (비우면 전체). 예: seoul, jeonbuk"
+        required: false
+        default: ""
+
+# 커밋 푸시 권한
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-documents
+  cancel-in-progress: false
 
 jobs:
   collect:
     runs-on: ubuntu-latest
+    timeout-minutes: 60      # 게시판 150여 개 · 정중한 요청간격 고려
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install deps
+          cache: pip
+
+      - name: 의존성 설치
         run: pip install -r requirements.txt
-      - name: Collect documents (전문 수집, 첨부 포함)
-        run: python3 scripts/collect_documents.py
-      - name: Commit if changed
+
+      - name: 수집 전 건수 기록
+        id: before
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet -- data/documents.json; then
-            git add data/documents.json
-            git commit -m "chore: refresh policy documents"
-            git push
+          if [ -f data/documents.json ]; then
+            echo "count=$(python -c "import json;print(json.load(open('data/documents.json',encoding='utf-8'))['count'])")" >> $GITHUB_OUTPUT
           else
+            echo "count=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 정책계획 수집
+        run: |
+          if [ -n "${{ inputs.office }}" ]; then
+            python scripts/collect_documents.py --office "${{ inputs.office }}"
+          else
+            python scripts/collect_documents.py
+          fi
+
+      - name: 수집 결과 검증 (급감 감지)
+        id: verify
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          d = json.load(open('data/documents.json', encoding='utf-8'))
+          before = int("${{ steps.before.outputs.count }}" or 0)
+          after = d['count']
+          plans = sum(1 for x in d['documents'] if x['classification_status'] == '정책계획서')
+          offices = len(d['offices'])
+          print(f"문서 {before} → {after} · 정책계획서 {plans} · 교육청 {offices}곳")
+
+          # 실패한 게시판 로그
+          fails = [l for l in d.get('logs', []) if l.get('status') == '실패']
+          zero  = [l for l in d.get('logs', []) if l.get('status') != '실패'
+                   and l.get('new_count', 0) + l.get('updated_count', 0) == 0]
+          if fails:
+              print(f"::warning::수집 실패 게시판 {len(fails)}개: " +
+                    ", ".join(l['board_id'] for l in fails[:10]))
+          if zero:
+              print(f"::warning::0건 게시판 {len(zero)}개: " +
+                    ", ".join(l['board_id'] for l in zero[:10]))
+
+          # 이전 대비 20% 이상 급감하면 실패 처리(파서 깨짐 조기 감지)
+          if before > 100 and after < before * 0.8:
+              print(f"::error::수집량 급감: {before} → {after} (20% 이상 감소). 파서 점검 필요")
+              sys.exit(1)
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as f:
+              f.write(f"## 수집 결과\n\n"
+                      f"- 문서: **{before} → {after}**\n"
+                      f"- 정책계획서: **{plans}건**\n"
+                      f"- 교육청: **{offices}곳** / 게시판 {d['coverage']['boards']}개\n"
+                      f"- 실패 게시판: {len(fails)}개 / 0건 게시판: {len(zero)}개\n")
+          PY
+
+      - name: 변경분 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/documents.json; then
             echo "변경 없음"
+          else
+            git add data/documents.json
+            git commit -m "chore: 정책계획 수집 ($(TZ=Asia/Seoul date '+%Y-%m-%d'))"
+            git push
           fi

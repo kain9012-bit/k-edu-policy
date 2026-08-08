@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-07 22:19:08",
+  "generated_at": "2026-08-08 13:41:09",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -8,7 +8,7 @@
       "menu_path": "부서 홈페이지 > 대변인 > 부서업무방",
       "collector_type": "gne",
       "board_type": "분산형",
-      "is_active": false,
+      "is_active": true,
       "login_required": false,
       "keep_all": false,
       "dept_default": "대변인",
@@ -20,8 +20,7 @@
         "page_param": "q_currPage",
         "bbs_sn": "1172",
         "base": "https://buseo.sen.go.kr"
-      },
-      "note": "수집 0건(계획 없음) → 비활성"
+      }
     },
     {
       "id": "seoul-bu02",
@@ -2347,7 +2346,7 @@
       "menu_path": "기관별감사계획",
       "collector_type": "dge",
       "board_type": "분산형",
-      "is_active": false,
+      "is_active": true,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리 제1유형(출처표시)",
@@ -2359,8 +2358,7 @@
         "page_param": "currPage",
         "bbs_sn": "1028",
         "base": "https://www.dge.go.kr"
-      },
-      "note": "수집 0건(계획 없음) → 비활성"
+      }
     },
     {
       "id": "daegu-1041",
@@ -2760,7 +2758,7 @@
       "menu_path": "공무국외출장공개",
       "collector_type": "dje",
       "board_type": "분산형",
-      "is_active": false,
+      "is_active": true,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
@@ -2777,8 +2775,7 @@
         },
         "page_param": "page",
         "base": "https://www.dje.go.kr"
-      },
-      "note": "수집 0건(계획 없음) → 비활성"
+      }
     },
     {
       "id": "gwangju-30",
@@ -3039,7 +3036,7 @@
       "menu_path": "부서별누리집 > 감사관 > 자료실",
       "collector_type": "gne",
       "board_type": "분산형",
-      "is_active": false,
+      "is_active": true,
       "login_required": false,
       "keep_all": false,
       "dept_default": "감사관",
@@ -3051,8 +3048,7 @@
         "page_param": "q_currPage",
         "bbs_sn": "1950",
         "base": "https://use.go.kr"
-      },
-      "note": "수집 0건(계획 없음) → 비활성"
+      }
     },
     {
       "id": "ulsan-1971",
@@ -3061,7 +3057,7 @@
       "menu_path": "부서별누리집 > 중등교육과 > 자료실",
       "collector_type": "gne",
       "board_type": "분산형",
-      "is_active": false,
+      "is_active": true,
       "login_required": false,
       "keep_all": false,
       "dept_default": "중등교육과",
@@ -3073,8 +3069,7 @@
         "page_param": "q_currPage",
         "bbs_sn": "1971",
         "base": "https://use.go.kr"
-      },
-      "note": "수집 0건(계획 없음) → 비활성"
+      }
     },
     {
       "id": "ulsan-1977",
@@ -3314,7 +3309,7 @@
       "menu_path": "부서별누리집 > 교육여건개선과 > 자료실",
       "collector_type": "gne",
       "board_type": "분산형",
-      "is_active": false,
+      "is_active": true,
       "login_required": false,
       "keep_all": false,
       "dept_default": "교육여건개선과",
@@ -3326,8 +3321,7 @@
         "page_param": "q_currPage",
         "bbs_sn": "2032",
         "base": "https://use.go.kr"
-      },
-      "note": "수집 0건(계획 없음) → 비활성"
+      }
     },
     {
       "id": "ulsan-1998",

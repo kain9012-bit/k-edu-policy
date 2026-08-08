@@ -78,11 +78,22 @@ EDUINFO_KEY=발급키 python3 scripts/collect_budget.py --years 2022 2023 2024 2
 결과는 `정책계획서 · 정책참고자료 · 제외대상 · 확인필요` 중 하나로 저장하고, 애매한 자료는 삭제하지 않고 **확인필요**로 남깁니다.
 정책 분야는 22개 분류로 키워드 기반 자동 태깅(추후 AI 분류로 대체 가능하도록 모듈 분리).
 
+## 자동화 (GitHub Actions)
+
+| 워크플로 | 주기 | 하는 일 |
+|---|---|---|
+| `refresh-documents.yml` | **매일 05:00 KST** | 등록된 게시판을 수집해 `data/documents.json` 갱신. 이전 대비 20% 이상 급감하면 실패 처리(파서 깨짐 조기 감지) |
+| `discover-boards.yml` | **매주 일요일 04:00 KST** | 교육청 사이트를 다시 훑어 계획이 쌓이는 게시판을 재발견 → `config/boards_auto.json` 갱신. 게시판 신설·조직개편에 자동 대응 |
+| `refresh-data.yml` | 매월 | 세출예산 API 수집 |
+
+- 두 워크플로 모두 **수동 실행(workflow_dispatch)** 가능하며, 특정 교육청만 지정할 수 있다.
+- 재발견은 **병합 방식**이라 사람이 손댄 설정(`is_active`·`keep_all`·`max_pages` 등)을 보존하고,
+  이번에 안 잡힌 게시판은 삭제하지 않고 `missing_since`로 표시만 남긴다(일시적 사이트 오류로 인한 데이터 손실 방지).
+- 세출 API 키는 저장소 Secrets에 `EDUINFO_KEY`로 등록.
+
 ## 배포
 
 - 프런트엔드: **GitHub Pages** (Settings → Pages → `main`/root)
-- 자동 수집: **GitHub Actions** (`refresh-documents.yml` 매일, `refresh-budget.yml` 매월)
-- 세출 API 키는 저장소 Secrets에 `EDUINFO_KEY`로 등록
 
 ## 로드맵
 

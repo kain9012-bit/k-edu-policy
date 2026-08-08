@@ -222,15 +222,40 @@ def main():
             existing = json.load(open(OUT, encoding="utf-8")).get("boards", [])
         except Exception:
             existing = []
+    by_id = {b["id"]: b for b in existing}
     for office, fn in ADAPTERS.items():
         if only and office != only:
             continue
         found = fn()
-        existing = [b for b in existing if b["office"] != office]  # 기존 자동목록 교체
-        existing += found
-        print(f"[{office}] 발견 {len(found)}개 부서업무방")
+        new_cnt = 0
+        found_ids = set()
         for b in found:
+            found_ids.add(b["id"])
+            old = by_id.get(b["id"])
+            if old:
+                # 기존 게시판: 사람이 손댄 설정(is_active·keep_all·max_pages·license 등)은 보존하고
+                # URL 등 접속 정보만 최신값으로 갱신
+                old["config"].update(b["config"])
+                old["board_name"] = b["board_name"]
+                old["menu_path"] = b.get("menu_path", old.get("menu_path", ""))
+                if b.get("dept_default"):
+                    old["dept_default"] = b["dept_default"]
+                old.pop("missing_since", None)   # 다시 발견되면 실종 표시 해제
+            else:
+                by_id[b["id"]] = b
+                new_cnt += 1
+        # 이번에 안 잡힌 기존 게시판은 삭제하지 않고 '실종' 표시만 남긴다
+        # (일시적 사이트 오류·개편으로 사라져 보일 수 있어 데이터 손실을 막는다)
+        missing = 0
+        today = time.strftime("%Y-%m-%d")
+        for bid, b in by_id.items():
+            if b["office"] == office and bid not in found_ids:
+                b.setdefault("missing_since", today)
+                missing += 1
+        print(f"[{office}] 발견 {len(found)}개 (신설 {new_cnt} · 미발견 {missing})")
+        for b in found[:40]:
             print(f"  {b['config']['bbs_sn']:>7} · {b.get('dept_default') or b['board_name']}")
+    existing = list(by_id.values())
     out = {"generated_at": time.strftime("%Y-%m-%d %H:%M:%S"), "boards": existing}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
