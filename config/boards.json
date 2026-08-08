@@ -11,7 +11,7 @@
     "keep_all": true,
     "license": "기관 공개자료(로그인 필요) · 공공누리 표기 확인",
     "robots": "허용",
-    "max_pages": 8,
+    "max_pages": 10,
     "config": {
       "list_url": "https://www.jbe.go.kr/board/list.jbe?boardId=BBS_0000083&menuCd=DOM_000000106001001000&contentsSid=332&cpath=",
       "page_param": "startPage",
@@ -30,7 +30,7 @@
     "keep_all": true,
     "license": "공공누리(기관 표기 확인)",
     "robots": "허용",
-    "max_pages": 6,
+    "max_pages": 10,
     "config": {
       "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=1995&mi=11008",
       "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=1995&mi=11008&nttSn=",
@@ -50,7 +50,7 @@
     "keep_all": true,
     "license": "공공누리(기관 표기 확인)",
     "robots": "제한(robots.txt Disallow /)",
-    "max_pages": 8,
+    "max_pages": 10,
     "config": {
       "list_url": "https://www.jje.go.kr/board/list.jje?boardId=BBS_0000819&menuCd=DOM_000000106007001000",
       "page_param": "startPage",
@@ -69,7 +69,7 @@
     "keep_all": true,
     "license": "공공누리(기관 표기 확인)",
     "robots": "허용",
-    "max_pages": 8,
+    "max_pages": 10,
     "config": {
       "list_url": "https://www.gwe.go.kr/main/bbs/list.do?key=bTIzMDcyMTExOTg3ODE=",
       "view_url": "https://www.gwe.go.kr/main/bbs/view.do?key=bTIzMDcyMTExOTg3ODE=&bbsSn=",
@@ -89,7 +89,7 @@
     "keep_all": true,
     "license": "공공누리(기관 표기 확인)",
     "robots": "허용(robots.txt 없음)",
-    "max_pages": 6,
+    "max_pages": 5,
     "config": {
       "list_url": "https://www.gne.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_clsfNo=1&q_bbsSn=1464&q_menu=businessdata",
       "page_param": "q_currPage",
@@ -109,7 +109,7 @@
     "keep_all": true,
     "license": "공공누리(기관 표기 확인)",
     "robots": "제한(robots.txt Disallow /)",
-    "max_pages": 6,
+    "max_pages": 5,
     "config": {
       "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10395&m=031401&s=dje",
       "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -135,7 +135,7 @@
     "keep_all": true,
     "license": "공공누리 제1유형(출처표시)",
     "robots": "허용",
-    "max_pages": 6,
+    "max_pages": 5,
     "config": {
       "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1795&mi=6744",
       "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1795&mi=6744&nttSn=",
@@ -216,7 +216,7 @@
     "keep_all": false,
     "license": "공공누리(기관 표기 확인)",
     "robots": "확인 필요",
-    "max_pages": 6,
+    "max_pages": 5,
     "config": {
       "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=20633&m=050803&s=cne",
       "post_url": "https://www.cne.go.kr/boardCnts/list.do",
@@ -243,7 +243,7 @@
     "keep_all": false,
     "license": "공공누리(기관 표기 확인)",
     "robots": "확인 필요",
-    "max_pages": 5,
+    "max_pages": 10,
     "config": {
       "list_url": "http://www.gen.go.kr/opengen/xboard/board.php?tbnum=28",
       "page_param": "page",

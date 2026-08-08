@@ -8,19 +8,20 @@
       "menu_path": "부서 홈페이지 > 대변인 > 부서업무방",
       "collector_type": "gne",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "dept_default": "대변인",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu01/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1172",
         "page_param": "q_currPage",
         "bbs_sn": "1172",
         "base": "https://buseo.sen.go.kr"
-      }
+      },
+      "note": "수집 0건(계획 없음) → 비활성"
     },
     {
       "id": "seoul-bu02",
@@ -35,7 +36,7 @@
       "dept_default": "감사관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu02/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1178",
         "page_param": "q_currPage",
@@ -56,7 +57,7 @@
       "dept_default": "총무과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu03/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1183",
         "page_param": "q_currPage",
@@ -77,7 +78,7 @@
       "dept_default": "정책기획관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu04/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1192",
         "page_param": "q_currPage",
@@ -98,7 +99,7 @@
       "dept_default": "예산담당관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu05/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1199",
         "page_param": "q_currPage",
@@ -119,7 +120,7 @@
       "dept_default": "행정관리담당관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu06/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1206",
         "page_param": "q_currPage",
@@ -140,7 +141,7 @@
       "dept_default": "학생맞춤지원담당관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu07/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1216",
         "page_param": "q_currPage",
@@ -161,7 +162,7 @@
       "dept_default": "노사협력담당관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu08/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1232",
         "page_param": "q_currPage",
@@ -182,7 +183,7 @@
       "dept_default": "교육협력담당관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu09/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1236",
         "page_param": "q_currPage",
@@ -203,7 +204,7 @@
       "dept_default": "창의미래교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu10/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1240",
         "page_param": "q_currPage",
@@ -224,7 +225,7 @@
       "dept_default": "유아교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu11/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1258",
         "page_param": "q_currPage",
@@ -245,7 +246,7 @@
       "dept_default": "초등교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu12/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1266",
         "page_param": "q_currPage",
@@ -266,7 +267,7 @@
       "dept_default": "중등교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu13/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1288",
         "page_param": "q_currPage",
@@ -287,7 +288,7 @@
       "dept_default": "평생교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu14/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1321",
         "page_param": "q_currPage",
@@ -308,7 +309,7 @@
       "dept_default": "민주시민교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu15/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1331",
         "page_param": "q_currPage",
@@ -329,7 +330,7 @@
       "dept_default": "진로직업교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu16/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1345",
         "page_param": "q_currPage",
@@ -350,7 +351,7 @@
       "dept_default": "체육건강예술교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu17/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1360",
         "page_param": "q_currPage",
@@ -371,7 +372,7 @@
       "dept_default": "학교지원과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu18/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1385",
         "page_param": "q_currPage",
@@ -392,7 +393,7 @@
       "dept_default": "교육재정과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu19/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1401",
         "page_param": "q_currPage",
@@ -413,7 +414,7 @@
       "dept_default": "교육시설안전과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu20/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1412",
         "page_param": "q_currPage",
@@ -434,7 +435,7 @@
       "dept_default": "특수교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu21/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1420",
         "page_param": "q_currPage",
@@ -455,7 +456,7 @@
       "dept_default": "미래학교추진단",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu23/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1430",
         "page_param": "q_currPage",
@@ -476,7 +477,7 @@
       "dept_default": "안전총괄담당관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu27/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1452",
         "page_param": "q_currPage",
@@ -497,7 +498,7 @@
       "dept_default": "학생역량·혁신교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu28/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1454",
         "page_param": "q_currPage",
@@ -518,7 +519,7 @@
       "dept_default": "유보통합추진단",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://buseo.sen.go.kr/buseo/bu30/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1484",
         "page_param": "q_currPage",
@@ -539,7 +540,7 @@
       "dept_default": "소통담당관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=955",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=955&nttSn=",
@@ -561,7 +562,7 @@
       "dept_default": "감사관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=128",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=128&nttSn=",
@@ -583,7 +584,7 @@
       "dept_default": "미래기획관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=130",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=130&nttSn=",
@@ -605,7 +606,7 @@
       "dept_default": "학교정책과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1040988",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1040988&nttSn=",
@@ -627,7 +628,7 @@
       "dept_default": "유초등교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1183",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1183&nttSn=",
@@ -649,7 +650,7 @@
       "dept_default": "중등교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=136",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=136&nttSn=",
@@ -671,7 +672,7 @@
       "dept_default": "교원인사과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=134",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=134&nttSn=",
@@ -693,7 +694,7 @@
       "dept_default": "운영지원과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=138",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=138&nttSn=",
@@ -715,7 +716,7 @@
       "dept_default": "재무행정과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=142",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=142&nttSn=",
@@ -737,7 +738,7 @@
       "dept_default": "교육복지과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1309",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1309&nttSn=",
@@ -759,7 +760,7 @@
       "dept_default": "교육시설과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=702",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=702&nttSn=",
@@ -781,7 +782,7 @@
       "dept_default": "조직예산과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=132",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=132&nttSn=",
@@ -803,7 +804,7 @@
       "dept_default": "학교안전과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1040944",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1040944&nttSn=",
@@ -825,7 +826,7 @@
       "dept_default": "노사정책과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "허용",
-      "max_pages": 3,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.sje.go.kr/sje/na/ntt/selectNttList.do?mi=52522&bbsId=1040989",
         "view_url": "https://www.sje.go.kr/sje/na/ntt/selectNttInfo.do?mi=52522&bbsId=1040989&nttSn=",
@@ -846,7 +847,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-10/na/ntt/selectNttList.do?bbsId=1545&mi=10989",
         "view_url": "https://www.cbe.go.kr/dept-10/na/ntt/selectNttInfo.do?bbsId=1545&mi=10989&nttSn=",
@@ -868,7 +869,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-10/na/ntt/selectNttList.do?bbsId=1627&mi=11302",
         "view_url": "https://www.cbe.go.kr/dept-10/na/ntt/selectNttInfo.do?bbsId=1627&mi=11302&nttSn=",
@@ -890,7 +891,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttList.do?bbsId=1394&mi=11007",
         "view_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttInfo.do?bbsId=1394&mi=11007&nttSn=",
@@ -912,7 +913,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttList.do?bbsId=1412&mi=11025",
         "view_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttInfo.do?bbsId=1412&mi=11025&nttSn=",
@@ -934,7 +935,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttList.do?bbsId=1396&mi=11009",
         "view_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttInfo.do?bbsId=1396&mi=11009&nttSn=",
@@ -956,7 +957,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttList.do?bbsId=1410&mi=11023",
         "view_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttInfo.do?bbsId=1410&mi=11023&nttSn=",
@@ -978,7 +979,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttList.do?bbsId=1407&mi=11020",
         "view_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttInfo.do?bbsId=1407&mi=11020&nttSn=",
@@ -1000,7 +1001,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-14/na/ntt/selectNttList.do?bbsId=1564&mi=11048",
         "view_url": "https://www.cbe.go.kr/dept-14/na/ntt/selectNttInfo.do?bbsId=1564&mi=11048&nttSn=",
@@ -1022,7 +1023,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-14/na/ntt/selectNttList.do?bbsId=1560&mi=11052",
         "view_url": "https://www.cbe.go.kr/dept-14/na/ntt/selectNttInfo.do?bbsId=1560&mi=11052&nttSn=",
@@ -1044,7 +1045,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-15/na/ntt/selectNttList.do?bbsId=1631&mi=11306",
         "view_url": "https://www.cbe.go.kr/dept-15/na/ntt/selectNttInfo.do?bbsId=1631&mi=11306&nttSn=",
@@ -1066,7 +1067,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-15/na/ntt/selectNttList.do?bbsId=1810&mi=11079",
         "view_url": "https://www.cbe.go.kr/dept-15/na/ntt/selectNttInfo.do?bbsId=1810&mi=11079&nttSn=",
@@ -1088,7 +1089,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-15/na/ntt/selectNttList.do?bbsId=1629&mi=11304",
         "view_url": "https://www.cbe.go.kr/dept-15/na/ntt/selectNttInfo.do?bbsId=1629&mi=11304&nttSn=",
@@ -1110,7 +1111,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-15/na/ntt/selectNttList.do?bbsId=1812&mi=11082",
         "view_url": "https://www.cbe.go.kr/dept-15/na/ntt/selectNttInfo.do?bbsId=1812&mi=11082&nttSn=",
@@ -1132,7 +1133,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-16/na/ntt/selectNttList.do?bbsId=1567&mi=11098",
         "view_url": "https://www.cbe.go.kr/dept-16/na/ntt/selectNttInfo.do?bbsId=1567&mi=11098&nttSn=",
@@ -1154,7 +1155,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttList.do?bbsId=2024&mi=14444",
         "view_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttInfo.do?bbsId=2024&mi=14444&nttSn=",
@@ -1176,7 +1177,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttList.do?bbsId=1452&mi=11150",
         "view_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttInfo.do?bbsId=1452&mi=11150&nttSn=",
@@ -1198,7 +1199,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttList.do?bbsId=1610&mi=11283",
         "view_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttInfo.do?bbsId=1610&mi=11283&nttSn=",
@@ -1220,7 +1221,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttList.do?bbsId=1548&mi=13278",
         "view_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttInfo.do?bbsId=1548&mi=13278&nttSn=",
@@ -1242,7 +1243,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttList.do?bbsId=1626&mi=11301",
         "view_url": "https://www.cbe.go.kr/dept-19/na/ntt/selectNttInfo.do?bbsId=1626&mi=11301&nttSn=",
@@ -1264,7 +1265,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttList.do?bbsId=1655&mi=11215",
         "view_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttInfo.do?bbsId=1655&mi=11215&nttSn=",
@@ -1286,7 +1287,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttList.do?bbsId=1660&mi=11220",
         "view_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttInfo.do?bbsId=1660&mi=11220&nttSn=",
@@ -1308,7 +1309,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttList.do?bbsId=1668&mi=11073",
         "view_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttInfo.do?bbsId=1668&mi=11073&nttSn=",
@@ -1330,7 +1331,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttList.do?bbsId=1659&mi=11219",
         "view_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttInfo.do?bbsId=1659&mi=11219&nttSn=",
@@ -1352,7 +1353,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttList.do?bbsId=1656&mi=11216",
         "view_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttInfo.do?bbsId=1656&mi=11216&nttSn=",
@@ -1374,7 +1375,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-23/na/ntt/selectNttList.do?bbsId=1654&mi=11230",
         "view_url": "https://www.cbe.go.kr/dept-23/na/ntt/selectNttInfo.do?bbsId=1654&mi=11230&nttSn=",
@@ -1396,7 +1397,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-23/na/ntt/selectNttList.do?bbsId=1642&mi=11239",
         "view_url": "https://www.cbe.go.kr/dept-23/na/ntt/selectNttInfo.do?bbsId=1642&mi=11239&nttSn=",
@@ -1418,7 +1419,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-24/na/ntt/selectNttList.do?bbsId=1600&mi=11253",
         "view_url": "https://www.cbe.go.kr/dept-24/na/ntt/selectNttInfo.do?bbsId=1600&mi=11253&nttSn=",
@@ -1440,7 +1441,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-24/na/ntt/selectNttList.do?bbsId=1599&mi=11252",
         "view_url": "https://www.cbe.go.kr/dept-24/na/ntt/selectNttInfo.do?bbsId=1599&mi=11252&nttSn=",
@@ -1462,7 +1463,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttList.do?bbsId=1976&mi=13646",
         "view_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttInfo.do?bbsId=1976&mi=13646&nttSn=",
@@ -1484,7 +1485,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttList.do?bbsId=1487&mi=13270",
         "view_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttInfo.do?bbsId=1487&mi=13270&nttSn=",
@@ -1506,7 +1507,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttList.do?bbsId=1966&mi=13655",
         "view_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttInfo.do?bbsId=1966&mi=13655&nttSn=",
@@ -1528,7 +1529,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttList.do?bbsId=1957&mi=13637",
         "view_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttInfo.do?bbsId=1957&mi=13637&nttSn=",
@@ -1550,7 +1551,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttList.do?bbsId=1097&mi=10106",
         "view_url": "https://www.cbe.go.kr/dept-25/na/ntt/selectNttInfo.do?bbsId=1097&mi=10106&nttSn=",
@@ -1572,7 +1573,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-26/na/ntt/selectNttList.do?bbsId=2020&mi=14407",
         "view_url": "https://www.cbe.go.kr/dept-26/na/ntt/selectNttInfo.do?bbsId=2020&mi=14407&nttSn=",
@@ -1594,7 +1595,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cbe.go.kr/dept-27/na/ntt/selectNttList.do?bbsId=2010&mi=14280",
         "view_url": "https://www.cbe.go.kr/dept-27/na/ntt/selectNttInfo.do?bbsId=2010&mi=14280&nttSn=",
@@ -1616,7 +1617,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.gbe.kr/main/na/ntt/selectNttList.do?bbsId=1850&mi=3364",
         "view_url": "https://www.gbe.kr/main/na/ntt/selectNttInfo.do?bbsId=1850&mi=3364&nttSn=",
@@ -1637,7 +1638,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.gbe.kr/main/na/ntt/selectNttList.do?bbsId=1876&mi=3439",
         "view_url": "https://www.gbe.kr/main/na/ntt/selectNttInfo.do?bbsId=1876&mi=3439&nttSn=",
@@ -1658,7 +1659,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.gbe.kr/main/na/ntt/selectNttList.do?bbsId=1886&mi=3547",
         "view_url": "https://www.gbe.kr/main/na/ntt/selectNttInfo.do?bbsId=1886&mi=3547&nttSn=",
@@ -1679,7 +1680,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.gbe.kr/main/na/ntt/selectNttList.do?bbsId=2718&mi=3704",
         "view_url": "https://www.gbe.kr/main/na/ntt/selectNttInfo.do?bbsId=2718&mi=3704&nttSn=",
@@ -1700,7 +1701,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.gbe.kr/main/na/ntt/selectNttList.do?bbsId=1837&mi=3313",
         "view_url": "https://www.gbe.kr/main/na/ntt/selectNttInfo.do?bbsId=1837&mi=3313&nttSn=",
@@ -1721,7 +1722,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.gbe.kr/main/na/ntt/selectNttList.do?bbsId=1841&mi=3317",
         "view_url": "https://www.gbe.kr/main/na/ntt/selectNttInfo.do?bbsId=1841&mi=3317&nttSn=",
@@ -1742,7 +1743,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.gbe.kr/main/na/ntt/selectNttList.do?bbsId=1885&mi=19865",
         "view_url": "https://www.gbe.kr/main/na/ntt/selectNttInfo.do?bbsId=1885&mi=19865&nttSn=",
@@ -1763,7 +1764,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.gbe.kr/main/na/ntt/selectNttList.do?bbsId=3418&mi=11575",
         "view_url": "https://www.gbe.kr/main/na/ntt/selectNttInfo.do?bbsId=3418&mi=11575&nttSn=",
@@ -1784,7 +1785,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2347&mi=30492",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2347&mi=30492&nttSn=",
@@ -1805,7 +1806,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2349&mi=30499",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2349&mi=30499&nttSn=",
@@ -1826,7 +1827,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2444&mi=30547",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2444&mi=30547&nttSn=",
@@ -1847,7 +1848,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2445&mi=30595",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2445&mi=30595&nttSn=",
@@ -1868,7 +1869,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2481&mi=30647",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2481&mi=30647&nttSn=",
@@ -1889,7 +1890,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2609&mi=30297",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2609&mi=30297&nttSn=",
@@ -1910,7 +1911,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2371&mi=30503",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2371&mi=30503&nttSn=",
@@ -1931,7 +1932,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2396&mi=30814",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2396&mi=30814&nttSn=",
@@ -1952,7 +1953,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2451&mi=30887",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2451&mi=30887&nttSn=",
@@ -1973,7 +1974,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2506&mi=30998",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2506&mi=30998&nttSn=",
@@ -1994,7 +1995,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2509&mi=31001",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2509&mi=31001&nttSn=",
@@ -2015,7 +2016,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2512&mi=31004",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2512&mi=31004&nttSn=",
@@ -2036,7 +2037,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2518&mi=31012",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2518&mi=31012&nttSn=",
@@ -2057,7 +2058,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2460&mi=31035",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2460&mi=31035&nttSn=",
@@ -2078,7 +2079,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2465&mi=31037",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2465&mi=31037&nttSn=",
@@ -2099,7 +2100,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2535&mi=31062",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2535&mi=31062&nttSn=",
@@ -2120,7 +2121,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2585&mi=31073",
         "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2585&mi=31073&nttSn=",
@@ -2141,7 +2142,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=2137&mi=12227",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=2137&mi=12227&nttSn=",
@@ -2162,7 +2163,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=1802&mi=11749",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=1802&mi=11749&nttSn=",
@@ -2183,7 +2184,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=1681&mi=11766",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=1681&mi=11766&nttSn=",
@@ -2204,7 +2205,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=1687&mi=11782",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=1687&mi=11782&nttSn=",
@@ -2225,7 +2226,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=1701&mi=11644",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=1701&mi=11644&nttSn=",
@@ -2246,7 +2247,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=1702&mi=11810",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=1702&mi=11810&nttSn=",
@@ -2267,7 +2268,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=1707&mi=10932",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=1707&mi=10932&nttSn=",
@@ -2288,7 +2289,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=1731&mi=11862",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=1731&mi=11862&nttSn=",
@@ -2309,7 +2310,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=1737&mi=10953",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=1737&mi=10953&nttSn=",
@@ -2330,7 +2331,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.ice.go.kr/ice/na/ntt/selectNttList.do?bbsId=1743&mi=11888",
         "view_url": "https://www.ice.go.kr/ice/na/ntt/selectNttInfo.do?bbsId=1743&mi=11888&nttSn=",
@@ -2346,19 +2347,20 @@
       "menu_path": "기관별감사계획",
       "collector_type": "dge",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리 제1유형(출처표시)",
       "robots": "허용",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=4967",
         "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1028&mi=4967&nttSn=",
         "page_param": "currPage",
         "bbs_sn": "1028",
         "base": "https://www.dge.go.kr"
-      }
+      },
+      "note": "수집 0건(계획 없음) → 비활성"
     },
     {
       "id": "daegu-1041",
@@ -2372,7 +2374,7 @@
       "keep_all": false,
       "license": "공공누리 제1유형(출처표시)",
       "robots": "허용",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1041&mi=5019",
         "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1041&mi=5019&nttSn=",
@@ -2393,7 +2395,7 @@
       "keep_all": false,
       "license": "공공누리 제1유형(출처표시)",
       "robots": "허용",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1096&mi=5762",
         "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1096&mi=5762&nttSn=",
@@ -2414,7 +2416,7 @@
       "keep_all": false,
       "license": "공공누리 제1유형(출처표시)",
       "robots": "허용",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1072&mi=5703",
         "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1072&mi=5703&nttSn=",
@@ -2435,7 +2437,7 @@
       "keep_all": false,
       "license": "공공누리 제1유형(출처표시)",
       "robots": "허용",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1080&mi=5711",
         "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1080&mi=5711&nttSn=",
@@ -2456,7 +2458,7 @@
       "keep_all": false,
       "license": "공공누리 제1유형(출처표시)",
       "robots": "허용",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dge.go.kr/main/na/ntt/selectNttList.do?bbsId=1092&mi=5748",
         "view_url": "https://www.dge.go.kr/main/na/ntt/selectNttInfo.do?bbsId=1092&mi=5748&nttSn=",
@@ -2477,7 +2479,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=569&m=021903&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2503,7 +2505,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10453&m=0302&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2529,7 +2531,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=451&m=030102&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2555,7 +2557,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=65&m=031702&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2581,7 +2583,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=546&m=031201&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2607,7 +2609,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=46&m=030602&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2633,7 +2635,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10395&m=031401&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2659,7 +2661,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=282&m=1702&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2685,7 +2687,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10650&m=2001&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2711,7 +2713,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=10477&m=0203&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2737,7 +2739,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=77&m=101604&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2758,12 +2760,12 @@
       "menu_path": "공무국외출장공개",
       "collector_type": "dje",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "제한(robots.txt Disallow /)",
-      "max_pages": 1,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.dje.go.kr/boardCnts/list.do?boardID=573&m=101502&s=dje",
         "post_url": "https://www.dje.go.kr/boardCnts/list.do",
@@ -2775,7 +2777,8 @@
         },
         "page_param": "page",
         "base": "https://www.dje.go.kr"
-      }
+      },
+      "note": "수집 0건(계획 없음) → 비활성"
     },
     {
       "id": "gwangju-30",
@@ -2789,7 +2792,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "http://www.gen.go.kr/opengen/xboard/board.php?tbnum=30",
         "page_param": "page",
@@ -2808,7 +2811,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=162",
         "page_param": "page",
@@ -2827,7 +2830,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=130",
         "page_param": "page",
@@ -2846,7 +2849,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=406",
         "page_param": "page",
@@ -2865,7 +2868,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=258",
         "page_param": "page",
@@ -2884,7 +2887,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=156",
         "page_param": "page",
@@ -2903,7 +2906,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=320",
         "page_param": "page",
@@ -2922,7 +2925,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=408",
         "page_param": "page",
@@ -2941,7 +2944,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=931&m=021607&s=cne",
         "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=931&lev=0&m=021607&s=cne&boardSeq=",
@@ -2961,7 +2964,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=926&m=021603&s=cne",
         "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=926&lev=0&m=021603&s=cne&boardSeq=",
@@ -2981,7 +2984,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=927&m=021604&s=cne",
         "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=927&lev=0&m=021604&s=cne&boardSeq=",
@@ -3001,7 +3004,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=11081&m=031401&s=cne",
         "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=11081&lev=0&m=031401&s=cne&boardSeq=",
@@ -3021,7 +3024,7 @@
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://www.cne.go.kr/boardCnts/list.do?boardID=21493&m=080219&s=cne",
         "view_url": "https://www.cne.go.kr/boardCnts/view.do?boardID=21493&lev=0&m=080219&s=cne&boardSeq=",
@@ -3036,19 +3039,20 @@
       "menu_path": "부서별누리집 > 감사관 > 자료실",
       "collector_type": "gne",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "dept_default": "감사관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1950",
         "page_param": "q_currPage",
         "bbs_sn": "1950",
         "base": "https://use.go.kr"
-      }
+      },
+      "note": "수집 0건(계획 없음) → 비활성"
     },
     {
       "id": "ulsan-1971",
@@ -3057,19 +3061,20 @@
       "menu_path": "부서별누리집 > 중등교육과 > 자료실",
       "collector_type": "gne",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "dept_default": "중등교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1971",
         "page_param": "q_currPage",
         "bbs_sn": "1971",
         "base": "https://use.go.kr"
-      }
+      },
+      "note": "수집 0건(계획 없음) → 비활성"
     },
     {
       "id": "ulsan-1977",
@@ -3084,7 +3089,7 @@
       "dept_default": "중등교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1977",
         "page_param": "q_currPage",
@@ -3105,7 +3110,7 @@
       "dept_default": "미래교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1981",
         "page_param": "q_currPage",
@@ -3126,7 +3131,7 @@
       "dept_default": "체육예술건강과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1989",
         "page_param": "q_currPage",
@@ -3147,7 +3152,7 @@
       "dept_default": "교육협력담당관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1955",
         "page_param": "q_currPage",
@@ -3168,7 +3173,7 @@
       "dept_default": "정책관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1961",
         "page_param": "q_currPage",
@@ -3189,7 +3194,7 @@
       "dept_default": "교육혁신과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1964",
         "page_param": "q_currPage",
@@ -3210,7 +3215,7 @@
       "dept_default": "체육예술건강과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1994",
         "page_param": "q_currPage",
@@ -3231,7 +3236,7 @@
       "dept_default": "정책관",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2007",
         "page_param": "q_currPage",
@@ -3252,7 +3257,7 @@
       "dept_default": "민주시민교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2000",
         "page_param": "q_currPage",
@@ -3273,7 +3278,7 @@
       "dept_default": "교육여건개선과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2034",
         "page_param": "q_currPage",
@@ -3294,7 +3299,7 @@
       "dept_default": "민주시민교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1999",
         "page_param": "q_currPage",
@@ -3309,19 +3314,20 @@
       "menu_path": "부서별누리집 > 교육여건개선과 > 자료실",
       "collector_type": "gne",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "dept_default": "교육여건개선과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2032",
         "page_param": "q_currPage",
         "bbs_sn": "2032",
         "base": "https://use.go.kr"
-      }
+      },
+      "note": "수집 0건(계획 없음) → 비활성"
     },
     {
       "id": "ulsan-1998",
@@ -3336,7 +3342,7 @@
       "dept_default": "민주시민교육과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=1998",
         "page_param": "q_currPage",
@@ -3357,7 +3363,7 @@
       "dept_default": "재정복지과",
       "license": "공공누리(기관 표기 확인)",
       "robots": "확인 필요",
-      "max_pages": 2,
+      "max_pages": 5,
       "config": {
         "list_url": "https://use.go.kr/user/bbs/BD_selectBbsList.do?q_rowPerPage=50&q_bbsSn=2005",
         "page_param": "q_currPage",

@@ -11,6 +11,9 @@ config/offices.json + config/boards.json 을 읽어 활성 게시판을 교육�
 import os, sys, json, argparse, datetime
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+# 첨부파일은 수집하지 않는다(원문 링크로 연결). 목록 페이지만 수집해 빠르고 정중하게 동작.
+os.environ.setdefault("SKIP_DETAIL", "1")
+
 from collectors import base_collector as bc
 from collectors import (jbe_collector, goe_collector, jje_collector, gwe_collector,
                         gne_collector, dje_collector, dge_collector, gen_collector,
