@@ -67,13 +67,18 @@ jobs:
 
           # 실패한 게시판 로그
           fails = [l for l in d.get('logs', []) if l.get('status') == '실패']
-          zero  = [l for l in d.get('logs', []) if l.get('status') != '실패'
-                   and l.get('new_count', 0) + l.get('updated_count', 0) == 0]
+          # '수집 0건' = 목록을 아예 못 읽은 게시판(파서 깨짐 의심).
+          # 새 글이 없어 new/updated가 0인 것은 정상이므로 경고하지 않는다.
+          docs_by_board = {}
+          for x in d['documents']:
+              docs_by_board[x['board_id']] = docs_by_board.get(x['board_id'], 0) + 1
+          zero = [l for l in d.get('logs', [])
+                  if l.get('status') != '실패' and docs_by_board.get(l['board_id'], 0) == 0]
           if fails:
               print(f"::warning::수집 실패 게시판 {len(fails)}개: " +
                     ", ".join(l['board_id'] for l in fails[:10]))
           if zero:
-              print(f"::warning::0건 게시판 {len(zero)}개: " +
+              print(f"::warning::문서 0건 게시판 {len(zero)}개(파서 점검 대상): " +
                     ", ".join(l['board_id'] for l in zero[:10]))
 
           # 이전 대비 20% 이상 급감하면 실패 처리(파서 깨짐 조기 감지)
@@ -85,7 +90,7 @@ jobs:
                       f"- 문서: **{before} → {after}**\n"
                       f"- 정책계획서: **{plans}건**\n"
                       f"- 교육청: **{offices}곳** / 게시판 {d['coverage']['boards']}개\n"
-                      f"- 실패 게시판: {len(fails)}개 / 0건 게시판: {len(zero)}개\n")
+                      f"- 실패 게시판: {len(fails)}개 / 문서 0건 게시판: {len(zero)}개\n")
           PY
 
       - name: 변경분 커밋
@@ -94,8 +99,20 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if git diff --quiet -- data/documents.json; then
             echo "변경 없음"
-          else
-            git add data/documents.json
-            git commit -m "chore: 정책계획 수집 ($(TZ=Asia/Seoul date '+%Y-%m-%d'))"
-            git push
+            exit 0
           fi
+          git add data/documents.json
+          git commit -m "chore: 정책계획 수집 ($(TZ=Asia/Seoul date '+%Y-%m-%d'))"
+          # 다른 워크플로(게시판 재발견 등)가 먼저 푸시했을 수 있으므로
+          # rebase 후 재시도한다. 수집 결과는 이미 커밋돼 있어 유실되지 않는다.
+          for i in 1 2 3; do
+            if git push; then
+              echo "푸시 성공"
+              exit 0
+            fi
+            echo "푸시 충돌 — 원격 변경분을 가져와 재시도 ($i/3)"
+            git pull --rebase --autostash origin main || git rebase --abort
+            sleep 5
+          done
+          echo "::error::3회 시도 후에도 푸시 실패"
+          exit 1
