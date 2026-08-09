@@ -42,9 +42,9 @@ def collect(board, session, log):
             date = ""
             dept = ""
             for t in tds:
-                mm = re.search(r"(20\d{2})[-.](\d{1,2})[-.](\d{1,2})", t)
+                mm = bc.parse_date(t)
                 if mm:
-                    date = f"{mm.group(1)}-{int(mm.group(2)):02d}-{int(mm.group(3)):02d}"
+                    date = date or mm
                 elif t and t != title and re.search(r"(과|관|담당관|단|실)$", t) and len(t) <= 12:
                     dept = dept or t
             raws.append({

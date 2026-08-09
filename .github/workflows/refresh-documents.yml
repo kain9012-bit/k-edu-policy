@@ -36,7 +36,7 @@ jobs:
       - name: 의존성 설치
         run: |
           pip install -r requirements.txt
-          python -m playwright install --with-deps chromium   # 원문정보 수집용
+          python -m playwright install --with-deps chromium   # 정보공개포털 수집용
 
       - name: 수집 전 건수 기록
         id: before
@@ -55,11 +55,15 @@ jobs:
             python scripts/collect_documents.py
           fi
 
-      - name: 원문정보 수집 (증분)
-        # 정보공개포털에서 각 교육청이 결재한 계획 문서 목록을 수집(최근 3일).
+      - name: 내부결재 계획 수집 (증분)
+        # 정보공개포털 정보목록+원문정보에서 각 교육청 본청이 결재한 계획을 수집(최근 5일).
         # 실패해도 게시판 수집 결과는 살리기 위해 continue-on-error.
+        #
+        # ※ 원본(data/infolist_raw.json)은 저장소에 없다(.gitignore). Actions에서는
+        #   매번 화면용 파일에 이어붙는 형태가 되므로, 필터를 고쳤을 때의 전면
+        #   재적용은 로컬에서 --refilter 로 한 뒤 커밋한다.
         continue-on-error: true
-        run: python scripts/collect_openinfo.py --days 3
+        run: python scripts/collect_infolist.py --days 5
 
       - name: 수집 결과 검증 (급감 감지)
         id: verify
@@ -105,12 +109,12 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- data/documents.json data/openinfo.json; then
+          if git diff --quiet -- data/documents.json data/infolist.json; then
             echo "변경 없음"
             exit 0
           fi
-          git add data/documents.json data/openinfo.json
-          git commit -m "chore: 정책계획·원문정보 수집 ($(TZ=Asia/Seoul date '+%Y-%m-%d'))"
+          git add data/documents.json data/infolist.json
+          git commit -m "chore: 정책계획·내부결재 계획 수집 ($(TZ=Asia/Seoul date '+%Y-%m-%d'))"
           # 다른 워크플로(게시판 재발견 등)가 먼저 푸시했을 수 있으므로
           # rebase 후 재시도한다. 수집 결과는 이미 커밋돼 있어 유실되지 않는다.
           for i in 1 2 3; do

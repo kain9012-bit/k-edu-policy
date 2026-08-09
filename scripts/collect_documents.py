@@ -44,10 +44,15 @@ def run(office_filter=None):
 
     # 기존 문서 로드(병합)
     existing = {}
+    prev_sources = {}       # 게시판별 직전 수집이력(이번에 안 돈 게시판의 시각을 보존)
     if os.path.exists(DATA_PATH):
         try:
-            for d in json.load(open(DATA_PATH, encoding="utf-8")).get("documents", []):
+            _prev = json.load(open(DATA_PATH, encoding="utf-8"))
+            for d in _prev.get("documents", []):
                 existing[d["id"]] = d
+            for s in _prev.get("sources", []):
+                if s.get("board_id"):
+                    prev_sources[s["board_id"]] = s
         except Exception:
             pass
 
@@ -103,8 +108,23 @@ def run(office_filter=None):
         if not board.get("is_active") or not off or not off.get("is_active"):
             continue
         bdocs = [d for d in docs if d["board_id"] == board["id"]]
-        blog = next((l for l in logs if l["board_id"] == board["id"]), {})
+        blog = next((l for l in logs if l["board_id"] == board["id"]), None)
+        prev = prev_sources.get(board["id"], {})
+
+        # last_attempt : 마지막으로 이 게시판에 '접근을 시도한' 시각(실패 포함)
+        # last_success : 마지막으로 목록을 정상적으로 읽어낸 시각
+        # 이번 실행에서 안 돈 게시판(--office 지정 등)은 직전 값을 그대로 승계한다.
+        if blog:
+            attempt = blog.get("finished_at") or blog.get("started_at", "")
+            success = attempt if blog.get("status") != "실패" else prev.get("last_success", "")
+            status = blog.get("status", "")
+        else:
+            attempt = prev.get("last_attempt", "")
+            success = prev.get("last_success", "")
+            status = prev.get("status", "")
+
         sources.append({
+            "board_id": board["id"],
             "office": off["short_name"], "office_name": off["name"],
             "board_name": board["board_name"], "board_type": board["board_type"],
             "menu_path": board.get("menu_path", ""),
@@ -115,9 +135,41 @@ def run(office_filter=None):
             "rss": bool(board.get("rss")),
             "count": len(bdocs),
             "plan_count": sum(1 for d in bdocs if d["classification_status"] == "정책계획서"),
-            "last_collected": blog.get("finished_at") or blog.get("started_at", ""),
+            "latest_post_date": max((d.get("published_date") or "" for d in bdocs), default=""),
+            # 게시일을 못 읽은 문서 수. 많으면 '최신 계획서' 표시가 왜곡되므로 파서 점검 대상.
+            "undated": sum(1 for d in bdocs if not d.get("published_date")),
+            "last_attempt": attempt,
+            "last_success": success,
+            "status": status,
+            "last_collected": attempt,      # 이전 버전 호환
         })
     total_offices = sum(1 for o in offices.values() if o.get("is_active"))
+
+    # 교육청 단위 요약 — 사용자가 가장 먼저 보는 정보
+    office_stats = []
+    for oid, off in offices.items():
+        if not off.get("is_active"):
+            continue
+        osrc = [s for s in sources if s["office"] == off["short_name"]]
+        if not osrc:
+            continue
+        odocs = [d for d in docs if d["office"] == oid]
+        office_stats.append({
+            "office": oid,
+            "short_name": off["short_name"],
+            "name": off["name"],
+            "homepage": off.get("homepage", ""),
+            "boards": len(osrc),
+            "count": len(odocs),
+            "plan_count": sum(1 for d in odocs if d["classification_status"] == "정책계획서"),
+            "latest_post_date": max((d.get("published_date") or "" for d in odocs), default=""),
+            "undated": sum(1 for d in odocs if not d.get("published_date")),
+            "last_attempt": max((s["last_attempt"] for s in osrc if s["last_attempt"]), default=""),
+            "last_success": max((s["last_success"] for s in osrc if s["last_success"]), default=""),
+            "failed_boards": sum(1 for s in osrc if s["status"] == "실패"),
+            "empty_boards": sum(1 for s in osrc if s["count"] == 0),
+        })
+    office_stats.sort(key=lambda x: -x["plan_count"])
 
     def uniq(key):
         return sorted({v for d in docs for v in ([d[key]] if isinstance(d[key], str) else d[key]) if v})
@@ -133,6 +185,7 @@ def run(office_filter=None):
         "count": len(docs),
         "coverage": {"connected": len({s["office"] for s in sources}), "total": 16,
                      "boards": len(sources), "active_offices": total_offices},
+        "office_stats": office_stats,
         "sources": sources,
         "logs": logs,
         "documents": docs,

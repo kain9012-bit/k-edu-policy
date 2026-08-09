@@ -46,8 +46,8 @@ def collect(board, session, log):
             dept = ""
             date = ""
             for t in tds:
-                if re.fullmatch(r"20\d{2}-\d{2}-\d{2}", t):
-                    date = t
+                if bc.parse_date(t):
+                    date = date or bc.parse_date(t)
                 elif t and t != title and not t.isdigit() and "과" in t and len(t) <= 12:
                     dept = dept or t
             post_url = urljoin(base_list, href) if href else \

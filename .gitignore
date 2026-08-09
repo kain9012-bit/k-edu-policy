@@ -12,3 +12,9 @@ secrets.*
 # OS
 .DS_Store
 Thumbs.db
+
+# 원문정보/정보목록 원본(계획 판별 전).
+# 필터를 고쳤을 때 --refilter 로 다시 뽑기 위한 로컬 보관용이라
+# 웹에는 쓰이지 않는다. 1년치가 45MB나 되고 매일 통째로 바뀌어서
+# 커밋하면 저장소가 급격히 커진다.
+data/infolist_raw.json

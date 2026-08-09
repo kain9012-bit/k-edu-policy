@@ -44,7 +44,7 @@ def collect(board, session, log):
             seq = m.group(2)
             seen.add(seq); added += 1
             tds = [re.sub(r"\s+", " ", td.get_text(" ", strip=True)) for td in tr.select("td")]
-            date = next((t for t in tds if re.fullmatch(r"20\d{2}[-.]\d{2}[-.]\d{2}", t)), "")
+            date = bc.pick_date(tds)
             author = next((t for t in tds if "*" in t), "")
             raws.append({
                 "external_post_id": seq,

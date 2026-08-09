@@ -55,8 +55,8 @@ def collect(board, session, log):
             author = ""
             date = ""
             for t in tds:
-                if re.fullmatch(r"20\d{2}-\d{2}-\d{2}", t):
-                    date = t
+                if bc.parse_date(t):
+                    date = date or bc.parse_date(t)
                 elif t and not t.isdigit() and len(t) <= 8 and t not in raw_title and not re.search(r"계획|알림", t):
                     author = author or t
             raws.append({

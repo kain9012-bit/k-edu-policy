@@ -30,7 +30,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "data", "openinfo.json")
 LIST_PAGE = "https://www.open.go.kr/othicInfo/infoList/orginlInfoList.do"
 DETAIL = "https://www.open.go.kr/othicInfo/infoList/infoListDetl.do"
-ROWS = 500          # 페이지당 건수(최대 1000까지 동작) — 요청 수를 크게 줄인다
+ROWS = 1000         # 하루치를 한 번에 받기 위한 최대값(실측 최다일 735건)
 DELAY = 1.2         # 요청 간격(초) — 서버 부담을 줄인다
 
 # 제외어: 회계·서무·인사 등 정책계획이 아닌 결재문서
@@ -66,27 +66,30 @@ def is_plan(title):
     return bool(t) and not any(w in t for w in EXCLUDE)
 
 
-# 소속·직속기관 판별어 (부서 경로 중간에 이런 기관명이 오면 본청이 아니다)
-SUB_ORG = (
-    "교육지원청", "도서관", "연수원", "교육원", "과학관", "수련원", "연구원", "진흥원",
-    "학생교육원", "학생수련원", "유아교육원", "특수교육원", "평생교육원", "교육연수원",
-    "과학교육원", "창의융합교육원", "미래교육연구원", "교육연구정보원", "교육정보원",
-    "학생문화원", "학생교육문화회관", "교육문화회관", "박물관", "체험관", "센터",
-    "문화관", "회관", "학교", "캠퍼스", "유치원", "지원단", "교육대학", "직업전문학교",
-    "학습관", "평생학습관", "교육관", "지원청", "연구정보원", "복지관", "체육관", "지원센터",
+# 소속·직속기관 이름의 '끝'에 오는 말.
+#
+# ※ 반드시 endswith로 판별해야 한다(부분 포함으로 하면 안 된다).
+#   '학교'를 부분 포함으로 검사하면 본청 부서인 '학교혁신과'·'학교지원과'·
+#   '학교혁신국'이 통째로 소속기관으로 오판돼 사라진다. 실제로 그렇게 잘못
+#   걸러져 인천이 89건까지 줄어 있었다.
+SUB_ORG_SUFFIX = (
+    "교육지원청", "지원청", "도서관", "연수원", "교육원", "과학관", "수련원",
+    "연구원", "진흥원", "정보원", "문화원", "박물관", "체험관", "미술관",
+    "회관", "학습관", "문화관", "복지관", "체육관", "과학館",
+    "학교", "캠퍼스", "유치원", "분원", "교육대학", "직업전문학교",
+    "센터", "지원단", "교육청",
 )
-# 본청 내부 조직 단위(국·관 등). '평생학습관'처럼 기관명도 '관'으로 끝나므로
-# SUB_ORG 검사를 먼저 한 뒤에만 사용한다.
-HEAD_UNIT_SUFFIX = ("국", "관", "단", "실", "본부")
-# 기관명에 흔한 지역·수식어가 붙은 조직은 본청 조직이 아니다(예: '서울특별시교육청마포평생학습관')
+# 본청 내부 조직 단위(국·관·실 등). '도서관'도 '관'으로 끝나므로
+# 반드시 SUB_ORG_SUFFIX 검사를 통과한 뒤에만 본다.
+HEAD_UNIT_SUFFIX = ("국", "관", "단", "실", "본부", "부")
+
+
 def _looks_like_institution(token, office):
-    """토큰이 기관명처럼 보이는지: 교육청명을 포함하거나 SUB_ORG 키워드를 가진 경우."""
-    if any(k in token for k in SUB_ORG):
+    """토큰이 별도 기관명처럼 보이는지."""
+    if token.endswith(SUB_ORG_SUFFIX):
         return True
     # '서울특별시교육청○○' 처럼 교육청명이 접두로 붙은 별도 기관
     if office and token.startswith(office) and token != office:
-        return True
-    if token.endswith("교육청"):
         return True
     return False
 
@@ -182,42 +185,58 @@ def save(existing):
     return len(docs)
 
 
-def collect_range(page_obj, kwd, start, end, existing):
-    """start~end(YYYYMMDD) 구간을 페이지 순회하며 수집."""
-    def call(p):
-        for attempt in range(3):
-            res = page_obj.evaluate(JS_FETCH, {"kwd": kwd, "start": start, "end": end,
-                                               "page": p, "rows": ROWS})
-            if res.get("code") == "200":
-                return res
-            # 세션 만료 등 → 목록 페이지 다시 열어 토큰 갱신
-            print(f"    [재인증] code={res.get('code')} — 세션 갱신 ({attempt+1}/3)")
-            page_obj.goto(LIST_PAGE, timeout=60000)
-            page_obj.wait_for_timeout(2500)
-        return None
+def fetch_day(page_obj, kwd, day):
+    """하루치(YYYYMMDD)를 한 번의 요청으로 전부 받는다.
 
-    first = call(1)
-    if not first:
-        print(f"  {start}~{end}: 조회 실패")
-        return 0, 0
-    total = int(first.get("total") or 0)
-    pages = (total + ROWS - 1) // ROWS
-    print(f"  {start}~{end}: 총 {total}건 / {pages}페이지")
+    ※ 페이징을 쓰지 않는 이유(중요):
+      이 API의 sort=s 정렬은 페이지 사이에서 순서가 흔들린다. 여러 페이지를
+      순회하면 같은 문서가 다시 나오고 다른 문서는 건너뛰어진다.
+      실측: 2026-04 한 달(서버 총계 10,690건)을 22페이지 전부 순회해도
+            유니크 8,964건 + 중복 1,726건 — 약 16%가 유실됐다.
+      하루 단위로 끊으면 최대 700여 건이라 rowPage=1000 한 번으로 다 받을 수
+      있어 페이징 자체가 필요 없다. 유실 없는 유일한 방법이다.
+    """
+    for attempt in range(3):
+        res = page_obj.evaluate(JS_FETCH, {"kwd": kwd, "start": day, "end": day,
+                                           "page": 1, "rows": ROWS})
+        if res.get("code") == "200":
+            return res
+        # 세션 만료 등 → 목록 페이지 다시 열어 토큰 갱신
+        print(f"    [재인증] code={res.get('code')} — 세션 갱신 ({attempt+1}/3)")
+        page_obj.goto(LIST_PAGE, timeout=60000)
+        page_obj.wait_for_timeout(2500)
+    return None
+
+
+def collect_range(page_obj, kwd, start, end, existing):
+    """start~end(YYYYMMDD) 구간을 '하루씩' 순회하며 수집한다."""
+    d0 = datetime.datetime.strptime(start, "%Y%m%d").date()
+    d1 = datetime.datetime.strptime(end, "%Y%m%d").date()
     added = skipped = 0
-    for p in range(1, pages + 1):
-        res = first if p == 1 else call(p)
+    cur, i, span = d0, 0, (d1 - d0).days + 1
+    while cur <= d1:
+        i += 1
+        day = cur.strftime("%Y%m%d")
+        res = fetch_day(page_obj, kwd, day)
         if not res:
-            continue
-        for row in res.get("rows") or []:
-            if not is_head_office(row) or not is_plan(row.get("INFO_SJ")):
-                skipped += 1
-                continue
-            d = to_doc(row)
-            existing[d["id"]] = d
-            added += 1
-        if p % 3 == 0:
-            print(f"    …{p}/{pages}페이지 (누적 {len(existing)})")
+            print(f"    [실패] {day} — 건너뜀")
+        else:
+            total = int(res.get("total") or 0)
+            rows = res.get("rows") or []
+            if total > len(rows):
+                # rowPage(1000)를 넘는 날. 지금까지 최대 735건이라 실제로는 거의 없다.
+                print(f"    ::warning:: {day} 총 {total}건 중 {len(rows)}건만 수신 — 유실 가능")
+            for row in rows:
+                if not is_head_office(row) or not is_plan(row.get("INFO_SJ")):
+                    skipped += 1
+                    continue
+                doc = to_doc(row)
+                existing[doc["id"]] = doc
+                added += 1
+        if i % 10 == 0:
+            print(f"    …{i}/{span}일 ({day}) 누적 {len(existing)}건")
             save(existing)          # 중간 저장(중단 대비)
+        cur += datetime.timedelta(days=1)
         time.sleep(DELAY)
     return added, skipped
 

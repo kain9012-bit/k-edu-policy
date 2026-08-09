@@ -48,9 +48,9 @@ def collect(board, session, log):
             dept = tds[2] if len(tds) > 2 else ""
             date = ""
             for t in tds:
-                mm = re.match(r"(20\d{2}-\d{2}-\d{2})", t)
+                mm = bc.parse_date(t)
                 if mm:
-                    date = mm.group(1)
+                    date = mm
                     break
             raws.append({
                 "external_post_id": pid,

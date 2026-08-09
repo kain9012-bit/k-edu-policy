@@ -58,9 +58,9 @@ def collect(board, session, log):
             dept = ""
             date = ""
             for t in tds:
-                mm = re.search(r"(20\d{2}[-.]\d{2}[-.]\d{2})", t)
+                mm = bc.parse_date(t)
                 if mm:
-                    date = mm.group(1).replace(".", "-")
+                    date = date or mm
                 else:
                     tt = re.sub(r"^(부서|게시자|작성자|담당)\s*", "", t).strip()
                     if tt and tt != title and "과" in tt and len(tt) <= 12 and not tt.isdigit():

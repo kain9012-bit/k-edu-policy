@@ -38,8 +38,7 @@ def collect(board, session, log):
             seq = m.group(2)
             seen.add(seq); added += 1
             tds = [re.sub(r"\s+", " ", td.get_text(" ", strip=True)) for td in tr.select("td")]
-            date = next((t.replace(".", "-") for t in tds
-                         if re.fullmatch(r"20\d{2}[-.]\d{2}[-.]\d{2}", t)), "")
+            date = bc.pick_date(tds)
             dept = next((t for t in tds if re.search(r"(과|관|담당관|단|실)$", t) and len(t) <= 12), "")
             raws.append({
                 "external_post_id": seq,

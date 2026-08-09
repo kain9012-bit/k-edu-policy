@@ -47,9 +47,9 @@ def collect(board, session, log):
             for t in tds:
                 if t.startswith("작성자"):
                     author = t.replace("작성자", "").strip()
-                mm = re.search(r"(20\d{2}[-.]\d{2}[-.]\d{2})", t)
+                mm = bc.parse_date(t)
                 if mm:
-                    date = mm.group(1).replace(".", "-")
+                    date = date or mm
             raws.append({
                 "external_post_id": pid,
                 "title": title,

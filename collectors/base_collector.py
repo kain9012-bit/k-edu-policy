@@ -72,6 +72,50 @@ def detect_categories(text):
     return cats or ["기타"]
 
 
+# 게시판마다 날짜 표기가 제각각이라 한 곳에서 처리한다.
+#   2026-08-07 · 2026.8.7 · 2026/08/07 · 20260807 · 26.08.07
+# 구분자를 좁게 잡으면 조용히 날짜가 비어버린다(광주 xboard는 슬래시를 써서
+# 199건 중 167건이 날짜 없이 저장돼 있었다).
+_DATE_RE = re.compile(r"(?<!\d)(\d{2,4})\s*[-./]\s*(\d{1,2})\s*[-./]\s*(\d{1,2})(?!\d)")
+_DATE_COMPACT_RE = re.compile(r"(?<!\d)(20\d{2})(\d{2})(\d{2})(?!\d)")
+
+
+def parse_date(text):
+    """문자열에서 날짜 하나를 찾아 'YYYY-MM-DD'로 반환. 못 찾으면 ''."""
+    if not text:
+        return ""
+    for m in _DATE_RE.finditer(str(text)):
+        y, mo, d = m.group(1), int(m.group(2)), int(m.group(3))
+        y = int(y)
+        if y < 100:                     # '26.08.07' 같은 두 자리 연도
+            y += 2000
+        if 1990 <= y <= 2100 and 1 <= mo <= 12 and 1 <= d <= 31:
+            return f"{y:04d}-{mo:02d}-{d:02d}"
+    m = _DATE_COMPACT_RE.search(str(text))
+    if m:
+        y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3))
+        if 1 <= mo <= 12 and 1 <= d <= 31:
+            return f"{y:04d}-{mo:02d}-{d:02d}"
+    return ""
+
+
+def pick_date(cells):
+    """목록 행의 셀들 중 게시일로 보이는 값을 고른다.
+
+    '2026-2030 학교이전적지 계획' 같은 제목에서 날짜를 잘못 집지 않도록,
+    셀 전체가 날짜인 것(작성일 칼럼)을 먼저 찾고, 없을 때만 본문에서 찾는다.
+    """
+    for t in cells:                      # 1차: 날짜 전용 칼럼
+        s = str(t or "").strip()
+        if len(s) <= 12 and parse_date(s):
+            return parse_date(s)
+    for t in cells:                      # 2차: 문서번호 등에 섞인 날짜
+        d = parse_date(t)
+        if d:
+            return d
+    return ""
+
+
 def extract_year(text, fallback_date=None):
     m = re.findall(r"(20\d{2})", text or "")
     if m:

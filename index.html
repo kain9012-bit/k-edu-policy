@@ -91,6 +91,17 @@
   thead th{background:var(--g5);color:var(--g70);font-weight:700;cursor:pointer;white-space:nowrap;border-bottom:2px solid var(--g20)}
   td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   tbody tr:hover td{background:var(--primary-surface)}
+  .b-ok{background:var(--primary-surface);color:var(--primary-strong)}
+  /* ---- 교육청별 수집 현황 ---- */
+  #offTable tr.offrow{cursor:pointer}
+  #offTable tr.offrow>td{border-bottom:1px solid var(--g20)}
+  #offTable .caret{color:var(--primary);font-weight:600;margin-top:2px}
+  #offTable tr.offdetail:hover td{background:transparent}
+  #offTable tr.offdetail>td{background:var(--g5);padding:4px 12px 14px 26px}
+  table.sub{font-size:12.5px;background:var(--card);border:1px solid var(--g10);border-radius:8px}
+  table.sub th,table.sub td{padding:7px 10px}
+  table.sub thead th{cursor:default;background:var(--g5);border-bottom:1px solid var(--g10)}
+  .sumtoggle{cursor:pointer;color:var(--primary-strong);font-weight:600;font-size:13.5px;padding:4px 0}
   .minibar{height:8px;background:var(--primary);border-radius:4px}
   /* ---- 계획 카드 ---- */
   .plan{border:1px solid var(--g10);border-radius:8px;padding:15px 17px;margin-bottom:12px;background:#fff}
@@ -113,6 +124,7 @@
   .cov-bar{flex:1;min-width:180px;height:12px;background:var(--g10);border-radius:999px;overflow:hidden}
   .cov-bar>span{display:block;height:100%;background:var(--primary);border-radius:999px}
   .lock{color:var(--danger-text);font-size:11px;font-weight:600}
+  .chk{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--g70);cursor:pointer;margin-right:12px}
   .hidden{display:none}
 </style>
 </head>
@@ -129,7 +141,7 @@
   <nav class="gnb"><div class="in">
     <div class="tabs">
       <button class="tab on" data-tab="docs">정책계획 통합검색</button>
-      <button class="tab" data-tab="openinfo">원문정보 검색</button>
+      <button class="tab" data-tab="openinfo">내부결재 계획 검색</button>
       <button class="tab" data-tab="budget">세출예산 비교</button>
       <button class="tab" data-tab="sources">출처·수집현황</button>
     </div>
@@ -187,7 +199,7 @@
   </div>
 </div>
 
-<!-- ===== 원문정보 검색 ===== -->
+<!-- ===== 내부결재 계획 검색(정보공개포털 정보목록) ===== -->
 <div class="wrap hidden" id="panelOpen">
   <div class="card">
     <div class="searchbar">
@@ -200,17 +212,20 @@
       <div class="field"><label>정렬</label><select id="oSort">
         <option value="date">최신순</option><option value="title">제목순</option></select></div>
     </div>
-    <div class="opts"><span class="muted" id="oInfo"></span></div>
+    <div class="opts">
+      <label class="chk"><input type="checkbox" id="oOrig"> 원문파일이 공개된 것만</label>
+      <span class="muted" id="oInfo"></span>
+    </div>
     <div class="muted" style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--g10)">
-      각 교육청이 <b>내부 결재한 문서 목록</b>입니다(정보공개포털 원문정보). 홈페이지에 공개되지 않은 계획도 포함되며,
+      각 교육청이 <b>내부 결재한 계획 문서 목록</b>입니다(정보공개포털 정보목록). 홈페이지에 공개되지 않은 계획도 포함되며,
       <b>문서 자체는 제공되지 않습니다</b> — 필요하면 문서번호로 해당 부서에 문의하거나 정보공개청구를 하시면 됩니다.
       담당자명은 수집하지 않으며, <b>원문 보기</b>에서 확인할 수 있습니다.
       <br><br>
-      본청 부서 문서만 모았습니다(교육지원청·도서관·연수원 등 소속·직속기관 제외).
-      <b>교육청별 건수 차이는 수집 누락이 아니라 기관마다 원문 사전공개 범위가 다르기 때문</b>입니다 —
-      예컨대 2025년 1월 서울은 원문 483건 중 본청이 17건, 인천은 293건 중 1건이었습니다.
-      건수가 적은 교육청은 해당 기관이 원문공개로 등록한 문서가 적다는 뜻이며,
-      계획 자체가 없다는 뜻은 아닙니다.
+      <b>본청 부서</b> 문서만 모았고(교육지원청·도서관·연수원 등 소속·직속기관 제외),
+      제목이 계획서 형태인 것만 남긴 뒤 <code>[품의]</code>·<code>[지출]</code>·<code>[협조]</code>·<code>[알림]</code> 같은
+      회계·접수 말머리가 붙은 문서를 걸렀습니다.
+      <span id="oCoverage"></span>
+      찾는 계획이 안 보이면 <a href="https://www.open.go.kr/othicInfo/infoList/infoList.do" target="_blank" rel="noopener">정보공개포털 정보목록</a>에서 직접 확인해 보세요.
     </div>
   </div>
   <div id="openList"></div>
@@ -219,15 +234,32 @@
 <!-- ===== 출처·수집현황 ===== -->
 <div class="wrap hidden" id="panelSources">
   <div class="card" id="coverageCard"></div>
+
   <div class="card">
-    <h2>수집 대상 게시판</h2>
-    <div class="muted" style="margin-bottom:10px">각 교육청이 공개한 게시판을 주기적으로 수집하며, 원문·정본은 각 교육청 게시글에 있습니다. robots.txt·이용약관을 확인해 표시하며(⚠ 제한 표기 게시판은 재검토 대상), 자료는 공공누리 조건을 따릅니다. 첨부물에 제3자 저작물이 포함된 경우 별도 라이선스가 적용될 수 있습니다.</div>
+    <h2>교육청별 수집 현황</h2>
+    <div class="muted" style="margin-bottom:10px">
+      교육청 이름을 누르면 어느 게시판에서 몇 건을 가져왔는지 펼쳐 볼 수 있습니다.
+      <b>최신 계획서</b>는 수집된 문서 중 가장 최근 게시일이고, <b>마지막 수집</b>은 해당 교육청 홈페이지에 마지막으로 접근한 시각입니다.
+    </div>
     <div style="overflow-x:auto">
+      <table id="offTable"><thead><tr>
+        <th>교육청</th><th class="num">계획서</th><th class="num">전체 문서</th><th class="num">게시판</th>
+        <th>최신 계획서</th><th>마지막 수집</th><th>상태</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>수집 대상 게시판 전체</h2>
+    <div class="muted" style="margin-bottom:10px">각 교육청이 공개한 게시판을 주기적으로 수집하며, 원문·정본은 각 교육청 게시글에 있습니다. robots.txt·이용약관을 확인해 표시하며(⚠ 제한 표기 게시판은 재검토 대상), 자료는 공공누리 조건을 따릅니다. 첨부물에 제3자 저작물이 포함된 경우 별도 라이선스가 적용될 수 있습니다.</div>
+    <details><summary class="sumtoggle">게시판 <span id="srcCount"></span>개 목록 펼치기</summary>
+    <div style="overflow-x:auto;margin-top:12px">
       <table id="srcTable"><thead><tr>
         <th>교육청</th><th>게시판 / 메뉴</th><th>수집방식</th><th>robots</th><th>공공누리</th>
         <th class="num">수집</th><th class="num">계획서</th><th>원문</th>
       </tr></thead><tbody></tbody></table>
     </div>
+    </details>
   </div>
 </div>
 
@@ -283,14 +315,42 @@ function buildExamples(){
   const box=document.getElementById('dExamples');
   ex.forEach(k=>{ const b=document.createElement('button'); b.textContent=k; b.onclick=()=>setSearch(k); box.appendChild(b); });
 }
+/* 'YYYY-MM-DD hh:mm:ss' → '3일 전' 식으로. 며칠 전 데이터인지가 신뢰도의 핵심이다. */
+function ago(ts){
+  if(!ts) return '';
+  const t=new Date(ts.replace(' ','T')); if(isNaN(t)) return '';
+  const h=(Date.now()-t)/36e5;
+  if(h<1) return '방금';
+  if(h<24) return Math.floor(h)+'시간 전';
+  const d=Math.floor(h/24);
+  if(d<30) return d+'일 전';
+  return Math.floor(d/30)+'개월 전';
+}
+function staleBadge(ts){
+  if(!ts) return '<span class="badge b-warn">기록 없음</span>';
+  const d=(Date.now()-new Date(ts.replace(' ','T')))/864e5;
+  if(d<=2) return '<span class="badge b-ok">최신</span>';
+  if(d<=8) return '<span class="badge b-cat">정상</span>';
+  return '<span class="badge b-warn">'+Math.floor(d)+'일 지연</span>';
+}
+
 function buildSources(){
   const cov=DOCS.coverage||{connected:(DOCS.sources||[]).length,total:16};
   const pct=Math.round(cov.connected/cov.total*100);
+  const plans=DOCS.documents.filter(d=>d.classification_status==='정책계획서').length;
+  const latest=DOCS.documents.reduce((m,d)=>(d.published_date||'')>m?d.published_date:m,'');
   document.getElementById('coverageCard').innerHTML='<h2>수집 커버리지</h2><div class="cov">'+
     '<div><div class="big">'+cov.connected+' / '+cov.total+'</div><div class="muted">시도교육청 연결</div></div>'+
     '<div class="cov-bar"><span style="width:'+pct+'%"></span></div>'+
-    '<div><div class="big" style="color:var(--g80)">'+DOCS.count+'</div><div class="muted">수집 문서(계획서 '+DOCS.documents.filter(d=>d.classification_status==='정책계획서').length+')</div></div></div>';
+    '<div><div class="big" style="color:var(--g80)">'+plans.toLocaleString()+'</div><div class="muted">정책계획서(전체 문서 '+DOCS.count.toLocaleString()+')</div></div>'+
+    '<div><div class="big" style="color:var(--g80)">'+(latest||'-')+'</div><div class="muted">가장 최근 계획서</div></div></div>'+
+    '<div class="muted" style="margin-top:12px">마지막 수집 실행 '+esc(DOCS.generated_at||'-')+
+    (DOCS.generated_at?' <b>('+ago(DOCS.generated_at)+')</b>':'')+' · 매일 05:00에 자동 수집합니다.</div>';
+
+  buildOfficeStats();
+
   const tb=document.querySelector('#srcTable tbody');
+  const sc=document.getElementById('srcCount'); if(sc) sc.textContent=(DOCS.sources||[]).length;
   const robotsBadge=r=>{ const blocked=/제한/.test(r);
     return `<span class="badge ${blocked?'b-warn':'b-cat'}">${blocked?'⚠ '+esc(r):'✓ 허용'}</span>`; };
   tb.innerHTML=(DOCS.sources||[]).map(s=>`<tr>
@@ -302,6 +362,69 @@ function buildSources(){
     <td class="num">${s.count}</td><td class="num"><b>${s.plan_count}</b></td>
     <td>${s.list_url?`<a href="${s.list_url}" target="_blank" rel="noopener">게시판 ↗</a>`:'-'}</td></tr>`).join('');
 }
+
+/* 교육청별 요약 — office_stats가 없는 구버전 데이터면 문서에서 직접 계산한다. */
+function officeStats(){
+  if(DOCS.office_stats && DOCS.office_stats.length) return DOCS.office_stats;
+  const by={};
+  (DOCS.sources||[]).forEach(s=>{
+    const o=by[s.office]||(by[s.office]={short_name:s.office,name:s.office_name||s.office,
+      boards:0,count:0,plan_count:0,latest_post_date:'',undated:0,last_attempt:'',failed_boards:0,empty_boards:0});
+    o.boards++;
+    if(!s.count) o.empty_boards++;
+    if(s.status==='실패') o.failed_boards++;
+    const t=s.last_attempt||s.last_collected||'';
+    if(t>o.last_attempt) o.last_attempt=t;
+  });
+  DOCS.documents.forEach(d=>{
+    const o=by[d.short_name]; if(!o) return;
+    o.count++;
+    if(d.classification_status==='정책계획서') o.plan_count++;
+    if(!d.published_date) o.undated++;
+    if((d.published_date||'')>o.latest_post_date) o.latest_post_date=d.published_date||'';
+  });
+  return Object.values(by).sort((a,b)=>b.plan_count-a.plan_count);
+}
+function buildOfficeStats(){
+  const tb=document.querySelector('#offTable tbody'); if(!tb) return;
+  const stats=officeStats();
+  const srcByOffice={};
+  (DOCS.sources||[]).forEach(s=>(srcByOffice[s.office]=srcByOffice[s.office]||[]).push(s));
+
+  tb.innerHTML=stats.map(o=>{
+    const boards=(srcByOffice[o.short_name]||[]).slice()
+      .sort((a,b)=>b.plan_count-a.plan_count).map(s=>`<tr>
+        <td>${s.list_url?`<a href="${s.list_url}" target="_blank" rel="noopener">${esc(s.board_name)} ↗</a>`:esc(s.board_name)}
+            <div class="muted">${esc(s.menu_path||'')}</div></td>
+        <td class="num">${s.plan_count}</td><td class="num muted">${s.count}</td>
+        <td class="muted">${esc(s.latest_post_date||'-')}${s.undated?` <span class="badge b-warn">날짜없음 ${s.undated}</span>`:''}</td>
+        <td class="muted">${esc((s.last_attempt||s.last_collected||'').slice(0,16)||'-')}</td>
+        <td>${s.status==='실패'?'<span class="badge b-warn">실패</span>':(s.count?'':'<span class="badge b-warn">0건</span>')}</td>
+      </tr>`).join('');
+    const warn=(o.failed_boards?`<span class="badge b-warn">게시판 ${o.failed_boards}곳 실패</span>`:'')
+      +(o.undated?`<span class="badge b-warn">게시일 없음 ${o.undated}건</span>`:'');
+    return `<tr class="offrow" data-o="${esc(o.short_name)}">
+      <td><b>${esc(o.short_name)}</b> <span class="muted">${esc(o.name||'')}</span>
+          <div class="muted caret">▸ 게시판 보기</div></td>
+      <td class="num"><b class="hi">${(o.plan_count||0).toLocaleString()}</b></td>
+      <td class="num muted">${(o.count||0).toLocaleString()}</td>
+      <td class="num muted">${o.boards}${o.empty_boards?` <span class="muted">(0건 ${o.empty_boards})</span>`:''}</td>
+      <td>${esc(o.latest_post_date||'-')}<div class="muted">${ago(o.latest_post_date?o.latest_post_date+' 00:00:00':'')}</div></td>
+      <td>${esc((o.last_attempt||'').slice(0,16)||'-')}<div class="muted">${ago(o.last_attempt)}</div></td>
+      <td>${staleBadge(o.last_attempt)} ${warn}</td></tr>
+      <tr class="offdetail hidden" data-for="${esc(o.short_name)}"><td colspan="7">
+        <table class="sub"><thead><tr><th>게시판 / 메뉴</th><th class="num">계획서</th><th class="num">전체</th>
+        <th>최신 게시일</th><th>마지막 수집</th><th>상태</th></tr></thead><tbody>${boards}</tbody></table></td></tr>`;
+  }).join('');
+
+  tb.querySelectorAll('tr.offrow').forEach(tr=>{ tr.onclick=()=>{
+    const d=tb.querySelector(`tr.offdetail[data-for="${tr.dataset.o}"]`);
+    if(!d) return;
+    d.classList.toggle('hidden');
+    const c=tr.querySelector('.caret');
+    if(c) c.textContent=d.classList.contains('hidden')?'▸ 게시판 보기':'▾ 접기';
+  };});
+}
 function renderDocs(){
   const q=document.getElementById('dQ').value.trim();
   const yr=document.getElementById('dYear').value, dept=document.getElementById('dDept').value;
@@ -312,7 +435,7 @@ function renderDocs(){
   let rows=DOCS.documents.filter(d=>{
     if(!dOff.has(d.short_name)) return false;
     if(!incJB && d.short_name==='전북') return false;
-    if(yr && String(d.policy_year)!==yr) return false;
+    if(yr && (d.published_date||'').slice(0,4)!==yr) return false;
     if(dept && d.department!==dept) return false;
     if(cat && !d.policy_category.includes(cat)) return false;
     if(status && d.classification_status!==status) return false;
@@ -349,11 +472,11 @@ function renderDocs(){
   }).join('');
 }
 
-/* ============ 원문정보 검색 ============ */
+/* ============ 내부결재 계획 검색 (정보공개포털 정보목록) ============ */
 let OPEN=null;
-fetch('data/openinfo.json').then(r=>r.json()).then(d=>{ OPEN=d; initOpen(); })
+fetch('data/infolist.json').then(r=>r.json()).then(d=>{ OPEN=d; initOpen(); })
   .catch(()=>{ const el=document.getElementById('openList');
-    if(el) el.innerHTML='<div class="card muted">원문정보 데이터가 아직 없습니다. <code>scripts/collect_openinfo.py</code>로 수집하세요.</div>'; });
+    if(el) el.innerHTML='<div class="card muted">정보목록 데이터가 아직 없습니다. <code>scripts/collect_infolist.py --months 3</code>으로 수집하세요.</div>'; });
 
 function initOpen(){
   opt(document.getElementById('oOffice'),OPEN.offices||[],'전체 교육청');
@@ -361,9 +484,21 @@ function initOpen(){
   fillOpenDept();
   // 교육청을 고르면 부서 목록도 그 교육청 것만 남긴다(전체 200여 개는 고르기 어렵다)
   document.getElementById('oOffice').onchange=()=>{ fillOpenDept(); renderOpen(); };
-  ['oYear','oDept','oSort'].forEach(id=>document.getElementById(id).onchange=renderOpen);
-  document.getElementById('oQ').oninput=renderOpen;
+  ['oYear','oDept','oSort','oOrig'].forEach(id=>document.getElementById(id).onchange=renderOpen);
+  let oT=null;
+  document.getElementById('oQ').oninput=()=>{ clearTimeout(oT); oT=setTimeout(renderOpen,180); };
+  // 수집 구간을 밝혀 둔다 — 없는 기간을 검색하고 '자료가 없다'고 오해하지 않게.
+  const cv=OPEN.coverage||{}, el=document.getElementById('oCoverage');
+  if(el && cv.from) el.innerHTML=`현재 <b>${cv.from} ~ ${cv.to}</b> 구간을 수집했습니다(${(cv.days||0)}일). `;
   renderOpen();
+}
+/* 상세 링크는 파일에 담지 않고 id에서 조립한다(파일 13MB 절감).
+   id 형식: il-{생산기관등록번호}-{생산일시} */
+function openUrl(id){
+  const m=String(id||'').match(/^il-(.+)-(\d{14})$/);
+  if(!m) return 'https://www.open.go.kr/othicInfo/infoList/infoList.do';
+  return 'https://www.open.go.kr/othicInfo/infoList/infoListDetl.do'
+    +'?prdnNstRgstNo='+encodeURIComponent(m[1])+'&prdnDt='+m[2]+'&nstSeCd=E';
 }
 function fillOpenDept(){
   const off=document.getElementById('oOffice').value;
@@ -379,10 +514,12 @@ function renderOpen(){
   const q=document.getElementById('oQ').value.trim();
   const off=document.getElementById('oOffice').value, yr=document.getElementById('oYear').value;
   const dept=document.getElementById('oDept').value, sort=document.getElementById('oSort').value;
+  const onlyOrig=document.getElementById('oOrig').checked;
   let rows=OPEN.documents.filter(d=>{
     if(off && d.office!==off) return false;
     if(yr && String(d.policy_year)!==yr) return false;
     if(dept && d.department!==dept) return false;
+    if(onlyOrig && !d.has_original) return false;
     if(q && !d.title.toLowerCase().includes(q.toLowerCase())) return false;   // 제목만 검색
     return true;
   });
@@ -394,15 +531,16 @@ function renderOpen(){
   const box=document.getElementById('openList');
   if(!rows.length){ box.innerHTML='<div class="card muted">일치하는 문서가 없습니다.</div>'; return; }
   box.innerHTML=rows.slice(0,300).map(d=>`<div class="doc">
-      <a class="go" href="${d.detail_url}" target="_blank" rel="noopener">원문 보기 ↗</a>
-      <h3><a href="${d.detail_url}" target="_blank" rel="noopener">${hl(d.title,q)}</a></h3>
+      <a class="go" href="${openUrl(d.id)}" target="_blank" rel="noopener">원문 보기 ↗</a>
+      <h3><a href="${openUrl(d.id)}" target="_blank" rel="noopener">${hl(d.title,q)}</a></h3>
       <div>
         <span class="badge b-office">${esc(d.office)}</span>
         ${d.department?`<span class="badge b-dept">${hl(d.department,q)}</span>`:''}
         ${d.doc_no?`<span class="badge b-type">${esc(d.doc_no)}</span>`:''}
         ${d.unit_job?`<span class="badge b-cat">${esc(d.unit_job)}</span>`:''}
+        ${d.has_original?'<span class="badge b-ok">원문파일 공개</span>':''}
       </div>
-      <div class="muted" style="margin-top:6px">생산 ${d.published_date||'-'}${d.org&&d.org!==d.office?' · '+esc(d.org):''}</div>
+      <div class="muted" style="margin-top:6px">생산 ${d.published_date||'-'}</div>
     </div>`).join('')
     + (rows.length>300?'<div class="card muted">상위 300건만 표시합니다. 검색어나 필터로 좁혀 보세요.</div>':'');
 }
