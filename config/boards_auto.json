@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-08 05:21:54",
+  "generated_at": "2026-08-09 19:45:10",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -899,8 +899,7 @@
         "bbs_sn": "1394",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-08"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1412",
@@ -922,8 +921,7 @@
         "bbs_sn": "1412",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-08"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1396",
@@ -945,8 +943,7 @@
         "bbs_sn": "1396",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-08"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1410",
@@ -968,8 +965,7 @@
         "bbs_sn": "1410",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-08"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1407",
@@ -991,8 +987,7 @@
         "bbs_sn": "1407",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-08"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d14-1564",
@@ -1279,8 +1274,7 @@
         "bbs_sn": "1655",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "인성시민과",
-      "missing_since": "2026-08-08"
+      "dept_default": "인성시민과"
     },
     {
       "id": "chungbuk-d21-1660",
@@ -1302,8 +1296,7 @@
         "bbs_sn": "1660",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "인성시민과",
-      "missing_since": "2026-08-08"
+      "dept_default": "인성시민과"
     },
     {
       "id": "chungbuk-d21-1668",
@@ -1325,8 +1318,7 @@
         "bbs_sn": "1668",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "인성시민과",
-      "missing_since": "2026-08-08"
+      "dept_default": "인성시민과"
     },
     {
       "id": "chungbuk-d21-1659",
@@ -1348,8 +1340,7 @@
         "bbs_sn": "1659",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "인성시민과",
-      "missing_since": "2026-08-08"
+      "dept_default": "인성시민과"
     },
     {
       "id": "chungbuk-d21-1656",
@@ -1371,8 +1362,7 @@
         "bbs_sn": "1656",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "인성시민과",
-      "missing_since": "2026-08-08"
+      "dept_default": "인성시민과"
     },
     {
       "id": "chungbuk-d23-1654",
@@ -1394,8 +1384,7 @@
         "bbs_sn": "1654",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과",
-      "missing_since": "2026-08-08"
+      "dept_default": "노사정책과"
     },
     {
       "id": "chungbuk-d23-1642",
@@ -1417,8 +1406,7 @@
         "bbs_sn": "1642",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과",
-      "missing_since": "2026-08-08"
+      "dept_default": "노사정책과"
     },
     {
       "id": "chungbuk-d24-1600",
@@ -3717,6 +3705,50 @@
         "bbs_sn": "1776",
         "base": "https://www.ice.go.kr"
       }
+    },
+    {
+      "id": "chungbuk-d11-1398",
+      "office": "chungbuk",
+      "board_name": "클럽대항학교간경기대회",
+      "menu_path": "체육건강안전과 > 클럽대항학교간경기대회",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttList.do?bbsId=1398&mi=11011",
+        "view_url": "https://www.cbe.go.kr/dept-11/na/ntt/selectNttInfo.do?bbsId=1398&mi=11011&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1398",
+        "base": "https://www.cbe.go.kr"
+      },
+      "dept_default": "체육건강안전과"
+    },
+    {
+      "id": "chungbuk-d21-1416",
+      "office": "chungbuk",
+      "board_name": "성인식개선",
+      "menu_path": "인성시민과 > 성인식개선",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttList.do?bbsId=1416&mi=12940",
+        "view_url": "https://www.cbe.go.kr/dept-21/na/ntt/selectNttInfo.do?bbsId=1416&mi=12940&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1416",
+        "base": "https://www.cbe.go.kr"
+      },
+      "dept_default": "인성시민과"
     }
   ]
 }
