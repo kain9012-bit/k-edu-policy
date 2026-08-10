@@ -6,16 +6,28 @@
 
 ## 화면(탭)
 
-1. **📚 정책계획 통합검색** — 각 교육청 계획 게시판에서 수집한 계획서를 검색. 교육청·연도·부서·유형·분야·판별상태 필터, 제목/첨부파일명 검색, 원문 게시글로 연결.
-2. **📋 전북 주요업무계획** — 전북 계획서(PDF)를 세부사업·추진과제 단위로 파싱한 상세 검색.
-3. **💰 세출예산 비교** — 지방교육재정알리미 API 기반 정책사업별 세출 검색·지역비교.
+1. **홈** — 통합 검색창과 서비스 안내. 검색어를 넣으면 공개 계획서 탭으로 넘어간다.
+2. **공개 계획서** — 게시판에서 수집한 계획서 검색. 교육청·연도·분야·유형·판별상태 필터, 보관함 담기, 원문 게시글 연결.
+3. **내부 결재** — 정보공개포털 정보목록. 문서번호·담당부서 확인, 정보공개청구 안내.
+4. **예산 데이터** — 지방교육재정알리미 자료로 항목별 세출예산 순위·연도별 추이 비교.
+5. **수집 출처** — 교육청별·게시판별 수집 현황과 실행 로그를 그대로 공개.
+
+UI는 **KRDS(대한민국 디지털 정부 디자인시스템)** 토큰(색상·타이포·모서리)을 따른다.
+`src/index.css`에서 KRDS 값을 Tailwind 테마로 정의하고 있어, 색을 바꾸려면 그 파일만 고치면 된다.
 
 > 원본 계획서 파일은 재배포하지 않고, 원칙적으로 해당 교육청 **원문 게시글**로 연결합니다.
 
 ## 구조
 
 ```
-index.html                     3탭 통합 UI (정적)
+index.html                     Vite 진입점
+src/
+  App.tsx                      탭 전환·데이터 로딩·보관함 상태
+  index.css                    KRDS 토큰 → Tailwind 테마 정의
+  components/                  탭별 화면 (Header/HomeTab/PolicyDocumentsTab/
+                               InternalInfoTab/BudgetTab/CollectionStatusTab/모달)
+  types/                       데이터 타입
+legacy/index.html              이전 단일 HTML 버전(참고용 보관)
 data/
   documents.json               수집된 정책계획 문서 (통합검색용)
   plans.json                   전북 주요업무계획 상세(사업·과제)
@@ -37,8 +49,20 @@ scripts/
 
 ## 로컬 실행
 
+React + Vite로 만들어져 있어 첫 실행 때 한 번 설치가 필요하다.
+
 ```bash
-python3 -m http.server 8000     # http://localhost:8000
+npm install       # 최초 1회
+npm run dev       # http://localhost:3000
+```
+
+`data/*.json`은 따로 복사하지 않아도 개발 서버가 저장소의 `data/` 폴더를 그대로 읽어준다.
+
+빌드 결과를 확인하려면:
+
+```bash
+npm run build     # dist/ 에 빌드 + data/*.json 복사
+npm run preview
 ```
 
 ## 데이터 수집
@@ -85,6 +109,7 @@ EDUINFO_KEY=발급키 python3 scripts/collect_budget.py --years 2022 2023 2024 2
 | `refresh-documents.yml` | **매일 05:00 KST** | 등록된 게시판을 수집해 `data/documents.json` 갱신. 이전 대비 20% 이상 급감하면 실패 처리(파서 깨짐 조기 감지) |
 | `discover-boards.yml` | **매주 일요일 04:00 KST** | 교육청 사이트를 다시 훑어 계획이 쌓이는 게시판을 재발견 → `config/boards_auto.json` 갱신. 게시판 신설·조직개편에 자동 대응 |
 | `refresh-data.yml` | 매월 | 세출예산 API 수집 |
+| `deploy-pages.yml` | 푸시할 때 | 화면 빌드 후 GitHub Pages 배포 |
 
 - 두 워크플로 모두 **수동 실행(workflow_dispatch)** 가능하며, 특정 교육청만 지정할 수 있다.
 - 재발견은 **병합 방식**이라 사람이 손댄 설정(`is_active`·`keep_all`·`max_pages` 등)을 보존하고,
@@ -93,7 +118,12 @@ EDUINFO_KEY=발급키 python3 scripts/collect_budget.py --years 2022 2023 2024 2
 
 ## 배포
 
-- 프런트엔드: **GitHub Pages** (Settings → Pages → `main`/root)
+**GitHub Pages** — `Settings → Pages → Source`를 **GitHub Actions**로 설정한다.
+
+`main`에 푸시하면 `deploy-pages.yml`이 알아서 빌드해 올린다. 손으로 npm 명령을 칠 필요는 없다.
+빌드 산출물(`dist/`)은 커밋하지 않는다.
+
+수집 데이터가 비어 있으면 배포를 중단하도록 해두었다. 빈 화면이 올라가는 것보다 낫다.
 
 ## 로드맵
 

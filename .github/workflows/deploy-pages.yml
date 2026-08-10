@@ -1,0 +1,89 @@
+name: 웹사이트 빌드·배포 (GitHub Pages)
+
+# 화면은 React + Vite로 만들어져 있어 빌드 단계가 필요하다.
+# 이 워크플로가 대신 빌드해서 Pages에 올리므로, 손으로 npm 명령을 칠 일은 없다.
+#
+# 배포되는 것:
+#   dist/index.html, dist/assets/*  ← 빌드 산출물
+#   dist/data/*.json                ← 수집기가 만든 데이터 (vite.config.ts가 복사)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'index.html'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.ts'
+      - 'tsconfig.json'
+      - 'data/**'
+      - '.github/workflows/deploy-pages.yml'
+  # 수집 워크플로가 데이터를 갱신한 뒤 이 워크플로를 부를 수 있게 한다.
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포는 한 번에 하나만. 진행 중인 게 있으면 최신 것으로 갈아탄다.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 의존성 설치
+        # package-lock.json이 있으면 ci, 없으면 install
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --no-audit --no-fund
+          fi
+
+      - name: 타입 검사
+        run: npx tsc --noEmit
+
+      - name: 빌드
+        run: npm run build
+
+      - name: 산출물 확인
+        run: |
+          echo "── dist ──"
+          ls -la dist
+          echo "── dist/data ──"
+          ls -la dist/data
+          # 데이터가 안 실렸으면 배포를 멈춘다. 빈 화면이 올라가는 것보다 낫다.
+          for f in documents.json budget.json infolist.json; do
+            if [ ! -s "dist/data/$f" ]; then
+              echo "::error::dist/data/$f 가 비어 있습니다. 수집 결과를 확인하세요."
+              exit 1
+            fi
+          done
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

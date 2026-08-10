@@ -363,7 +363,18 @@ def to_doc(row):
         "published_date": date,
         "policy_year": int(dt[:4]) if len(dt) >= 4 and dt[:4].isdigit() else None,
         # 원문 파일까지 공개된 문서인지. Y면 상세에서 파일을 볼 수 있다.
+        # 파일을 실제로 열 수 있는지는 두 조건을 모두 봐야 한다.
+        #   ORGNAL_YN   : 원문공개 대상 직급(국장급·부단체장 이상 결재)인가
+        #   OTHBC_SE_CD : 1 공개 · 2 부분공개 · 3 비공개
+        # 상세 페이지 실측:
+        #   Y+3 → "비공개 문서이므로 열람이 불가능합니다"
+        #   Y+2 → 본문 pdf·붙임 hwp 다운로드 가능
+        #   N+1 → "원문공개 대상(국장급 이상)이 아닙니다"
+        # ORGNAL_YN만 보고 걸렀더니 비공개 문서가 섞여 헛걸음이 생겼다.
         "has_original": (row.get("ORGNAL_YN") or "") == "Y",
+        "open_code": (row.get("OTHBC_SE_CD") or "").strip(),
+        "readable": ((row.get("ORGNAL_YN") or "") == "Y"
+                     and (row.get("OTHBC_SE_CD") or "").strip() in ("1", "2")),
         "detail_url": detail,
         # 담당자명(CHARGER_NM)은 개인정보이므로 저장하지 않음
     }

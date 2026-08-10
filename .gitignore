@@ -18,3 +18,9 @@ Thumbs.db
 # 웹에는 쓰이지 않는다. 1년치가 45MB나 되고 매일 통째로 바뀌어서
 # 커밋하면 저장소가 급격히 커진다.
 data/infolist_raw.json
+
+# Node / Vite
+node_modules/
+dist/
+.vite/
+*.tsbuildinfo
