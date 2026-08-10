@@ -160,11 +160,33 @@ def doc_id(office, external_post_id):
     return hashlib.md5(f"{office}:{external_post_id}".encode()).hexdigest()[:16]
 
 
+# 게시판이 새 글에 붙이는 표시. 목록에서 제목과 함께 긁혀 들어온다.
+#   세종 'N 2026년 세종SW해커톤 대회 운영 계획'
+#   부산 '2026년 교육공무직원 채용 업무 추진 계획 새글'
+# 반드시 뒤에 공백이 있어야 지운다. 공백을 요구하지 않으면
+# 'NEIS 사용자 매뉴얼'이 'EIS 사용자 매뉴얼'로 잘린다.
+NEW_BADGE_HEAD_RE = re.compile(r"^(?:N|NEW|new|New|새글|신규)\s+")
+NEW_BADGE_TAIL_RE = re.compile(r"\s+(?:N|NEW|new|New|새글|신규)$")
+
+
+def strip_new_badge(title):
+    """제목에 딸려온 새 글 표시를 떼어낸다."""
+    t = (title or "").strip()
+    for _ in range(2):                       # 'N NEW 제목'처럼 겹칠 수 있다
+        before = t
+        t = NEW_BADGE_HEAD_RE.sub("", t)
+        t = NEW_BADGE_TAIL_RE.sub("", t)
+        t = t.strip()
+        if t == before:
+            break
+    return t
+
+
 def build_document(office, short_name, board, raw):
     """raw: {external_post_id, title, department, author, published_date, post_url, attachments[{file_name,file_url}]}"""
     att_names = [a.get("file_name", "") for a in raw.get("attachments", [])]
     dept = (raw.get("department") or "").strip() or board.get("dept_default", "")
-    title_raw = raw["title"].strip()
+    title_raw = strip_new_badge(raw["title"])
     # 제목이 '[부서명] 제목' 형태면 부서 추출 후 제목 정리(경북 통합자료실 등)
     pm = re.match(r"^\[([^\]]{2,12})\]\s*(.+)$", title_raw)
     if pm and re.search(r"(과|관|담당관|단|실|센터)$", pm.group(1)):
