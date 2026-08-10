@@ -183,7 +183,8 @@ def run(office_filter=None):
         "categories": sorted({c for d in docs for c in d["policy_category"]}),
         "statuses": sorted({d["classification_status"] for d in docs}),
         "count": len(docs),
-        "coverage": {"connected": len({s["office"] for s in sources}), "total": 16,
+        # total은 16으로 박아두면 교육청을 추가할 때마다 '17 / 16곳'처럼 어긋난다.
+        "coverage": {"connected": len({s["office"] for s in sources}), "total": total_offices,
                      "boards": len(sources), "active_offices": total_offices},
         "office_stats": office_stats,
         "sources": sources,

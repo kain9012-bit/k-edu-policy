@@ -143,7 +143,9 @@ export default function App() {
 
         {activeTab === 'budget' && <BudgetDataTab data={budgetData} />}
 
-        {activeTab === 'sources' && <CollectionStatusTab data={documentsData} />}
+        {activeTab === 'sources' && (
+          <CollectionStatusTab data={documentsData} infoData={infoListData} />
+        )}
       </main>
 
       {/* Footer */}

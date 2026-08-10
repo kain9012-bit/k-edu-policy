@@ -96,12 +96,20 @@
     "display_order": 12
   },
   {
+    "id": "jeonnam",
+    "name": "전라남도교육청",
+    "short_name": "전남",
+    "homepage_url": "https://www.jne.go.kr/",
+    "is_active": true,
+    "display_order": 13
+  },
+  {
     "id": "jeonnamgwangju",
     "name": "전남광주통합특별시교육청",
     "short_name": "전남광주",
     "homepage_url": "https://www.jge.go.kr/",
     "is_active": false,
-    "display_order": 13
+    "display_order": 14
   },
   {
     "id": "gwangju",
@@ -109,7 +117,7 @@
     "short_name": "광주",
     "homepage_url": "http://www.gen.go.kr/",
     "is_active": true,
-    "display_order": 13.5
+    "display_order": 15
   },
   {
     "id": "gyeongbuk",
@@ -117,7 +125,7 @@
     "short_name": "경북",
     "homepage_url": "https://www.gbe.kr/",
     "is_active": true,
-    "display_order": 14
+    "display_order": 16
   },
   {
     "id": "gyeongnam",
@@ -125,7 +133,7 @@
     "short_name": "경남",
     "homepage_url": "https://www.gne.go.kr/",
     "is_active": true,
-    "display_order": 15
+    "display_order": 17
   },
   {
     "id": "jeju",
@@ -133,6 +141,6 @@
     "short_name": "제주",
     "homepage_url": "https://www.jje.go.kr/",
     "is_active": true,
-    "display_order": 16
+    "display_order": 18
   }
 ]

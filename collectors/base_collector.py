@@ -145,6 +145,18 @@ def classify(title, attach_names):
     if pm and any(p in pm.group(1) for p in cfg.get("exclude_title_prefix", [])):
         return "제외대상", dtype, cats
 
+    # 채용·검정고시·명예퇴직 같은 행정 공고는 '시행계획'이 붙어 있어도 정책계획이 아니다.
+    # 포함어보다 먼저 걸러서 '확인필요'가 쌓이는 걸 막는다.
+    if any(_norm(k) in n for k in cfg.get("hard_exclude_keywords", [])):
+        return "제외대상", dtype, cats
+
+    # 학교마다 한 건씩 올라오는 제출물(예: '학교 자체평가 계획서(만호초)')은 교육청 정책계획이 아니다.
+    # 다만 괄호에 학교명이 있다는 것만으로 걸러내면 '자율형 공립고 운영계획서(진천고)' 같은
+    # 실제 사업 계획서까지 사라진다. 평가·보고 성격일 때만 제외한다.
+    if re.search(r"\((?:[가-힣]{2,10})(?:초|중|고|중학교|고등학교|초등학교)\)\s*$", title) \
+       and re.search(r"자체\s*평가|자평|결과\s*보고|실적", title):
+        return "제외대상", dtype, cats
+
     if has_include and not has_exclude:
         return "정책계획서", dtype, cats
     if has_include and has_exclude:

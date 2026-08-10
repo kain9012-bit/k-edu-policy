@@ -31,6 +31,9 @@ export const HomeTab: React.FC<HomeTabProps> = ({
 }) => {
   const [heroSearchInput, setHeroSearchInput] = useState('');
 
+  // data.count는 수집한 전체 문서 수다. 계획서로 판별된 것만 따로 센다.
+  const planCount = (data.office_stats ?? []).reduce((n, o) => n + (o.plan_count ?? 0), 0);
+
   const quickTopics = [
     '늘봄학교',
     '기초학력',
@@ -128,9 +131,9 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                 ok: true,
               },
               {
-                t: '색인 정책계획서',
-                v: `${data.count.toLocaleString()}건`,
-                sub: '공개 원문 링크 연결',
+                t: '공개된 계획서',
+                v: `${(planCount || data.count).toLocaleString()}건`,
+                sub: `수집 문서 ${data.count.toLocaleString()}건 중`,
               },
               {
                 t: '수집 게시판',

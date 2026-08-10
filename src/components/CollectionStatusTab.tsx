@@ -1,13 +1,33 @@
 import React, { useState } from 'react';
-import { DocumentsData } from '../types';
+import { DocumentsData, InfoListData } from '../types';
 import { Database, CheckCircle2, AlertCircle, RefreshCw, FileText, Lock, Globe, Terminal, Shield } from 'lucide-react';
 
 interface CollectionStatusTabProps {
   data: DocumentsData;
+  infoData?: InfoListData;
 }
 
-export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data }) => {
-  const [activeSubTab, setActiveSubTab] = useState<'offices' | 'sources' | 'logs'>('offices');
+export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, infoData }) => {
+  const [activeSubTab, setActiveSubTab] =
+    useState<'openness' | 'offices' | 'sources' | 'logs'>('openness');
+
+  // 홈페이지에 공개한 계획서 수와 내부결재로만 남은 계획 수를 나란히 놓는다.
+  // 두 데이터의 교육청 표기가 달라(경기 / 경기도교육청) 정식 명칭으로 맞춘다.
+  const opennessRows = React.useMemo(() => {
+    const internal = new Map<string, number>();
+    for (const d of infoData?.documents ?? []) {
+      internal.set(d.office, (internal.get(d.office) ?? 0) + 1);
+    }
+    return (data.office_stats ?? [])
+      .map((o) => {
+        const inner = internal.get(o.name) ?? 0;
+        const open = o.plan_count ?? 0;
+        return { ...o, inner, open, ratio: inner > 0 ? open / inner : 0 };
+      })
+      .sort((a, b) => b.ratio - a.ratio);
+  }, [data.office_stats, infoData]);
+
+  const maxInner = Math.max(1, ...opennessRows.map((r) => r.inner));
 
   return (
     <div className="space-y-6 pb-12">
@@ -60,6 +80,17 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data }
       {/* Sub Tabs Selector */}
       <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
         <button
+          onClick={() => setActiveSubTab('openness')}
+          className={`px-4 py-2 text-xs font-bold rounded-xl transition ${
+            activeSubTab === 'openness'
+              ? 'bg-slate-900 text-white shadow-xs'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
+        >
+          공개 수준 비교
+        </button>
+
+        <button
           onClick={() => setActiveSubTab('offices')}
           className={`px-4 py-2 text-xs font-bold rounded-xl transition ${
             activeSubTab === 'offices'
@@ -92,6 +123,89 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data }
           수집 실행 로그 ({data.logs?.length || 0})
         </button>
       </div>
+
+      {/* Subtab 0: 공개 수준 비교 */}
+      {activeSubTab === 'openness' && (
+        <div className="space-y-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-5 space-y-2">
+            <h4 className="text-base font-bold text-slate-900">
+              계획을 안 세우는 게 아니라, 공개를 안 하는 것입니다
+            </h4>
+            <p className="text-sm text-slate-700 leading-relaxed">
+              내부결재 계획은 17개 교육청 모두 비슷한 규모로 쌓입니다. 그런데 홈페이지에 공개하는 양은
+              교육청마다 크게 다릅니다. 아래 <strong className="font-bold">공개율</strong>은 내부결재 계획 대비
+              홈페이지에 올라온 계획서의 비율입니다.
+            </p>
+            <p className="text-xs text-slate-500">
+              내부결재 수집 기간: {infoData?.coverage?.from ?? '-'} ~ {infoData?.coverage?.to ?? '-'} ·
+              홈페이지 수집 기준: {data.generated_at}
+            </p>
+          </div>
+
+          <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-slate-50 border-b border-slate-200 text-slate-600">
+                  <tr>
+                    <th className="text-left py-3 px-4 font-bold">교육청</th>
+                    <th className="text-right py-3 px-4 font-bold">홈페이지 공개</th>
+                    <th className="text-right py-3 px-4 font-bold">내부결재</th>
+                    <th className="text-right py-3 px-4 font-bold">공개율</th>
+                    <th className="text-left py-3 px-4 font-bold w-1/3">비교</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {opennessRows.map((r) => {
+                    const pct = r.ratio * 100;
+                    return (
+                      <tr key={r.office} className="hover:bg-slate-50">
+                        <td className="py-3 px-4">
+                          <span className="font-bold text-slate-900">{r.short_name}</span>
+                          <span className="text-xs text-slate-500 ml-1.5">{r.name}</span>
+                        </td>
+                        <td className="py-3 px-4 text-right tabular-nums font-bold text-blue-700">
+                          {r.open.toLocaleString()}
+                        </td>
+                        <td className="py-3 px-4 text-right tabular-nums text-slate-600">
+                          {r.inner.toLocaleString()}
+                        </td>
+                        <td className="py-3 px-4 text-right tabular-nums font-bold text-slate-900">
+                          {pct < 0.05 ? '0%' : `${pct.toFixed(1)}%`}
+                        </td>
+                        <td className="py-3 px-4">
+                          {/* 회색 막대 = 내부결재 전체, 파란 막대 = 그중 공개된 몫 */}
+                          <div className="relative h-4 bg-slate-100 rounded-sm overflow-hidden">
+                            <div
+                              className="absolute inset-y-0 left-0 bg-slate-300"
+                              style={{ width: `${(r.inner / maxInner) * 100}%` }}
+                            />
+                            <div
+                              className="absolute inset-y-0 left-0 bg-blue-600"
+                              style={{ width: `${(r.open / maxInner) * 100}%` }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-200 text-xs text-slate-500 space-y-1">
+              <p>
+                <span className="inline-block w-3 h-3 rounded-sm bg-blue-600 align-middle mr-1" />
+                홈페이지에 공개된 계획서
+                <span className="inline-block w-3 h-3 rounded-sm bg-slate-300 align-middle ml-3 mr-1" />
+                정보공개포털에만 있는 내부결재 계획
+              </p>
+              <p>
+                내부결재 목록은 본청 부서 문서만 모은 것이라 실제 계획 수는 더 많을 수 있습니다.
+                홈페이지 공개분은 게시판에서 계획서로 판별된 문서만 셉니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Subtab 1: Office Stats */}
       {activeSubTab === 'offices' && (

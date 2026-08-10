@@ -213,8 +213,21 @@ def discover_gyeongbuk():
                                     "https://www.gbe.kr/main/na/ntt/selectNttList.do", "https://www.gbe.kr")
 
 
+def discover_gyeonggi():
+    # 경기는 계획서 전용 게시판이 따로 없고 '교육정책' 한 곳만 등록돼 있었다.
+    # 표준 게시판(na/ntt)을 쓰므로 밀도 방식으로 훑는다.
+    return discover_by_plan_density("gyeonggi", "https://www.goe.go.kr/goe/sitemap.do",
+                                    "https://www.goe.go.kr/goe/na/ntt/selectNttList.do", "https://www.goe.go.kr")
+
+
+def discover_jeonnam():
+    return discover_by_plan_density("jeonnam", "https://www.jne.go.kr/main/sitemap.do",
+                                    "https://www.jne.go.kr/main/na/ntt/selectNttList.do", "https://www.jne.go.kr")
+
+
 ADAPTERS = {"seoul": discover_seoul, "sejong": discover_sejong, "chungbuk": discover_chungbuk,
-            "busan": discover_busan, "incheon": discover_incheon, "gyeongbuk": discover_gyeongbuk}
+            "busan": discover_busan, "incheon": discover_incheon, "gyeongbuk": discover_gyeongbuk,
+            "gyeonggi": discover_gyeonggi, "jeonnam": discover_jeonnam}
 
 
 def main():

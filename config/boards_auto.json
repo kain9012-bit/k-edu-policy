@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-09 19:45:10",
+  "generated_at": "2026-08-11 04:47:43",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -3749,6 +3749,238 @@
         "base": "https://www.cbe.go.kr"
       },
       "dept_default": "인성시민과"
+    },
+    {
+      "id": "gyeonggi-1995",
+      "office": "gyeonggi",
+      "board_name": "교육정책",
+      "menu_path": "교육정책",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=1995&mi=11008",
+        "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=1995&mi=11008&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1995",
+        "base": "https://www.goe.go.kr"
+      }
+    },
+    {
+      "id": "gyeonggi-2589",
+      "office": "gyeonggi",
+      "board_name": "국제교류협력",
+      "menu_path": "국제교류협력",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=2589&mi=11030",
+        "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=2589&mi=11030&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "2589",
+        "base": "https://www.goe.go.kr"
+      }
+    },
+    {
+      "id": "gyeonggi-2425",
+      "office": "gyeonggi",
+      "board_name": "고시등록부",
+      "menu_path": "고시등록부",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=2425&mi=10962",
+        "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=2425&mi=10962&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "2425",
+        "base": "https://www.goe.go.kr"
+      }
+    },
+    {
+      "id": "gyeonggi-1952",
+      "office": "gyeonggi",
+      "board_name": "예·결산내역",
+      "menu_path": "예·결산내역",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=1952&mi=10233",
+        "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=1952&mi=10233&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1952",
+        "base": "https://www.goe.go.kr"
+      }
+    },
+    {
+      "id": "gyeonggi-1942",
+      "office": "gyeonggi",
+      "board_name": "검정고시공고",
+      "menu_path": "검정고시공고",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=1942&mi=10527",
+        "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=1942&mi=10527&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1942",
+        "base": "https://www.goe.go.kr"
+      }
+    },
+    {
+      "id": "jeonnam-118",
+      "office": "jeonnam",
+      "board_name": "검정고시공고",
+      "menu_path": "검정고시공고",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": false,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.jne.go.kr/main/na/ntt/selectNttList.do?bbsId=118&mi=266",
+        "view_url": "https://www.jne.go.kr/main/na/ntt/selectNttInfo.do?bbsId=118&mi=266&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "118",
+        "base": "https://www.jne.go.kr"
+      },
+      "note": "검정고시 공고만 올라와 계획서가 없다"
+    },
+    {
+      "id": "jeonnam-140",
+      "office": "jeonnam",
+      "board_name": "정책자료",
+      "menu_path": "정책자료",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jne.go.kr/main/na/ntt/selectNttList.do?bbsId=140&mi=314",
+        "view_url": "https://www.jne.go.kr/main/na/ntt/selectNttInfo.do?bbsId=140&mi=314&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "140",
+        "base": "https://www.jne.go.kr"
+      }
+    },
+    {
+      "id": "jeonnam-297",
+      "office": "jeonnam",
+      "board_name": "공개자료실",
+      "menu_path": "공개자료실",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jne.go.kr/main/na/ntt/selectNttList.do?bbsId=297&mi=551",
+        "view_url": "https://www.jne.go.kr/main/na/ntt/selectNttInfo.do?bbsId=297&mi=551&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "297",
+        "base": "https://www.jne.go.kr"
+      }
+    },
+    {
+      "id": "jeonnam-298",
+      "office": "jeonnam",
+      "board_name": "지침",
+      "menu_path": "지침",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jne.go.kr/main/na/ntt/selectNttList.do?bbsId=298&mi=554",
+        "view_url": "https://www.jne.go.kr/main/na/ntt/selectNttInfo.do?bbsId=298&mi=554&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "298",
+        "base": "https://www.jne.go.kr"
+      }
+    },
+    {
+      "id": "jeonnam-122",
+      "office": "jeonnam",
+      "board_name": "운영위원회자료",
+      "menu_path": "운영위원회자료",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jne.go.kr/main/na/ntt/selectNttList.do?bbsId=122&mi=272",
+        "view_url": "https://www.jne.go.kr/main/na/ntt/selectNttInfo.do?bbsId=122&mi=272&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "122",
+        "base": "https://www.jne.go.kr"
+      }
+    },
+    {
+      "id": "jeonnam-114",
+      "office": "jeonnam",
+      "board_name": "공지사항",
+      "menu_path": "공지사항",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jne.go.kr/main/na/ntt/selectNttList.do?bbsId=114&mi=196",
+        "view_url": "https://www.jne.go.kr/main/na/ntt/selectNttInfo.do?bbsId=114&mi=196&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "114",
+        "base": "https://www.jne.go.kr"
+      }
     }
   ]
 }
