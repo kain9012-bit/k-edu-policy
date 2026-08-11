@@ -130,8 +130,8 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         {/* 탭 소제목 — 세 탭이 같은 크기·굵기를 쓴다 */}
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h2 className="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <Landmark className="w-8 h-8 text-blue-600 shrink-0" aria-hidden="true" />
+          <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2 sm:gap-2.5">
+            <Landmark className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 shrink-0" aria-hidden="true" />
             내부결재 정보목록
           </h2>
           <p className="text-sm text-slate-500">

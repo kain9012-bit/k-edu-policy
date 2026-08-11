@@ -71,11 +71,11 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           (넘치는 부분은 최상위 div의 overflow-x-clip이 잘라낸다) */}
       <section
         className="relative left-1/2 w-screen -translate-x-1/2 -mt-6
-                   px-4 sm:px-6 lg:px-8 py-14 sm:py-20
+                   px-4 sm:px-6 lg:px-8 py-10 sm:py-20
                    bg-blue-50 border-b border-blue-100"
       >
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h2 className="text-4xl sm:text-[3rem] font-bold text-slate-900 leading-tight">
+          <h2 className="text-3xl sm:text-[3rem] font-bold text-slate-900 leading-tight">
             전국 시도교육청 <span className="text-blue-700">교육정책 통합검색</span>
           </h2>
           <p className="text-base sm:text-lg text-slate-600">
@@ -108,7 +108,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               </div>
               <button
                 type="submit"
-                className="h-16 px-8 sm:px-10 bg-blue-600 hover:bg-blue-700 text-white font-bold
+                className="h-16 px-5 sm:px-10 bg-blue-600 hover:bg-blue-700 text-white font-bold
  text-lg rounded-lg transition-colors flex items-center gap-2 shrink-0"
               >
                 <span>검색</span>
@@ -163,13 +163,13 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                 sub: '매일 새벽 자동 수집',
               },
             ].map((s) => (
-              <div key={s.t} className="bg-white border border-slate-200 rounded-lg p-5">
-                <dt className="text-sm text-slate-500 font-medium">{s.t}</dt>
-                <dd className="text-2xl sm:text-3xl font-bold text-slate-900 tabular-nums mt-1">
+              <div key={s.t} className="bg-white border border-slate-200 rounded-lg p-4 sm:p-5">
+                <dt className="text-xs sm:text-sm text-slate-500 font-medium">{s.t}</dt>
+                <dd className="text-xl sm:text-3xl font-bold text-slate-900 tabular-nums mt-1">
                   {s.v}
                 </dd>
                 <p
-                  className={`text-sm mt-1 flex items-center gap-1 ${
+                  className={`text-xs sm:text-sm mt-1 flex items-start gap-1 ${
                     s.ok ? 'text-emerald-600 font-medium' : 'text-slate-500'
                   }`}
                 >

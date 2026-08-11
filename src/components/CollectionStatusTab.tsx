@@ -184,6 +184,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
           </div>
 
           <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+            <p className="sm:hidden pb-2 text-[11px] text-slate-400">← 옆으로 밀어서 볼 수 있습니다</p>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200 text-slate-600">
@@ -268,6 +269,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
             <span className="text-[11px] text-slate-500">수집 기준</span>
           </div>
 
+          <p className="sm:hidden pb-2 text-[11px] text-slate-400">← 옆으로 밀어서 볼 수 있습니다</p>
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
               <thead className="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">

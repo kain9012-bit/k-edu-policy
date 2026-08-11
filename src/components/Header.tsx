@@ -61,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* 메뉴가 헤더 아래 테두리에 맞물리도록 밑줄을 헤더 바닥에 붙인다 */}
-          <nav aria-label="주 메뉴" className="-mb-px">
+          <nav aria-label="주 메뉴" className="-mb-px w-full sm:w-auto">
             <ul className="flex overflow-x-auto overflow-y-hidden no-scrollbar" role="tablist">
               {TABS.map(({ id, label }) => {
                 const on = activeTab === id;

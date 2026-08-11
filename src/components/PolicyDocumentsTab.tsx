@@ -262,8 +262,8 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         {/* 탭 소제목 — 세 탭이 같은 크기·굵기를 쓴다 */}
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h2 className="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <FileText className="w-8 h-8 text-blue-600 shrink-0" aria-hidden="true" />
+          <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2 sm:gap-2.5">
+            <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 shrink-0" aria-hidden="true" />
             공개 계획서
           </h2>
           <p className="text-sm text-slate-500">

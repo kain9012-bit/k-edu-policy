@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { BudgetData, BudgetRow } from '../types';
 import { sortOffices, fullOfficeName } from '../lib/offices';
 import { buildItemGroups, budgetItemLevel } from '../lib/budgetItems';
@@ -18,6 +18,19 @@ import {
   Pie
 } from 'recharts';
 
+/** 좁은 화면인지. 시도 17곳을 가로로 늘어놓으면 이름이 겹쳐서 세로로 눕힌다. */
+function useNarrowScreen() {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)');
+    const apply = () => setNarrow(mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+  return narrow;
+}
+
 /** 예산 구성 도넛·범례에 쓰는 색. 순서가 곧 비중 순서다. */
 const PIE_COLORS = ['#256ef4', '#1c589c', '#8a949e', '#b1b8be', '#cdd1d5'];
 
@@ -31,6 +44,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
   const [highlightRegion, setHighlightRegion] = useState<string>('전북');
   // 추이를 금액으로 볼지 비중으로 볼지
   const [trendMode, setTrendMode] = useState<'amount' | 'share'>('amount');
+  const narrow = useNarrowScreen();
 
   // 정책사업(상위)과 그 아래 단위사업을 묶어서 보여준다.
   // 섞어서 나열하면 '인건비'와 '교육복지'처럼 층위가 다른 것을 나란히 비교하게 된다.
@@ -214,8 +228,8 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         {/* 탭 소제목 — 세 탭이 같은 크기·굵기를 쓴다 */}
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h2 className="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <BarChart3 className="w-8 h-8 text-blue-600 shrink-0" aria-hidden="true" />
+          <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2 sm:gap-2.5">
+            <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 shrink-0" aria-hidden="true" />
             세출예산 비교
           </h2>
           <p className="text-sm text-slate-500">
@@ -502,26 +516,62 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
             <span className="text-xs text-slate-500 tabular-nums">단위: 원</span>
           </div>
 
-          <div className="h-80 w-full pt-2">
+          <div
+            className="w-full pt-2"
+            style={{ height: narrow ? Math.max(280, chartRows.length * 26 + 40) : 320 }}
+          >
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartRows} margin={{ top: 10, right: 10, left: 10, bottom: 25 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e6e8ea" />
-                <XAxis dataKey="region" tick={{ fontSize: 11, fill: '#58616a' }} interval={0} />
-                <YAxis
-                  tick={{ fontSize: 11, fill: '#6d7882' }}
-                  width={64}
-                  // 자동 범위로 두면 축 최대가 실제 최댓값보다 훨씬 크게 잡혀
-                  // 막대가 바닥에 깔린다. 최댓값을 직접 계산해 넣는다.
-                  domain={[0, maxAmount * 1.08]}
-                  allowDataOverflow={false}
-                  tickFormatter={tickWon}
+              <BarChart
+                data={chartRows}
+                layout={narrow ? 'vertical' : 'horizontal'}
+                margin={
+                  narrow
+                    ? { top: 4, right: 16, left: 4, bottom: 4 }
+                    : { top: 10, right: 10, left: 10, bottom: 25 }
+                }
+              >
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={narrow}
+                  horizontal={!narrow}
+                  stroke="#e6e8ea"
                 />
+                {narrow ? (
+                  <>
+                    <XAxis
+                      type="number"
+                      tick={{ fontSize: 10, fill: '#6d7882' }}
+                      domain={[0, maxAmount * 1.08]}
+                      tickFormatter={tickWon}
+                    />
+                    <YAxis
+                      type="category"
+                      dataKey="region"
+                      tick={{ fontSize: 11, fill: '#58616a' }}
+                      width={44}
+                      interval={0}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <XAxis dataKey="region" tick={{ fontSize: 11, fill: '#58616a' }} interval={0} />
+                    <YAxis
+                      tick={{ fontSize: 11, fill: '#6d7882' }}
+                      width={64}
+                      // 자동 범위로 두면 축 최대가 실제 최댓값보다 훨씬 크게 잡혀
+                      // 막대가 바닥에 깔린다. 최댓값을 직접 계산해 넣는다.
+                      domain={[0, maxAmount * 1.08]}
+                      allowDataOverflow={false}
+                      tickFormatter={tickWon}
+                    />
+                  </>
+                )}
                 <Tooltip
                   formatter={(val: number) => [`${formatAmount(val)} (${Math.round(val / 100_000_000).toLocaleString()}억)`, '예산액']}
                   labelFormatter={(lbl) => fullOfficeName(String(lbl))}
                   contentStyle={{ borderRadius: '8px', borderColor: '#cdd1d5', fontSize: '13px' }}
                 />
-                <Bar dataKey="amount" radius={[4, 4, 0, 0]} isAnimationActive={false}>
+                <Bar dataKey="amount" radius={narrow ? [0, 4, 4, 0] : [4, 4, 0, 0]} isAnimationActive={false}>
                   {chartRows.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
@@ -656,6 +706,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
           <span className="text-[11px] text-slate-500">출처: 지방교육재정알리미</span>
         </div>
 
+        <p className="sm:hidden pb-2 text-[11px] text-slate-400">← 옆으로 밀어서 볼 수 있습니다</p>
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-left">
             <thead className="bg-slate-100/80 text-slate-600 font-bold border-b border-slate-200">
