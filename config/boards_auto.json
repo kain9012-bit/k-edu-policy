@@ -3981,6 +3981,111 @@
         "bbs_sn": "114",
         "base": "https://www.jne.go.kr"
       }
+    },
+    {
+      "id": "jeonnamgwangju-1122",
+      "office": "jeonnamgwangju",
+      "board_name": "공개자료실",
+      "menu_path": "공개자료실",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttList.do?mi=2091&bbsId=1122",
+        "view_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttInfo.do?mi=2091&bbsId=1122&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1122",
+        "base": "https://www.jge.go.kr"
+      }
+    },
+    {
+      "id": "jeonnamgwangju-1073",
+      "office": "jeonnamgwangju",
+      "board_name": "정보알림",
+      "menu_path": "정보알림",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttList.do?mi=2083&bbsId=1073",
+        "view_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttInfo.do?mi=2083&bbsId=1073&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1073",
+        "base": "https://www.jge.go.kr"
+      }
+    },
+    {
+      "id": "jeonnamgwangju-1071",
+      "office": "jeonnamgwangju",
+      "board_name": "운영위원회자료",
+      "menu_path": "운영위원회자료",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttList.do?mi=2074&bbsId=1071",
+        "view_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttInfo.do?mi=2074&bbsId=1071&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1071",
+        "base": "https://www.jge.go.kr"
+      }
+    },
+    {
+      "id": "jeonnamgwangju-1129",
+      "office": "jeonnamgwangju",
+      "board_name": "공지사항",
+      "menu_path": "공지사항",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttList.do?mi=2110&bbsId=1129",
+        "view_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttInfo.do?mi=2110&bbsId=1129&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1129",
+        "base": "https://www.jge.go.kr"
+      }
+    },
+    {
+      "id": "jeonnamgwangju-1120",
+      "office": "jeonnamgwangju",
+      "board_name": "인사업무자료",
+      "menu_path": "인사업무자료",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "config": {
+        "list_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttList.do?mi=2089&bbsId=1120",
+        "view_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttInfo.do?mi=2089&bbsId=1120&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1120",
+        "base": "https://www.jge.go.kr"
+      }
     }
   ]
 }

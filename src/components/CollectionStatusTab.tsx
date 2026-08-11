@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DocumentsData, InfoListData, OfficeStat } from '../types';
-import { sortOffices } from '../lib/offices';
+import { sortOffices, shortOfficeName } from '../lib/offices';
 import { Database, CheckCircle2, AlertCircle, RefreshCw, FileText, Lock, Globe, Terminal, Shield } from 'lucide-react';
 
 interface CollectionStatusTabProps {
@@ -19,13 +19,30 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
     for (const d of infoData?.documents ?? []) {
       internal.set(d.office, (internal.get(d.office) ?? 0) + 1);
     }
-    return (data.office_stats ?? [])
-      .map((o) => {
-        const inner = internal.get(o.name) ?? 0;
-        const open = o.plan_count ?? 0;
-        return { ...o, inner, open, ratio: inner > 0 ? open / inner : 0 };
-      })
-      .sort((a, b) => b.ratio - a.ratio);
+
+    const rows = (data.office_stats ?? []).map((o) => {
+      const inner = internal.get(o.name) ?? 0;
+      const open = o.plan_count ?? 0;
+      return { key: o.name, short: o.short_name, name: o.name, inner, open, ratio: inner > 0 ? open / inner : 0, note: '' };
+    });
+
+    // 홈페이지를 따로 수집하지 않는 기관도 내부결재에는 잡힌다.
+    // 표에서 통째로 빠지면 합계가 안 맞고 '왜 없냐'는 오해를 부른다.
+    const covered = new Set(rows.map((r) => r.name));
+    for (const [office, inner] of internal) {
+      if (covered.has(office)) continue;
+      rows.push({
+        key: office,
+        short: shortOfficeName(office),
+        name: office,
+        inner,
+        open: -1,                      // 0건이 아니라 '수집 대상 아님'
+        ratio: -1,
+        note: '홈페이지 수집 대상이 아직 아닙니다',
+      });
+    }
+
+    return rows.sort((a, b) => b.ratio - a.ratio);
   }, [data.office_stats, infoData]);
 
   const maxInner = Math.max(1, ...opennessRows.map((r) => r.inner));
@@ -163,21 +180,31 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {opennessRows.map((r) => {
+                    const notCollected = r.open < 0;
                     const pct = r.ratio * 100;
                     return (
-                      <tr key={r.office} className="hover:bg-slate-50">
+                      <tr key={r.key} className="hover:bg-slate-50">
                         <td className="py-3 px-4">
-                          <span className="font-bold text-slate-900">{r.short_name}</span>
+                          <span className="font-bold text-slate-900">{r.short}</span>
                           <span className="text-xs text-slate-500 ml-1.5">{r.name}</span>
+                          {r.note && (
+                            <span className="block text-xs text-slate-400 mt-0.5">{r.note}</span>
+                          )}
                         </td>
                         <td className="py-3 px-4 text-right tabular-nums font-bold text-blue-700">
-                          {r.open.toLocaleString()}
+                          {notCollected ? <span className="text-slate-300">—</span> : r.open.toLocaleString()}
                         </td>
                         <td className="py-3 px-4 text-right tabular-nums text-slate-600">
                           {r.inner.toLocaleString()}
                         </td>
                         <td className="py-3 px-4 text-right tabular-nums font-bold text-slate-900">
-                          {pct < 0.05 ? '0%' : `${pct.toFixed(1)}%`}
+                          {notCollected ? (
+                            <span className="text-slate-300">—</span>
+                          ) : pct < 0.05 ? (
+                            '0%'
+                          ) : (
+                            `${pct.toFixed(1)}%`
+                          )}
                         </td>
                         <td className="py-3 px-4">
                           {/* 회색 막대 = 내부결재 전체, 파란 막대 = 그중 공개된 몫 */}
@@ -186,10 +213,12 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
                               className="absolute inset-y-0 left-0 bg-slate-300"
                               style={{ width: `${(r.inner / maxInner) * 100}%` }}
                             />
-                            <div
-                              className="absolute inset-y-0 left-0 bg-blue-600"
-                              style={{ width: `${(r.open / maxInner) * 100}%` }}
-                            />
+                            {!notCollected && (
+                              <div
+                                className="absolute inset-y-0 left-0 bg-blue-600"
+                                style={{ width: `${(r.open / maxInner) * 100}%` }}
+                              />
+                            )}
                           </div>
                         </td>
                       </tr>

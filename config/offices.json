@@ -107,9 +107,10 @@
     "id": "jeonnamgwangju",
     "name": "전남광주통합특별시교육청",
     "short_name": "전남광주",
-    "homepage_url": "https://www.jge.go.kr/",
-    "is_active": false,
-    "display_order": 14
+    "homepage_url": "https://www.jge.go.kr/jgemain/",
+    "is_active": true,
+    "display_order": 14,
+    "note": "2026년 출범. /jgemain/ 이 본 사이트다. /main/ 은 (구)전남으로 jne.go.kr과 같다."
   },
   {
     "id": "gwangju",
