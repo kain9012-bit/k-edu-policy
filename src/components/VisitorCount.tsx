@@ -18,9 +18,12 @@ export const VisitorCount: React.FC = () => {
       d.getDate()
     ).padStart(2, '0')}`;
 
+    // 특수 경로 TOTAL 은 0만 돌려주고 실제 값이 안 담긴다(확인함).
+    // 이 서비스는 주소가 '/' 하나로 고정된 화면이라(탭은 주소를 바꾸지 않는다)
+    // '/' 의 조회수가 곧 사이트 전체 방문수다.
     const read = async (query: string, apply: (v: string) => void) => {
       try {
-        const res = await fetch(`${GOATCOUNTER}/counter/TOTAL.json${query}`);
+        const res = await fetch(`${GOATCOUNTER}/counter/%2F.json${query}`);
         if (!res.ok) return;
         const json = await res.json();
         if (typeof json.count === 'string') apply(json.count);
