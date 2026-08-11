@@ -13,8 +13,13 @@ import {
   Cell,
   LineChart,
   Line,
-  CartesianGrid
+  CartesianGrid,
+  PieChart,
+  Pie
 } from 'recharts';
+
+/** 예산 구성 도넛·범례에 쓰는 색. 순서가 곧 비중 순서다. */
+const PIE_COLORS = ['#256ef4', '#1c589c', '#8a949e', '#b1b8be', '#cdd1d5'];
 
 interface BudgetTabProps {
   data: BudgetData;
@@ -298,41 +303,66 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
               </p>
             </div>
 
-            {/* 누적 막대 하나로 쏠림을 보여준다 */}
-            <div className="flex h-7 rounded-md overflow-hidden border border-slate-200">
-              {composition.parts.map((p, i) => (
-                <div
-                  key={p.item}
-                  title={`${p.item} ${((p.amount / composition.total) * 100).toFixed(1)}%`}
-                  style={{
-                    width: `${(p.amount / composition.total) * 100}%`,
-                    background: ['#256ef4', '#1c589c', '#8a949e', '#b1b8be', '#cdd1d5'][i % 5],
-                  }}
-                />
-              ))}
-            </div>
-
-            <ul className="space-y-1.5">
-              {composition.parts.map((p, i) => (
-                <li key={p.item} className="flex items-center gap-2 text-sm">
-                  <span
-                    className="w-3 h-3 rounded-sm shrink-0"
-                    style={{ background: ['#256ef4', '#1c589c', '#8a949e', '#b1b8be', '#cdd1d5'][i % 5] }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setSelectedItem(p.item)}
-                    className="flex-1 text-left text-slate-700 hover:text-blue-700 hover:underline"
-                  >
-                    {p.item}
-                  </button>
-                  <span className="tabular-nums text-slate-500">{formatAmount(p.amount)}</span>
-                  <span className="tabular-nums font-bold text-slate-900 w-14 text-right">
-                    {((p.amount / composition.total) * 100).toFixed(1)}%
+            {/* 왼쪽 도넛, 오른쪽 항목 목록 */}
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="relative w-40 h-40 shrink-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={composition.parts.map((p) => ({ name: p.item, value: p.amount }))}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={46}
+                      outerRadius={72}
+                      paddingAngle={1}
+                      stroke="none"
+                      isAnimationActive={false}
+                    >
+                      {composition.parts.map((p, i) => (
+                        <Cell key={p.item} fill={PIE_COLORS[i % PIE_COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(v: number, n: string) => [
+                        `${formatAmount(v)} (${((v / composition.total) * 100).toFixed(1)}%)`,
+                        n,
+                      ]}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+                {/* 가운데에 총액을 둔다 */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  <span className="text-[11px] text-slate-400 font-medium">세출예산</span>
+                  <span className="text-sm font-bold text-slate-900 tabular-nums">
+                    {formatAmount(composition.total)}
                   </span>
-                </li>
-              ))}
-            </ul>
+                </div>
+              </div>
+
+              <ul className="flex-1 w-full space-y-1.5">
+                {composition.parts.map((p, i) => (
+                  <li key={p.item} className="flex items-center gap-2 text-sm">
+                    <span
+                      className="w-3 h-3 rounded-sm shrink-0"
+                      style={{ background: PIE_COLORS[i % PIE_COLORS.length] }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setSelectedItem(p.item)}
+                      className="flex-1 text-left text-slate-700 hover:text-blue-700 hover:underline"
+                    >
+                      {p.item}
+                    </button>
+                    <span className="tabular-nums text-slate-500">{formatAmount(p.amount)}</span>
+                    <span className="tabular-nums font-bold text-slate-900 w-14 text-right">
+                      {((p.amount / composition.total) * 100).toFixed(1)}%
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         )}
 
