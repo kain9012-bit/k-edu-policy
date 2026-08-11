@@ -90,6 +90,37 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
     };
   }, [currentYearRows, highlightRegion]);
 
+  // 총액 대비 비중. 금액만 보면 교육청 규모에 좌우돼 '많이 쓰는지'를 알 수 없다.
+  // 예) 전북 교수학습활동지원은 금액 4위지만 비중은 8.2%로 전국 1위다.
+  const shareInfo = useMemo(() => {
+    const total = data.item_levels?.total ?? '세출예산액';
+    if (selectedItem === total) return null;
+
+    const totals = new Map<string, number>();
+    for (const r of data.rows) {
+      if (r.year === selectedYear && r.item === total) totals.set(r.region, r.amount);
+    }
+    const shares: { region: string; share: number }[] = [];
+    for (const r of currentYearRows) {
+      const t = totals.get(r.region);
+      if (t) shares.push({ region: r.region, share: (r.amount / t) * 100 });
+    }
+    if (!shares.length) return null;
+
+    const sorted = [...shares].sort((a, b) => b.share - a.share);
+    const avg = shares.reduce((n, x) => n + x.share, 0) / shares.length;
+    const mineIdx = sorted.findIndex((x) => x.region === highlightRegion);
+
+    return {
+      avg,
+      top: sorted[0],
+      bottom: sorted[sorted.length - 1],
+      mine: mineIdx >= 0 ? { ...sorted[mineIdx], rank: mineIdx + 1 } : null,
+      total: shares.length,
+      byRegion: new Map(shares.map((x) => [x.region, x.share])),
+    };
+  }, [data.rows, data.item_levels, selectedItem, selectedYear, currentYearRows, highlightRegion]);
+
   // Multi-year trend data for highlighted office
   const trendData = useMemo(() => {
     return data.years
@@ -216,12 +247,61 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
             </div>
           </div>
 
-          <div className="bg-slate-800 px-4 py-2.5 rounded-xl border border-slate-700 text-right">
-            <span className="text-[11px] text-slate-400 block font-medium">해당 항목 예산액</span>
-            <span className="text-lg font-bold text-amber-400 tabular-nums">
-              {formatAmount(highlightedRankInfo.row.amount)}
-            </span>
+          <div className="flex items-stretch gap-2 shrink-0">
+            <div className="bg-slate-800 px-4 py-2.5 rounded-lg border border-slate-700 text-right">
+              <span className="text-xs text-slate-400 block font-medium">해당 항목 예산액</span>
+              <span className="text-lg font-bold text-amber-400 tabular-nums">
+                {formatAmount(highlightedRankInfo.row.amount)}
+              </span>
+            </div>
+
+            {/* 금액 순위는 교육청 규모에 좌우된다. 총액 대비 비중이 '많이 쓰는지'를 말해준다. */}
+            {shareInfo?.mine && (
+              <div className="bg-slate-800 px-4 py-2.5 rounded-lg border border-slate-700 text-right">
+                <span className="text-xs text-slate-400 block font-medium">
+                  총액 대비 비중 · 비중 {shareInfo.mine.rank}위
+                </span>
+                <span className="text-lg font-bold text-white tabular-nums">
+                  {shareInfo.mine.share.toFixed(1)}%
+                </span>
+                <span
+                  className={`ml-1.5 text-xs font-bold tabular-nums ${
+                    shareInfo.mine.share >= shareInfo.avg ? 'text-emerald-400' : 'text-red-400'
+                  }`}
+                >
+                  전국평균 {shareInfo.avg.toFixed(1)}%
+                  {' '}({shareInfo.mine.share >= shareInfo.avg ? '+' : ''}
+                  {(shareInfo.mine.share - shareInfo.avg).toFixed(1)}%p)
+                </span>
+              </div>
+            )}
           </div>
+        </div>
+      )}
+
+      {/* 비중 요약 — 금액 순위만으로는 안 보이는 것 */}
+      {shareInfo?.mine && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-slate-700 leading-relaxed">
+          <strong className="font-bold text-slate-900">{fullOfficeName(highlightRegion)}</strong>은
+          세출예산의 <strong className="font-bold text-blue-700">{shareInfo.mine.share.toFixed(1)}%</strong>를
+          {' '}<strong className="font-bold text-slate-900">{selectedItem}</strong>에 씁니다.
+          전국 평균은 {shareInfo.avg.toFixed(1)}%로,{' '}
+          {Math.abs(shareInfo.mine.share - shareInfo.avg) < 0.05 ? (
+            '평균과 비슷합니다.'
+          ) : (
+            <>
+              평균보다{' '}
+              <strong className="font-bold text-slate-900">
+                {Math.abs(shareInfo.mine.share - shareInfo.avg).toFixed(1)}%p{' '}
+                {shareInfo.mine.share > shareInfo.avg ? '높습니다' : '낮습니다'}
+              </strong>
+              . (비중 {shareInfo.mine.rank}위 / {shareInfo.total}곳)
+            </>
+          )}
+          <span className="block text-xs text-slate-500 mt-1.5">
+            가장 높은 곳 {shareInfo.top.region} {shareInfo.top.share.toFixed(1)}% ·
+            가장 낮은 곳 {shareInfo.bottom.region} {shareInfo.bottom.share.toFixed(1)}%
+          </span>
         </div>
       )}
 
@@ -311,8 +391,8 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
               <tr>
                 <th className="py-3 px-4 w-16 text-center">순위</th>
                 <th className="py-3 px-4">교육청</th>
-                <th className="py-3 px-4">기관코드</th>
                 <th className="py-3 px-4 text-right">예산 금액</th>
+                <th className="py-3 px-4 text-right">총액 대비 비중</th>
                 <th className="py-3 px-4 text-center">강조 선택</th>
               </tr>
             </thead>
@@ -341,10 +421,29 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
                         {idx + 1}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-bold">{row.region}특별시·도교육청</td>
-                    <td className="py-3 px-4 tabular-nums text-slate-400">{row.region_code}</td>
-                    <td className="py-3 px-4 text-right font-bold text-indigo-700">
+                    <td className="py-3 px-4 font-bold">{fullOfficeName(row.region)}</td>
+                    <td className="py-3 px-4 text-right font-bold text-indigo-700 tabular-nums">
                       {formatAmount(row.amount)}
+                    </td>
+                    <td className="py-3 px-4 text-right tabular-nums">
+                      {(() => {
+                        const sh = shareInfo?.byRegion.get(row.region);
+                        if (sh === undefined) return <span className="text-slate-300">—</span>;
+                        const gap = sh - (shareInfo?.avg ?? 0);
+                        return (
+                          <>
+                            <span className="font-bold text-slate-900">{sh.toFixed(1)}%</span>
+                            <span
+                              className={`ml-1.5 text-xs font-medium ${
+                                gap >= 0 ? 'text-emerald-600' : 'text-red-500'
+                              }`}
+                            >
+                              {gap >= 0 ? '+' : ''}
+                              {gap.toFixed(1)}%p
+                            </span>
+                          </>
+                        );
+                      })()}
                     </td>
                     <td className="py-3 px-4 text-center">
                       <button
