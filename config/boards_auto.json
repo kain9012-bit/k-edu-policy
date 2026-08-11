@@ -4086,6 +4086,28 @@
         "bbs_sn": "1120",
         "base": "https://www.jge.go.kr"
       }
+    },
+    {
+      "id": "jeonnamgwangju-1076",
+      "office": "jeonnamgwangju",
+      "board_name": "정책자료",
+      "menu_path": "정책자료",
+      "collector_type": "goe",
+      "board_type": "정책집중",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 5,
+      "note": "통합청이 계획서를 모을 것으로 보이는 게시판. 2026년 출범 직후라 아직 글이 적다.",
+      "config": {
+        "list_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttList.do?mi=2182&bbsId=1076",
+        "view_url": "https://www.jge.go.kr/jgemain/na/ntt/selectNttInfo.do?mi=2182&bbsId=1076&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1076",
+        "base": "https://www.jge.go.kr"
+      }
     }
   ]
 }

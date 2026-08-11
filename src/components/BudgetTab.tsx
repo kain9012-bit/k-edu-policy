@@ -24,6 +24,8 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
   const [selectedYear, setSelectedYear] = useState<number>(2026);
   const [selectedItem, setSelectedItem] = useState<string>('세출예산액');
   const [highlightRegion, setHighlightRegion] = useState<string>('전북');
+  // 추이를 금액으로 볼지 비중으로 볼지
+  const [trendMode, setTrendMode] = useState<'amount' | 'share'>('amount');
 
   // 정책사업(상위)과 그 아래 단위사업을 묶어서 보여준다.
   // 섞어서 나열하면 '인건비'와 '교육복지'처럼 층위가 다른 것을 나란히 비교하게 된다.
@@ -145,24 +147,6 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
     return { total, parts };
   }, [amountAt, selectedYear, highlightRegion, data.policy_items, TOTAL_ITEM]);
 
-  // ② 인건비 비중 추이 — 재정 경직성. 비중이 오르면 쓸 수 있는 돈이 준다는 뜻이다.
-  const rigidity = useMemo(() => {
-    const rows = data.years.map((y) => {
-      const mineTotal = amountAt(y, highlightRegion, TOTAL_ITEM);
-      const mine = mineTotal ? (amountAt(y, highlightRegion, '인건비') / mineTotal) * 100 : 0;
-      const each = data.regions
-        .map((r) => {
-          const t = amountAt(y, r, TOTAL_ITEM);
-          return t ? (amountAt(y, r, '인건비') / t) * 100 : null;
-        })
-        .filter((v): v is number => v !== null);
-      const avg = each.length ? each.reduce((n, v) => n + v, 0) / each.length : 0;
-      return { year: `${y}년`, mine: +mine.toFixed(1), avg: +avg.toFixed(1) };
-    }).filter((r) => r.mine > 0);
-    if (rows.length < 2) return null;
-    return { rows, first: rows[0], last: rows[rows.length - 1] };
-  }, [data.years, data.regions, amountAt, highlightRegion, TOTAL_ITEM]);
-
   // ③ 전년 대비 크게 늘거나 준 항목. 항목을 하나씩 눌러보지 않아도 먼저 짚어준다.
   const bigChanges = useMemo(() => {
     const prevYear = selectedYear - 1;
@@ -185,21 +169,34 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
     };
   }, [data.years, data.policy_items, unitItems, amountAt, selectedYear, highlightRegion]);
 
-  // Multi-year trend data for highlighted office
+  // 연도별 추이. 금액과 비중을 같은 차트에서 바꿔 볼 수 있게 둘 다 담는다.
+  // 비중은 전국 평균도 함께 그려야 '많이 쓰는지'가 판단된다.
   const trendData = useMemo(() => {
     return data.years
       .map((y) => {
-        const row = data.rows.find(
-          (r) => r.year === y && r.region === highlightRegion && r.item === selectedItem
-        );
+        const amount = amountAt(y, highlightRegion, selectedItem);
+        const mineTotal = amountAt(y, highlightRegion, TOTAL_ITEM);
+        const share = mineTotal ? (amount / mineTotal) * 100 : 0;
+        const each = data.regions
+          .map((r) => {
+            const t = amountAt(y, r, TOTAL_ITEM);
+            return t ? (amountAt(y, r, selectedItem) / t) * 100 : null;
+          })
+          .filter((v): v is number => v !== null && v > 0);
+        const avgShare = each.length ? each.reduce((n, v) => n + v, 0) / each.length : 0;
         return {
           year: `${y}년`,
-          amount: row ? Math.round(row.amount / 100_000_000) : 0, // In 억 원
-          formatted: row ? formatAmount(row.amount) : '데이터 없음',
+          amount: Math.round(amount / 100_000_000),   // 억 원
+          share: +share.toFixed(1),
+          avgShare: +avgShare.toFixed(1),
+          formatted: amount ? formatAmount(amount) : '데이터 없음',
         };
       })
       .filter((d) => d.amount > 0);
-  }, [data.rows, data.years, highlightRegion, selectedItem]);
+  }, [data.years, data.regions, amountAt, highlightRegion, selectedItem, TOTAL_ITEM]);
+
+  const trendFirst = trendData[0];
+  const trendLast = trendData[trendData.length - 1];
 
   return (
     <div className="space-y-6 pb-12">
@@ -390,63 +387,6 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
         )}
       </div>
 
-      {/* ② 인건비 비중 추이 — 재정 경직성 */}
-      {rigidity && (
-        <div className="bg-white rounded-lg border border-slate-200 p-5 space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-            <div>
-              <h4 className="text-base font-bold text-slate-900">인건비가 차지하는 몫</h4>
-              <p className="text-xs text-slate-500 mt-0.5">
-                이 비중이 오르면 새 사업에 쓸 수 있는 돈이 그만큼 줄어듭니다.
-              </p>
-            </div>
-            <p className="text-sm text-slate-600">
-              {rigidity.first.year} <strong className="font-bold tabular-nums">{rigidity.first.mine}%</strong>
-              {' → '}
-              {rigidity.last.year} <strong className="font-bold text-slate-900 tabular-nums">{rigidity.last.mine}%</strong>
-              <span
-                className={`ml-1.5 font-bold tabular-nums ${
-                  rigidity.last.mine >= rigidity.first.mine ? 'text-red-500' : 'text-emerald-600'
-                }`}
-              >
-                ({rigidity.last.mine >= rigidity.first.mine ? '+' : ''}
-                {(rigidity.last.mine - rigidity.first.mine).toFixed(1)}%p)
-              </span>
-            </p>
-          </div>
-
-          <div className="h-56 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={rigidity.rows} margin={{ top: 8, right: 12, left: 4, bottom: 4 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e6e8ea" />
-                <XAxis dataKey="year" tick={{ fontSize: 11, fill: '#58616a' }} />
-                <YAxis
-                  tick={{ fontSize: 11, fill: '#6d7882' }}
-                  width={52}
-                  domain={['dataMin - 4', 'dataMax + 4']}
-                  tickFormatter={(v) => `${Math.round(Number(v))}%`}
-                />
-                <Tooltip
-                  formatter={(v: number, n: string) => [`${v}%`, n === 'mine' ? fullOfficeName(highlightRegion) : '전국 평균']}
-                  contentStyle={{ borderRadius: '8px', borderColor: '#cdd1d5', fontSize: '13px' }}
-                />
-                <Line type="monotone" dataKey="avg" stroke="#b1b8be" strokeWidth={2}
-                      strokeDasharray="4 4" dot={{ r: 3, fill: '#b1b8be' }} isAnimationActive={false} />
-                <Line type="monotone" dataKey="mine" stroke="#256ef4" strokeWidth={2.5}
-                      dot={{ r: 4, fill: '#256ef4' }} isAnimationActive={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-
-          <p className="text-xs text-slate-500">
-            <span className="inline-block w-3 h-0.5 bg-blue-600 align-middle mr-1" />
-            {fullOfficeName(highlightRegion)}
-            <span className="inline-block w-3 h-0.5 bg-slate-300 align-middle ml-3 mr-1" />
-            전국 평균
-          </p>
-        </div>
-      )}
-
       {/* Rank Highlight KPI Box */}
       {highlightedRankInfo && (
         <div className="bg-slate-900 text-white rounded-lg p-5 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4 border border-slate-800">
@@ -573,28 +513,114 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
 
         {/* Multi-year Trend Chart (1 col) */}
         <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-xs space-y-3">
-          <div>
-            <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-amber-500" />
-              {fullOfficeName(highlightRegion)} 연도별 추이
-            </h4>
-            <p className="text-xs text-slate-500 mt-0.5">[{selectedItem}] 항목 예산 변동</p>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-amber-500" />
+                {fullOfficeName(highlightRegion)} 연도별 추이
+              </h4>
+              <p className="text-xs text-slate-500 mt-0.5">[{selectedItem}] 항목</p>
+            </div>
+
+            {/* 금액은 규모, 비중은 우선순위를 보여준다. 같은 차트에서 바꿔 본다. */}
+            <div className="inline-flex rounded-md border border-slate-300 overflow-hidden text-xs shrink-0">
+              {([
+                ['amount', '금액'],
+                ['share', '비중'],
+              ] as const).map(([mode, label]) => (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setTrendMode(mode)}
+                  aria-pressed={trendMode === mode}
+                  className={`px-3 py-1.5 font-bold transition-colors ${
+                    trendMode === mode ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="h-64 w-full pt-4">
+          {trendFirst && trendLast && (
+            <p className="text-xs text-slate-600">
+              {trendMode === 'amount' ? (
+                <>
+                  {trendFirst.year} {tickEok(trendFirst.amount)} → {trendLast.year}{' '}
+                  <strong className="font-bold text-slate-900">{tickEok(trendLast.amount)}</strong>
+                  <span
+                    className={`ml-1.5 font-bold tabular-nums ${
+                      trendLast.amount >= trendFirst.amount ? 'text-emerald-600' : 'text-red-500'
+                    }`}
+                  >
+                    ({trendLast.amount >= trendFirst.amount ? '+' : ''}
+                    {(((trendLast.amount - trendFirst.amount) / trendFirst.amount) * 100).toFixed(1)}%)
+                  </span>
+                </>
+              ) : (
+                <>
+                  {trendFirst.year} {trendFirst.share}% → {trendLast.year}{' '}
+                  <strong className="font-bold text-slate-900">{trendLast.share}%</strong>
+                  <span
+                    className={`ml-1.5 font-bold tabular-nums ${
+                      trendLast.share >= trendFirst.share ? 'text-emerald-600' : 'text-red-500'
+                    }`}
+                  >
+                    ({trendLast.share >= trendFirst.share ? '+' : ''}
+                    {(trendLast.share - trendFirst.share).toFixed(1)}%p)
+                  </span>
+                  <span className="text-slate-400"> · 전국 평균 {trendLast.avgShare}%</span>
+                </>
+              )}
+            </p>
+          )}
+
+          <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={trendData}>
+              <LineChart data={trendData} margin={{ top: 8, right: 12, left: 4, bottom: 4 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e6e8ea" />
                 <XAxis dataKey="year" tick={{ fontSize: 11, fill: '#58616a' }} />
-                <YAxis tick={{ fontSize: 11, fill: '#6d7882' }} width={64} tickFormatter={tickEok} />
+                <YAxis
+                  tick={{ fontSize: 11, fill: '#6d7882' }}
+                  width={64}
+                  domain={trendMode === 'share' ? ['dataMin - 3', 'dataMax + 3'] : undefined}
+                  tickFormatter={(v) =>
+                    trendMode === 'share' ? `${Number(v).toFixed(0)}%` : tickEok(Number(v))
+                  }
+                />
                 <Tooltip
-                  formatter={(val: number) => [`${(val / 10000).toFixed(2)}조 원 (${val.toLocaleString()}억)`, '예산액']}
+                  formatter={(val: number, name: string) =>
+                    trendMode === 'share'
+                      ? [`${val}%`, name === 'share' ? fullOfficeName(highlightRegion) : '전국 평균']
+                      : [`${(val / 10000).toFixed(2)}조 원 (${val.toLocaleString()}억)`, '예산액']
+                  }
                   contentStyle={{ borderRadius: '8px', borderColor: '#cdd1d5', fontSize: '13px' }}
                 />
-                <Line type="monotone" dataKey="amount" stroke="#256ef4" strokeWidth={2.5} dot={{ r: 4, fill: '#256ef4' }} />
+                {trendMode === 'share' && (
+                  <Line type="monotone" dataKey="avgShare" stroke="#b1b8be" strokeWidth={2}
+                        strokeDasharray="4 4" dot={{ r: 3, fill: '#b1b8be' }} isAnimationActive={false} />
+                )}
+                <Line
+                  type="monotone"
+                  dataKey={trendMode === 'share' ? 'share' : 'amount'}
+                  stroke="#256ef4"
+                  strokeWidth={2.5}
+                  dot={{ r: 4, fill: '#256ef4' }}
+                  isAnimationActive={false}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
+
+          {trendMode === 'share' && (
+            <p className="text-xs text-slate-500">
+              <span className="inline-block w-3 h-0.5 bg-blue-600 align-middle mr-1" />
+              {fullOfficeName(highlightRegion)}
+              <span className="inline-block w-3 h-0.5 bg-slate-300 align-middle ml-3 mr-1" />
+              전국 평균 · 비중이 오르면 다른 데 쓸 몫이 그만큼 줄어듭니다.
+            </p>
+          )}
         </div>
       </div>
 
