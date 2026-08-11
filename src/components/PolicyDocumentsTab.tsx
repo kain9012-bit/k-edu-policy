@@ -129,7 +129,8 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         n.set(cat, (n.get(cat) ?? 0) + 1);
       }
     }
-    return [...n.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
+    // 한 줄에 들어가는 만큼만 둔다(9개). 늘리면 줄바꿈이 생긴다.
+    return [...n.entries()].sort((a, b) => b[1] - a[1]).slice(0, 9);
   }, [data.documents]);
 
   // 교육청은 가나다순이 아니라 행정구역 순서로 늘어놓는다.

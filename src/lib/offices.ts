@@ -5,13 +5,15 @@
  * 행정구역 순서(특별시 → 광역시 → 특별자치시 → 도)를 따른다.
  */
 export const OFFICE_ORDER = [
-  '서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종',
+  // 전남광주통합특별시는 특별시라 서울 다음에 온다.
+  '서울', '전남광주', '부산', '대구', '인천', '광주', '대전', '울산', '세종',
   '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주',
 ] as const;
 
 /** 짧은 이름 · 정식 명칭 · 영문 키를 모두 같은 자리로 모으기 위한 별칭 */
 const ALIASES: Record<string, string[]> = {
   서울: ['서울', 'seoul'],
+  전남광주: ['전남광주', '통합특별시', 'jeonnamgwangju'],
   부산: ['부산', 'busan'],
   대구: ['대구', 'daegu'],
   인천: ['인천', 'incheon'],
@@ -36,16 +38,24 @@ const ALIASES: Record<string, string[]> = {
  */
 export function officeRank(name: string): number {
   const s = (name || '').toLowerCase();
-  // '전남광주통합특별시교육청'처럼 두 지역이 합쳐진 이름은 아직 실체가 없다.
-  // '광주'로 먼저 잡혀 순서에 끼어들지 않도록 맨 뒤로 보낸다.
-  if (s.includes('통합')) return OFFICE_ORDER.length;
   for (let i = 0; i < OFFICE_ORDER.length; i++) {
     const key = OFFICE_ORDER[i];
-    // '전남광주통합…'처럼 두 지역명이 함께 든 이름이 '광주'로 먼저 잡히지 않도록
-    // 별칭이 이름 안에 있는지만 보고, 더 앞선 자리를 우선한다.
+    // '전남광주통합특별시'가 '광주'나 '전남'으로 잡히지 않도록
+    // 목록에서 더 앞선 자리(전남광주)를 먼저 확인한다.
     if (ALIASES[key].some((a) => s.includes(a.toLowerCase()))) return i;
   }
   return OFFICE_ORDER.length;
+}
+
+/**
+ * 어떤 표기로 들어와도 약칭으로 바꾼다.
+ * '경상남도교육청' · 'gyeongnam' · '경남' → '경남'
+ * 알아보지 못하면 '교육청'만 떼고 원래 이름을 돌려준다.
+ */
+export function shortOfficeName(name: string): string {
+  const rank = officeRank(name);
+  if (rank < OFFICE_ORDER.length) return OFFICE_ORDER[rank];
+  return (name || '').replace(/교육청$/, '');
 }
 
 /** 교육청 목록을 정식 순서로 정렬한다(원본 배열은 건드리지 않는다). */
