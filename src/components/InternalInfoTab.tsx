@@ -24,6 +24,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOffice, setSelectedOffice] = useState<string>('ALL');
   const [selectedDept, setSelectedDept] = useState<string>('ALL');
+  const [selectedYear, setSelectedYear] = useState<string>('ALL');
   const [copiedDocNo, setCopiedDocNo] = useState<string | null>(null);
   const [showInfoGuide, setShowInfoGuide] = useState(false);
 
@@ -52,6 +53,11 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
         return false;
       }
 
+      // 생산 연도
+      if (selectedYear !== 'ALL' && (doc.published_date || '').slice(0, 4) !== selectedYear) {
+        return false;
+      }
+
       // Search term
       if (searchTerm.trim() !== '') {
         const q = searchTerm.toLowerCase().trim();
@@ -67,17 +73,27 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
 
       return true;
     });
-  }, [data.documents, searchTerm, selectedOffice, selectedDept]);
+  }, [data.documents, searchTerm, selectedOffice, selectedDept, selectedYear]);
 
   // 내부결재 목록은 4만 건이 넘는다. 한 번에 그리면 브라우저가 멈추므로 나눠 그린다.
   // 교육청은 행정구역 순서로 늘어놓는다.
   const officeOptions = useMemo(() => sortOffices<string>(data.offices, (o) => o), [data.offices]);
 
+  // 연도 선택지는 실제 문서에서 뽑는다. 지금은 2026뿐이지만 해가 쌓이면 자동으로 늘어난다.
+  const yearOptions = useMemo(() => {
+    const n = new Map<string, number>();
+    for (const doc of data.documents) {
+      const y = (doc.published_date || '').slice(0, 4);
+      if (y.length === 4) n.set(y, (n.get(y) ?? 0) + 1);
+    }
+    return [...n.entries()].sort((a, b) => b[0].localeCompare(a[0]));
+  }, [data.documents]);
+
   const PAGE = 30;
   const [visibleCount, setVisibleCount] = useState(PAGE);
   useEffect(() => {
     setVisibleCount(PAGE);
-  }, [searchTerm, selectedOffice, selectedDept]);
+  }, [searchTerm, selectedOffice, selectedDept, selectedYear]);
   const visibleDocs = filteredDocs.slice(0, visibleCount);
 
   const handleCopyDocNo = (docNo: string) => {
@@ -157,6 +173,23 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
               {officeOptions.map((off) => (
                 <option key={off} value={off}>
                   {shortOfficeName(off)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Year Select */}
+          <div className="w-full sm:w-32">
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              aria-label="생산 연도"
+              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium text-slate-800 focus:ring-1 focus:ring-emerald-500"
+            >
+              <option value="ALL">전체 연도</option>
+              {yearOptions.map(([y, n]) => (
+                <option key={y} value={y}>
+                  {y}년 ({n.toLocaleString()})
                 </option>
               ))}
             </select>
