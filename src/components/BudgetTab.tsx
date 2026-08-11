@@ -305,7 +305,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
 
             {/* 왼쪽 도넛, 오른쪽 항목 목록 */}
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <div className="relative w-40 h-40 shrink-0">
+              <div className="relative w-52 h-52 shrink-0 pointer-events-none">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -314,8 +314,8 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
                       nameKey="name"
                       cx="50%"
                       cy="50%"
-                      innerRadius={46}
-                      outerRadius={72}
+                      innerRadius={60}
+                      outerRadius={94}
                       paddingAngle={1}
                       stroke="none"
                       isAnimationActive={false}
@@ -324,12 +324,6 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
                         <Cell key={p.item} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip
-                      formatter={(v: number, n: string) => [
-                        `${formatAmount(v)} (${((v / composition.total) * 100).toFixed(1)}%)`,
-                        n,
-                      ]}
-                    />
                   </PieChart>
                 </ResponsiveContainer>
                 {/* 가운데에 총액을 둔다 */}
