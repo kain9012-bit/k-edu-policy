@@ -130,6 +130,15 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
   const visibleDocuments = filteredDocuments.slice(0, visibleCount);
 
+  // '기타'는 분류가 안 된 것을 모아두는 칸이라 목록 맨 끝에 둔다.
+  const categoryOptions = React.useMemo(
+    () => [...data.categories].sort((a, b) =>
+      a === '기타' ? 1 : b === '기타' ? -1 : a.localeCompare(b, 'ko')
+    ),
+    [data.categories]
+  );
+
+
   // 연도 목록은 config가 아니라 실제 문서에서 만든다.
   // 연도만 빼고 나머지 조건을 적용해 센 값이라, 지금 조건에서 몇 건인지 그대로 보인다.
   const yearOptions = React.useMemo(() => {
@@ -316,7 +325,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
             >
               <option value="ALL">전체 분야</option>
-              {data.categories.map((cat) => (
+              {categoryOptions.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>
