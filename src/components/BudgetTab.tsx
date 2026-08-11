@@ -121,6 +121,70 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
     };
   }, [data.rows, data.item_levels, selectedItem, selectedYear, currentYearRows, highlightRegion]);
 
+  const TOTAL_ITEM = data.item_levels?.total ?? '세출예산액';
+  const unitItems = useMemo(
+    () => Object.values(data.item_levels?.children ?? {}).flat() as string[],
+    [data.item_levels]
+  );
+
+  /** (연도, 교육청) → 항목별 금액 */
+  const amountAt = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const r of data.rows) m.set(`${r.year}|${r.region}|${r.item}`, r.amount);
+    return (year: number, region: string, item: string) => m.get(`${year}|${region}|${item}`) ?? 0;
+  }, [data.rows]);
+
+  // ① 우리 교육청 예산이 어떻게 쪼개지는지. 항목을 하나씩 고르지 않아도 전체 그림이 보인다.
+  const composition = useMemo(() => {
+    const total = amountAt(selectedYear, highlightRegion, TOTAL_ITEM);
+    if (!total) return null;
+    const parts = (data.policy_items ?? [])
+      .map((item) => ({ item, amount: amountAt(selectedYear, highlightRegion, item) }))
+      .filter((x) => x.amount > 0)
+      .sort((a, b) => b.amount - a.amount);
+    return { total, parts };
+  }, [amountAt, selectedYear, highlightRegion, data.policy_items, TOTAL_ITEM]);
+
+  // ② 인건비 비중 추이 — 재정 경직성. 비중이 오르면 쓸 수 있는 돈이 준다는 뜻이다.
+  const rigidity = useMemo(() => {
+    const rows = data.years.map((y) => {
+      const mineTotal = amountAt(y, highlightRegion, TOTAL_ITEM);
+      const mine = mineTotal ? (amountAt(y, highlightRegion, '인건비') / mineTotal) * 100 : 0;
+      const each = data.regions
+        .map((r) => {
+          const t = amountAt(y, r, TOTAL_ITEM);
+          return t ? (amountAt(y, r, '인건비') / t) * 100 : null;
+        })
+        .filter((v): v is number => v !== null);
+      const avg = each.length ? each.reduce((n, v) => n + v, 0) / each.length : 0;
+      return { year: `${y}년`, mine: +mine.toFixed(1), avg: +avg.toFixed(1) };
+    }).filter((r) => r.mine > 0);
+    if (rows.length < 2) return null;
+    return { rows, first: rows[0], last: rows[rows.length - 1] };
+  }, [data.years, data.regions, amountAt, highlightRegion, TOTAL_ITEM]);
+
+  // ③ 전년 대비 크게 늘거나 준 항목. 항목을 하나씩 눌러보지 않아도 먼저 짚어준다.
+  const bigChanges = useMemo(() => {
+    const prevYear = selectedYear - 1;
+    if (!data.years.includes(prevYear)) return null;
+    const list = [...(data.policy_items ?? []), ...unitItems]
+      .map((item) => {
+        const before = amountAt(prevYear, highlightRegion, item);
+        const after = amountAt(selectedYear, highlightRegion, item);
+        // 규모가 아주 작은 항목은 몇 %가 튀어도 뜻이 없다
+        if (before < 1e10) return null;
+        return { item, before, after, rate: (after / before - 1) * 100 };
+      })
+      .filter((x): x is NonNullable<typeof x> => !!x)
+      .sort((a, b) => b.rate - a.rate);
+    if (!list.length) return null;
+    return {
+      prevYear,
+      up: list.filter((x) => x.rate > 3).slice(0, 3),
+      down: list.filter((x) => x.rate < -3).slice(-3).reverse(),
+    };
+  }, [data.years, data.policy_items, unitItems, amountAt, selectedYear, highlightRegion]);
+
   // Multi-year trend data for highlighted office
   const trendData = useMemo(() => {
     return data.years
@@ -224,6 +288,164 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
           </select>
         </div>
       </div>
+
+      {/* ① 예산 구성 한눈에 · ③ 급증·급감 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {composition && (
+          <div className="bg-white rounded-lg border border-slate-200 p-5 space-y-3">
+            <div>
+              <h4 className="text-base font-bold text-slate-900">
+                {fullOfficeName(highlightRegion)} 예산은 이렇게 쪼개집니다
+              </h4>
+              <p className="text-xs text-slate-500 mt-0.5">
+                {selectedYear}년 세출예산 {formatAmount(composition.total)}
+              </p>
+            </div>
+
+            {/* 누적 막대 하나로 쏠림을 보여준다 */}
+            <div className="flex h-7 rounded-md overflow-hidden border border-slate-200">
+              {composition.parts.map((p, i) => (
+                <div
+                  key={p.item}
+                  title={`${p.item} ${((p.amount / composition.total) * 100).toFixed(1)}%`}
+                  style={{
+                    width: `${(p.amount / composition.total) * 100}%`,
+                    background: ['#256ef4', '#1c589c', '#8a949e', '#b1b8be', '#cdd1d5'][i % 5],
+                  }}
+                />
+              ))}
+            </div>
+
+            <ul className="space-y-1.5">
+              {composition.parts.map((p, i) => (
+                <li key={p.item} className="flex items-center gap-2 text-sm">
+                  <span
+                    className="w-3 h-3 rounded-sm shrink-0"
+                    style={{ background: ['#256ef4', '#1c589c', '#8a949e', '#b1b8be', '#cdd1d5'][i % 5] }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setSelectedItem(p.item)}
+                    className="flex-1 text-left text-slate-700 hover:text-blue-700 hover:underline"
+                  >
+                    {p.item}
+                  </button>
+                  <span className="tabular-nums text-slate-500">{formatAmount(p.amount)}</span>
+                  <span className="tabular-nums font-bold text-slate-900 w-14 text-right">
+                    {((p.amount / composition.total) * 100).toFixed(1)}%
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {bigChanges && (bigChanges.up.length > 0 || bigChanges.down.length > 0) && (
+          <div className="bg-white rounded-lg border border-slate-200 p-5 space-y-3">
+            <div>
+              <h4 className="text-base font-bold text-slate-900">전년 대비 크게 달라진 항목</h4>
+              <p className="text-xs text-slate-500 mt-0.5">
+                {bigChanges.prevYear}년 → {selectedYear}년 · 100억 미만 항목은 뺐습니다
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {[
+                { label: '늘어난 곳', rows: bigChanges.up, up: true },
+                { label: '줄어든 곳', rows: bigChanges.down, up: false },
+              ].map(({ label, rows, up }) =>
+                rows.length ? (
+                  <div key={label} className="space-y-1.5">
+                    <p className="text-xs font-bold text-slate-500">{label}</p>
+                    {rows.map((c) => (
+                      <div key={c.item} className="flex items-center gap-2 text-sm">
+                        <span className={`font-bold shrink-0 ${up ? 'text-emerald-600' : 'text-red-500'}`}>
+                          {up ? '▲' : '▼'}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedItem(c.item)}
+                          className="flex-1 text-left text-slate-700 hover:text-blue-700 hover:underline"
+                        >
+                          {c.item}
+                        </button>
+                        <span className="text-xs text-slate-400 tabular-nums">
+                          {formatAmount(c.before)} → {formatAmount(c.after)}
+                        </span>
+                        <span
+                          className={`tabular-nums font-bold w-16 text-right ${
+                            up ? 'text-emerald-600' : 'text-red-500'
+                          }`}
+                        >
+                          {c.rate > 0 ? '+' : ''}
+                          {c.rate.toFixed(1)}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : null
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ② 인건비 비중 추이 — 재정 경직성 */}
+      {rigidity && (
+        <div className="bg-white rounded-lg border border-slate-200 p-5 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+            <div>
+              <h4 className="text-base font-bold text-slate-900">인건비가 차지하는 몫</h4>
+              <p className="text-xs text-slate-500 mt-0.5">
+                이 비중이 오르면 새 사업에 쓸 수 있는 돈이 그만큼 줄어듭니다.
+              </p>
+            </div>
+            <p className="text-sm text-slate-600">
+              {rigidity.first.year} <strong className="font-bold tabular-nums">{rigidity.first.mine}%</strong>
+              {' → '}
+              {rigidity.last.year} <strong className="font-bold text-slate-900 tabular-nums">{rigidity.last.mine}%</strong>
+              <span
+                className={`ml-1.5 font-bold tabular-nums ${
+                  rigidity.last.mine >= rigidity.first.mine ? 'text-red-500' : 'text-emerald-600'
+                }`}
+              >
+                ({rigidity.last.mine >= rigidity.first.mine ? '+' : ''}
+                {(rigidity.last.mine - rigidity.first.mine).toFixed(1)}%p)
+              </span>
+            </p>
+          </div>
+
+          <div className="h-56 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={rigidity.rows} margin={{ top: 8, right: 12, left: 4, bottom: 4 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e6e8ea" />
+                <XAxis dataKey="year" tick={{ fontSize: 11, fill: '#58616a' }} />
+                <YAxis
+                  tick={{ fontSize: 11, fill: '#6d7882' }}
+                  width={52}
+                  domain={['dataMin - 4', 'dataMax + 4']}
+                  tickFormatter={(v) => `${Math.round(Number(v))}%`}
+                />
+                <Tooltip
+                  formatter={(v: number, n: string) => [`${v}%`, n === 'mine' ? fullOfficeName(highlightRegion) : '전국 평균']}
+                  contentStyle={{ borderRadius: '8px', borderColor: '#cdd1d5', fontSize: '13px' }}
+                />
+                <Line type="monotone" dataKey="avg" stroke="#b1b8be" strokeWidth={2}
+                      strokeDasharray="4 4" dot={{ r: 3, fill: '#b1b8be' }} isAnimationActive={false} />
+                <Line type="monotone" dataKey="mine" stroke="#256ef4" strokeWidth={2.5}
+                      dot={{ r: 4, fill: '#256ef4' }} isAnimationActive={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+
+          <p className="text-xs text-slate-500">
+            <span className="inline-block w-3 h-0.5 bg-blue-600 align-middle mr-1" />
+            {fullOfficeName(highlightRegion)}
+            <span className="inline-block w-3 h-0.5 bg-slate-300 align-middle ml-3 mr-1" />
+            전국 평균
+          </p>
+        </div>
+      )}
 
       {/* Rank Highlight KPI Box */}
       {highlightedRankInfo && (
