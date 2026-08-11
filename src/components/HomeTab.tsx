@@ -70,12 +70,12 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           화면 한가운데를 기준으로 화면 폭만큼 늘려 가장자리까지 색을 뺀다.
           (넘치는 부분은 최상위 div의 overflow-x-clip이 잘라낸다) */}
       <section
-        className="tab-band relative left-1/2 w-screen -translate-x-1/2 -mt-6
+        className="relative left-1/2 w-screen -translate-x-1/2 -mt-6
                    px-4 sm:px-6 lg:px-8 py-14 sm:py-20
                    bg-blue-50 border-b border-blue-100"
       >
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h2 className="tab-band-title text-4xl sm:text-[3rem] font-bold text-slate-900 leading-tight">
+          <h2 className="text-4xl sm:text-[3rem] font-bold text-slate-900 leading-tight">
             전국 시도교육청 <span className="text-blue-700">교육정책 통합검색</span>
           </h2>
           <p className="text-base sm:text-lg text-slate-600">

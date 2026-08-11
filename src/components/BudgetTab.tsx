@@ -203,13 +203,13 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
       {/* 조건 고르는 영역. 홈의 검색 띠와 같은 방식으로 화면 폭을 채워
           아래 결과와 경계로 구분한다. */}
       <section
-        className="tab-band relative left-1/2 w-screen -translate-x-1/2 -mt-6 py-6
+        className="relative left-1/2 w-screen -translate-x-1/2 -mt-6 py-6
                    bg-blue-50 border-b border-blue-100"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         {/* 탭 소제목 — 세 탭이 같은 크기·굵기를 쓴다 */}
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h2 className="tab-band-title text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h2 className="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
             <BarChart3 className="w-8 h-8 text-blue-600 shrink-0" aria-hidden="true" />
             세출예산 비교
           </h2>
