@@ -117,11 +117,44 @@ def pick_date(cells):
 
 
 def extract_year(text, fallback_date=None):
-    m = re.findall(r"(20\d{2})", text or "")
-    if m:
-        return int(m[0])
+    """계획서의 '정책 연도'를 뽑는다.
+
+    제목의 네 자리 숫자를 무조건 연도로 보면
+    '독서·토론·인문학 교육 2030 추진 계획'처럼 정책 이름에 든 숫자를 연도로 잡는다.
+    그래서 연도 표기가 분명한 것만 쓰고, 그마저도 게시일과 동떨어져 있으면 게시일을 따른다.
+    """
+    t = text or ""
+
+    # 1) '2023~2026'처럼 기간을 나타내는 구간은 따로 떼어 둔다.
+    #    구간 안의 끝 연도를 정책 연도로 착각하면 안 된다.
+    #    예: '2026~2030년 중기지방교육재정계획' → 2030이 아니라 2026
+    ranges = [(m.start(), m.end(), int(m.group(1)))
+              for m in re.finditer(r"(20\d{2})\s*[~∼〜–—-]\s*(20\d{2})", t)]
+
+    def in_range(pos):
+        return any(s <= pos < e for s, e, _ in ranges)
+
+    # 2) '2026년' '2026학년도' '2026년도' '2026.' 처럼 연도임이 분명한 표기.
+    #    구간 안에 든 것은 뺀다.
+    for m in re.finditer(r"(20\d{2})\s*(?:학년도|년도|년|[.\-/])", t):
+        if not in_range(m.start()):
+            return int(m.group(1))
+
+    # 3) 제목 맨 앞의 연도. 관례상 정책 연도다. 예) '2012 충남교육 주요업무계획'
+    #    '2030교실'처럼 숫자에 말이 바로 붙은 것은 연도가 아니므로 뒤에 공백·마침표를 요구한다.
+    head = re.match(r"^\s*\[?\s*(20\d{2})[\s.]", t)
+    if head:
+        return int(head.group(1))
+
+    # 4) 기간만 있으면 시작 연도를 쓴다.
+    if ranges:
+        return ranges[0][2]
+
+    # 5) 제목에 단서가 없으면 게시일을 따른다.
+    #    제목 한가운데 그냥 박힌 네 자리 숫자는 정책 이름일 때가 많아 쓰지 않는다.
+    #    예: '독서·토론·인문학 교육 2030 추진 계획'(2025년 게시)
     if fallback_date:
-        mm = re.match(r"(\d{4})", fallback_date)
+        mm = re.match(r"(\d{4})", str(fallback_date))
         if mm:
             return int(mm.group(1))
     return None
