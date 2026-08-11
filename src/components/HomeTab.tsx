@@ -49,7 +49,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
       .map((k) => ({ k, n: titles.filter((t) => t.includes(k.toLowerCase())).length }))
       .filter((x) => x.n > 0)
       .sort((a, b) => b.n - a.n)
-      .slice(0, 5)                 // 칩이 커져 5개가 한 줄 한도다
+      .slice(0, 7)
       .map((x) => x.k);
   }, [data.documents]);
 
