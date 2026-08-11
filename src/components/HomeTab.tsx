@@ -43,7 +43,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
         n.set(cat, (n.get(cat) ?? 0) + 1);
       }
     }
-    return [...n.entries()].sort((a, b) => b[1] - a[1]).slice(0, 7).map(([cat]) => cat);
+    return [...n.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([cat]) => cat);   // 칩이 커져 5개가 한 줄 한도다
   }, [data.documents]);
 
   const handleHeroSearchSubmit = (e: React.FormEvent) => {
@@ -64,14 +64,14 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           (넘치는 부분은 최상위 div의 overflow-x-clip이 잘라낸다) */}
       <section
         className="relative left-1/2 w-screen -translate-x-1/2 -mt-6
-                   px-4 sm:px-6 lg:px-8 py-12 sm:py-16
+                   px-4 sm:px-6 lg:px-8 py-14 sm:py-20
                    bg-blue-50 border-b border-blue-100"
       >
-        <div className="max-w-3xl mx-auto text-center space-y-5">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-snug">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <h2 className="text-4xl sm:text-[3rem] font-bold text-slate-900 leading-tight">
             전국 시도교육청 <span className="text-blue-700">교육정책 통합검색</span>
           </h2>
-          <p className="text-sm sm:text-base text-slate-600">
+          <p className="text-base sm:text-lg text-slate-600">
             16개 시도교육청의 <strong className="font-bold text-slate-900">공개 계획서</strong> ·
             <strong className="font-bold text-slate-900"> 내부결재 목록</strong> ·
             <strong className="font-bold text-slate-900"> 세출예산</strong>을 한곳에서 찾습니다
@@ -85,7 +85,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             <div className="flex gap-2">
               <div className="relative flex-1">
                 <Search
-                  className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  className="w-6 h-6 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
                   aria-hidden="true"
                 />
                 <input
@@ -94,15 +94,15 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                   value={heroSearchInput}
                   onChange={(e) => setHeroSearchInput(e.target.value)}
                   placeholder="예: 늘봄, 기초학력, 유아교육, 특수교육"
-                  className="w-full h-14 pl-11 pr-4 text-base text-slate-900 placeholder-slate-400
+                  className="w-full h-16 pl-12 pr-4 text-lg text-slate-900 placeholder-slate-400
  bg-white border-2 border-blue-600 rounded-lg outline-none
                              focus:border-blue-700"
                 />
               </div>
               <button
                 type="submit"
-                className="h-14 px-6 sm:px-8 bg-blue-600 hover:bg-blue-700 text-white font-bold
- text-base rounded-lg transition-colors flex items-center gap-2 shrink-0"
+                className="h-16 px-8 sm:px-10 bg-blue-600 hover:bg-blue-700 text-white font-bold
+ text-lg rounded-lg transition-colors flex items-center gap-2 shrink-0"
               >
                 <span>검색</span>
                 <ArrowRight className="w-4 h-4 hidden sm:block" aria-hidden="true" />
@@ -111,9 +111,9 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           </form>
 
           {/* 추천 검색어 */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 text-sm">
+          <div className="flex flex-wrap items-center justify-center gap-2 text-base">
             <span className="inline-flex items-center gap-1 text-slate-500 font-medium mr-1">
-              <Tag className="w-4 h-4" aria-hidden="true" />
+              <Tag className="w-5 h-5" aria-hidden="true" />
               이렇게 찾아보세요
             </span>
             {quickTopics.map((topic) => (
@@ -121,7 +121,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                 key={topic}
                 type="button"
                 onClick={() => handleTopicClick(topic)}
-                className="px-3 py-1.5 rounded-md bg-white border border-blue-200 text-slate-700
+                className="px-4 py-2 rounded-md bg-white border border-blue-200 text-slate-700
  hover:bg-blue-600 hover:border-blue-600 hover:text-white
                            transition-colors font-medium"
               >
@@ -131,7 +131,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           </div>
 
           {/* 현황 요약 */}
-          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-5 border-t border-blue-200 text-left">
+          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-blue-200 text-left">
             {[
               {
                 // 수집 대상은 18곳이지만 전남·광주는 전남광주로 통합돼 기관은 16곳이다.
@@ -156,17 +156,17 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                 sub: '매일 새벽 자동 수집',
               },
             ].map((s) => (
-              <div key={s.t} className="bg-white border border-slate-200 rounded-lg p-4">
-                <dt className="text-xs text-slate-500 font-medium">{s.t}</dt>
-                <dd className="text-xl sm:text-2xl font-bold text-slate-900 tabular-nums mt-1">
+              <div key={s.t} className="bg-white border border-slate-200 rounded-lg p-5">
+                <dt className="text-sm text-slate-500 font-medium">{s.t}</dt>
+                <dd className="text-2xl sm:text-3xl font-bold text-slate-900 tabular-nums mt-1">
                   {s.v}
                 </dd>
                 <p
-                  className={`text-xs mt-1 flex items-center gap-1 ${
+                  className={`text-sm mt-1 flex items-center gap-1 ${
                     s.ok ? 'text-emerald-600 font-medium' : 'text-slate-500'
                   }`}
                 >
-                  {s.ok && <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />}
+                  {s.ok && <CheckCircle2 className="w-4 h-4" aria-hidden="true" />}
                   {s.sub}
                 </p>
               </div>
