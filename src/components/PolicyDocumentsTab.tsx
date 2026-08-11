@@ -260,12 +260,36 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         </div>
 
         {/* Search Input Bar - Design Theme Clean Pill Input */}
-        <div className="max-w-3xl w-full">
+        <div className="w-full">
           <label htmlFor="docSearch" className="sr-only">
             계획서 제목 검색
           </label>
 
           <div className="flex flex-col sm:flex-row gap-2">
+            <div className="relative flex-1">
+              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <Search className="w-5 h-5" aria-hidden="true" />
+              </span>
+              <input
+                id="docSearch"
+                type="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="계획서 제목 검색 · 여러 낱말은 쉼표나 띄어쓰기로 (예: 늘봄, 방과후)"
+                className="w-full h-12 pl-11 pr-20 bg-white text-slate-900 placeholder-slate-400
+                           text-base rounded-md border border-slate-300
+                           focus:border-blue-600 outline-none transition-colors"
+              />
+              {searchTerm && (
+                <button
+                  type="button"
+                  onClick={() => setSearchTerm('')}
+                  className="absolute inset-y-0 right-3 flex items-center text-sm text-slate-500 hover:text-slate-900 font-medium"
+                >
+                  지우기
+                </button>
+              )}
+            </div>
             {/* 여러 낱말을 어떻게 묶을지. 낱말이 하나여도 늘 보이게 두어
                 지금 어떤 방식으로 찾는지 알 수 있게 한다. */}
             <div
@@ -292,31 +316,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                   {label}
                 </button>
               ))}
-            </div>
-
-            <div className="relative flex-1">
-              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <Search className="w-5 h-5" aria-hidden="true" />
-              </span>
-              <input
-                id="docSearch"
-                type="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="계획서 제목 검색 · 여러 낱말은 쉼표나 띄어쓰기로 (예: 늘봄, 방과후)"
-                className="w-full h-12 pl-11 pr-20 bg-white text-slate-900 placeholder-slate-400
-                           text-base rounded-md border border-slate-300
-                           focus:border-blue-600 outline-none transition-colors"
-              />
-              {searchTerm && (
-                <button
-                  type="button"
-                  onClick={() => setSearchTerm('')}
-                  className="absolute inset-y-0 right-3 flex items-center text-sm text-slate-500 hover:text-slate-900 font-medium"
-                >
-                  지우기
-                </button>
-              )}
             </div>
           </div>
 

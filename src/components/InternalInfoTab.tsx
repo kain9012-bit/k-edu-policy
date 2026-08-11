@@ -119,7 +119,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
         </div>
 
         {/* 윗줄: 검색창 — 공개 계획서 탭과 같은 짜임 */}
-        <div className="max-w-3xl w-full">
+        <div className="w-full">
           <label htmlFor="openSearch" className="sr-only">
             내부결재 제목 검색
           </label>
