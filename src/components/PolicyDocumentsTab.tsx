@@ -60,16 +60,12 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         return false;
       }
 
-      // Keyword search (title, department, board_name, attachment_names)
+      // 검색은 제목만 본다.
+      // 부서·게시판·첨부·분야까지 훑으면 '늘봄'을 찾았는데 제목에 늘봄이 없는
+      // '방과후 이중언어교육 지원 계획'이 섞여 나와서 결과를 신뢰하기 어렵다.
+      // 분야로 묶인 문서는 옆의 주요 주제 칩이나 정책 분야 필터로 찾는다.
       if (searchTerm.trim() !== '') {
-        const query = searchTerm.toLowerCase().trim();
-        const titleMatch = doc.title.toLowerCase().includes(query);
-        const deptMatch = doc.department?.toLowerCase().includes(query);
-        const boardMatch = doc.board_name.toLowerCase().includes(query);
-        const attachMatch = doc.attachment_names?.some((name) => name.toLowerCase().includes(query));
-        const categoryMatch = doc.policy_category?.some((cat) => cat.toLowerCase().includes(query));
-
-        if (!titleMatch && !deptMatch && !boardMatch && !attachMatch && !categoryMatch) {
+        if (!doc.title.toLowerCase().includes(searchTerm.toLowerCase().trim())) {
           return false;
         }
       }
@@ -118,6 +114,53 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
   const visibleDocuments = filteredDocuments.slice(0, visibleCount);
 
+  // 제목에는 없지만 분야·첨부·부서로 이어지는 문서.
+  // 검색 결과 건수를 흐리지 않도록 본 목록과 분리해서 접어둔다.
+  const RELATED_PAGE = 20;
+  const [showRelated, setShowRelated] = useState(false);
+  const [relatedCount, setRelatedCount] = useState(RELATED_PAGE);
+
+  const relatedDocuments = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return [];
+    return data.documents
+      .filter((doc) => {
+        if (doc.title.toLowerCase().includes(q)) return false;   // 본 목록에 이미 있다
+        // 검색어를 뺀 나머지 조건은 본 목록과 똑같이 적용한다
+        if (selectedStatus !== 'ALL' && doc.classification_status !== selectedStatus) return false;
+        if (selectedOffice !== 'ALL' && doc.short_name !== selectedOffice && doc.office !== selectedOffice) return false;
+        if (selectedYear !== 'ALL' && doc.policy_year !== Number(selectedYear)) return false;
+        if (selectedCategory !== 'ALL' && !doc.policy_category?.includes(selectedCategory)) return false;
+        if (loginRequiredFilter === 'PUBLIC' && doc.login_required) return false;
+        if (loginRequiredFilter === 'LOGIN' && !doc.login_required) return false;
+        return (
+          doc.policy_category?.some((c) => c.toLowerCase().includes(q)) ||
+          doc.attachment_names?.some((a) => a.toLowerCase().includes(q)) ||
+          doc.department?.toLowerCase().includes(q) ||
+          doc.board_name.toLowerCase().includes(q)
+        );
+      })
+      .sort((a, b) => (b.published_date || '').localeCompare(a.published_date || ''));
+  }, [data.documents, searchTerm, selectedStatus, selectedOffice, selectedYear, selectedCategory, loginRequiredFilter]);
+
+  useEffect(() => {
+    setShowRelated(false);
+    setRelatedCount(RELATED_PAGE);
+  }, [searchTerm]);
+
+  /** 이 문서가 왜 관련 목록에 들어왔는지 */
+  const matchReasons = (doc: PolicyDocument): string[] => {
+    const q = searchTerm.trim().toLowerCase();
+    const why: string[] = [];
+    const cat = doc.policy_category?.find((c) => c.toLowerCase().includes(q));
+    if (cat) why.push(`분야: ${cat}`);
+    if (doc.attachment_names?.some((a) => a.toLowerCase().includes(q))) why.push('첨부파일명');
+    if (doc.department?.toLowerCase().includes(q)) why.push(`부서: ${doc.department}`);
+    if (!why.length && doc.board_name.toLowerCase().includes(q)) why.push(`게시판: ${doc.board_name}`);
+    return why;
+  };
+
+
   // 주요 주제는 손으로 적지 않고 실제 문서에서 뽑는다.
   // 예전에는 '고교학점제'처럼 분류 체계에 없는 이름이 섞여 눌러도 0건이었다.
   const quickTopics = React.useMemo(() => {
@@ -155,16 +198,8 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
       if (selectedCategory !== 'ALL' && !doc.policy_category?.includes(selectedCategory)) continue;
       if (loginRequiredFilter === 'PUBLIC' && doc.login_required) continue;
       if (loginRequiredFilter === 'LOGIN' && !doc.login_required) continue;
-      if (searchTerm.trim() !== '') {
-        const q = searchTerm.toLowerCase().trim();
-        const hit =
-          doc.title.toLowerCase().includes(q) ||
-          doc.department?.toLowerCase().includes(q) ||
-          doc.board_name.toLowerCase().includes(q) ||
-          doc.attachment_names?.some((x) => x.toLowerCase().includes(q)) ||
-          doc.policy_category?.some((c) => c.toLowerCase().includes(q));
-        if (!hit) continue;
-      }
+      if (searchTerm.trim() !== '' &&
+          !doc.title.toLowerCase().includes(searchTerm.toLowerCase().trim())) continue;
       if (!doc.policy_year) continue;
       n.set(doc.policy_year, (n.get(doc.policy_year) ?? 0) + 1);
     }
@@ -577,6 +612,89 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               >
                 {PAGE}건 더 보기
               </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* 제목에는 없지만 관련 있는 문서 */}
+      {searchTerm.trim() !== '' && relatedDocuments.length > 0 && (
+        <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setShowRelated((v) => !v)}
+            aria-expanded={showRelated}
+            className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left
+                       hover:bg-slate-50 transition-colors"
+          >
+            <span className="text-sm text-slate-700">
+              제목에는 없지만 관련 있는 문서{' '}
+              <strong className="font-bold text-slate-900 tabular-nums">
+                {relatedDocuments.length.toLocaleString()}
+              </strong>
+              건
+              <span className="block text-xs text-slate-500 mt-0.5">
+                분야·첨부파일명·담당부서가 '{searchTerm.trim()}'과 이어지는 계획서입니다.
+              </span>
+            </span>
+            <ChevronRight
+              className={`w-5 h-5 text-slate-400 shrink-0 transition-transform ${showRelated ? 'rotate-90' : ''}`}
+              aria-hidden="true"
+            />
+          </button>
+
+          {showRelated && (
+            <div className="border-t border-slate-200 divide-y divide-slate-100">
+              {relatedDocuments.slice(0, relatedCount).map((doc) => (
+                <div key={doc.id} className="px-5 py-3.5 hover:bg-slate-50 transition-colors">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0 space-y-1.5">
+                      <a
+                        href={doc.post_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="block text-sm font-bold text-slate-900 hover:text-blue-700 hover:underline"
+                      >
+                        {doc.title}
+                      </a>
+                      <div className="flex flex-wrap items-center gap-1.5 text-xs">
+                        <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">
+                          {doc.short_name}
+                        </span>
+                        {matchReasons(doc).map((r) => (
+                          <span key={r} className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-100">
+                            {r}
+                          </span>
+                        ))}
+                        <span className="text-slate-400 tabular-nums">{doc.published_date || '날짜 미상'}</span>
+                      </div>
+                    </div>
+                    <a
+                      href={doc.post_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-300
+                                 text-xs font-bold text-slate-700 hover:border-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    >
+                      원문
+                      <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                    </a>
+                  </div>
+                </div>
+              ))}
+
+              {relatedCount < relatedDocuments.length && (
+                <div className="p-4 flex justify-center bg-slate-50">
+                  <button
+                    type="button"
+                    onClick={() => setRelatedCount((n) => n + RELATED_PAGE)}
+                    className="px-5 py-2.5 rounded-md border border-slate-300 bg-white text-slate-700
+                               text-sm font-bold hover:border-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                  >
+                    {RELATED_PAGE}건 더 보기
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
