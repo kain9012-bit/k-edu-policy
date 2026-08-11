@@ -46,7 +46,27 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   // Active detail modal doc
   const [activeDetailDoc, setActiveDetailDoc] = useState<PolicyDocument | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  // 여러 낱말을 넣었을 때 모두 담긴 제목만 볼지, 하나라도 담기면 볼지
+  const [matchMode, setMatchMode] = useState<'all' | 'any'>('all');
 
+
+  // 쉼표나 띄어쓰기로 나눠 여러 낱말로 받는다. 빈 조각은 버린다.
+  const keywords = useMemo(
+    () => searchTerm.split(/[,\s]+/).map((k) => k.trim().toLowerCase()).filter(Boolean),
+    [searchTerm]
+  );
+
+  /** 제목이 검색 조건에 맞는지 */
+  const titleMatches = React.useCallback(
+    (title: string) => {
+      if (keywords.length === 0) return true;
+      const t = title.toLowerCase();
+      return matchMode === 'all'
+        ? keywords.every((k) => t.includes(k))
+        : keywords.some((k) => t.includes(k));
+    },
+    [keywords, matchMode]
+  );
 
   // Filtering logic
   // 한 번에 그리는 개수. 3,800건을 통째로 그리면 브라우저가 멈춘다.
@@ -63,12 +83,8 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
       // 검색은 제목만 본다.
       // 부서·게시판·첨부·분야까지 훑으면 '늘봄'을 찾았는데 제목에 늘봄이 없는
       // '방과후 이중언어교육 지원 계획'이 섞여 나와서 결과를 신뢰하기 어렵다.
-      // 분야로 묶인 문서는 옆의 주요 주제 칩이나 정책 분야 필터로 찾는다.
-      if (searchTerm.trim() !== '') {
-        if (!doc.title.toLowerCase().includes(searchTerm.toLowerCase().trim())) {
-          return false;
-        }
-      }
+      // 분야로 묶인 문서는 아래 '관련 있는 문서'에서 따로 본다.
+      if (!titleMatches(doc.title)) return false;
 
       // Office filter
       if (selectedOffice !== 'ALL' && doc.short_name !== selectedOffice && doc.office !== selectedOffice) {
@@ -93,7 +109,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     });
   }, [
     data.documents,
-    searchTerm,
+    titleMatches,
     selectedOffice,
     selectedYear,
     selectedCategory,
@@ -105,6 +121,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   useEffect(() => { setVisibleCount(PAGE); }, [
     data.documents,
     searchTerm,
+    matchMode,
     selectedOffice,
     selectedYear,
     selectedCategory,
@@ -121,11 +138,10 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   const [relatedCount, setRelatedCount] = useState(RELATED_PAGE);
 
   const relatedDocuments = useMemo(() => {
-    const q = searchTerm.trim().toLowerCase();
-    if (!q) return [];
+    if (keywords.length === 0) return [];
     return data.documents
       .filter((doc) => {
-        if (doc.title.toLowerCase().includes(q)) return false;   // 본 목록에 이미 있다
+        if (titleMatches(doc.title)) return false;   // 본 목록에 이미 있다
         // 검색어를 뺀 나머지 조건은 본 목록과 똑같이 적용한다
         if (selectedStatus !== 'ALL' && doc.classification_status !== selectedStatus) return false;
         if (selectedOffice !== 'ALL' && doc.short_name !== selectedOffice && doc.office !== selectedOffice) return false;
@@ -133,15 +149,17 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         if (selectedCategory !== 'ALL' && !doc.policy_category?.includes(selectedCategory)) return false;
         if (loginRequiredFilter === 'PUBLIC' && doc.login_required) return false;
         if (loginRequiredFilter === 'LOGIN' && !doc.login_required) return false;
-        return (
-          doc.policy_category?.some((c) => c.toLowerCase().includes(q)) ||
-          doc.attachment_names?.some((a) => a.toLowerCase().includes(q)) ||
-          doc.department?.toLowerCase().includes(q) ||
-          doc.board_name.toLowerCase().includes(q)
-        );
+        // 낱말 중 하나라도 분야·첨부·부서·게시판에 걸리면 관련 문서로 본다
+        const hay = [
+          ...(doc.policy_category ?? []),
+          ...(doc.attachment_names ?? []),
+          doc.department ?? '',
+          doc.board_name,
+        ].join(' ').toLowerCase();
+        return keywords.some((k) => hay.includes(k));
       })
       .sort((a, b) => (b.published_date || '').localeCompare(a.published_date || ''));
-  }, [data.documents, searchTerm, selectedStatus, selectedOffice, selectedYear, selectedCategory, loginRequiredFilter]);
+  }, [data.documents, keywords, titleMatches, selectedStatus, selectedOffice, selectedYear, selectedCategory, loginRequiredFilter]);
 
   useEffect(() => {
     setShowRelated(false);
@@ -150,13 +168,12 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
   /** 이 문서가 왜 관련 목록에 들어왔는지 */
   const matchReasons = (doc: PolicyDocument): string[] => {
-    const q = searchTerm.trim().toLowerCase();
     const why: string[] = [];
-    const cat = doc.policy_category?.find((c) => c.toLowerCase().includes(q));
+    const cat = doc.policy_category?.find((c) => keywords.some((k) => c.toLowerCase().includes(k)));
     if (cat) why.push(`분야: ${cat}`);
-    if (doc.attachment_names?.some((a) => a.toLowerCase().includes(q))) why.push('첨부파일명');
-    if (doc.department?.toLowerCase().includes(q)) why.push(`부서: ${doc.department}`);
-    if (!why.length && doc.board_name.toLowerCase().includes(q)) why.push(`게시판: ${doc.board_name}`);
+    if (doc.attachment_names?.some((a) => keywords.some((k) => a.toLowerCase().includes(k)))) why.push('첨부파일명');
+    if (doc.department && keywords.some((k) => doc.department!.toLowerCase().includes(k))) why.push(`부서: ${doc.department}`);
+    if (!why.length && keywords.some((k) => doc.board_name.toLowerCase().includes(k))) why.push(`게시판: ${doc.board_name}`);
     return why;
   };
 
@@ -198,13 +215,12 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
       if (selectedCategory !== 'ALL' && !doc.policy_category?.includes(selectedCategory)) continue;
       if (loginRequiredFilter === 'PUBLIC' && doc.login_required) continue;
       if (loginRequiredFilter === 'LOGIN' && !doc.login_required) continue;
-      if (searchTerm.trim() !== '' &&
-          !doc.title.toLowerCase().includes(searchTerm.toLowerCase().trim())) continue;
+      if (!titleMatches(doc.title)) continue;
       if (!doc.policy_year) continue;
       n.set(doc.policy_year, (n.get(doc.policy_year) ?? 0) + 1);
     }
     return [...n.entries()].sort((a, b) => b[0] - a[0]).map(([year, count]) => ({ year, count }));
-  }, [data.documents, selectedStatus, selectedOffice, selectedCategory, loginRequiredFilter, searchTerm]);
+  }, [data.documents, selectedStatus, selectedOffice, selectedCategory, loginRequiredFilter, titleMatches]);
 
   // 고른 연도에 문서가 없으면(예: 조건을 좁혔을 때) 전체 연도로 되돌린다.
   useEffect(() => {
@@ -253,7 +269,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               type="search"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="계획서 제목 검색 (예: 늘봄학교, 고교학점제, AI교육, 기초학력)"
+              placeholder="계획서 제목 검색 · 여러 낱말은 쉼표나 띄어쓰기로 (예: 늘봄, 방과후)"
               className="w-full h-12 pl-11 pr-24 bg-white text-slate-900 placeholder-slate-400
                          text-base rounded-md border border-slate-300
                          focus:border-blue-600 outline-none transition-colors"
@@ -268,6 +284,40 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               </button>
             )}
           </div>
+
+          {/* 낱말이 둘 이상일 때만 묶는 방식을 물어본다. 한 낱말이면 의미가 없다. */}
+          {keywords.length > 1 && (
+            <div className="mt-2.5 flex flex-wrap items-center gap-2 text-sm">
+              <span className="text-slate-500">
+                낱말 {keywords.length}개를
+              </span>
+              <div className="inline-flex rounded-md border border-slate-300 overflow-hidden">
+                {([
+                  ['all', '모두 포함'],
+                  ['any', '하나라도 포함'],
+                ] as const).map(([mode, label]) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    onClick={() => setMatchMode(mode)}
+                    aria-pressed={matchMode === mode}
+                    className={`px-3 py-1.5 font-bold transition-colors ${
+                      matchMode === mode
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-white text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <span className="text-slate-400 text-xs">
+                {matchMode === 'all'
+                  ? `제목에 ${keywords.join(' · ')} 가 모두 든 계획서`
+                  : `제목에 ${keywords.join(' 또는 ')} 중 하나라도 든 계획서`}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Quick Topic Chips */}
