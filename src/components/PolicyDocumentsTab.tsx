@@ -345,7 +345,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                   setSearchTerm('');
                 }}
                 aria-pressed={isActive}
-                className={`flex-1 min-w-[7.5rem] whitespace-nowrap px-3 py-1.5 rounded-md
+                className={`flex-auto whitespace-nowrap px-3 py-1.5 rounded-md
                             transition-colors font-bold text-sm border ${
                   isActive
                     ? 'bg-blue-600 text-white border-blue-600'
