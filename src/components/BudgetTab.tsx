@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { BudgetData, BudgetRow } from '../types';
+import { sortOffices } from '../lib/offices';
 import { BarChart3, TrendingUp, Award, Building2, Calendar, Filter, DollarSign, Info } from 'lucide-react';
 import {
   BarChart,
@@ -22,6 +23,9 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
   const [selectedYear, setSelectedYear] = useState<number>(2026);
   const [selectedItem, setSelectedItem] = useState<string>('세출예산액');
   const [highlightRegion, setHighlightRegion] = useState<string>('경남');
+
+  // 교육청은 행정구역 순서로 늘어놓는다.
+  const regionOptions = useMemo(() => sortOffices<string>(data.regions, (r) => r), [data.regions]);
 
   // 축 눈금용 짧은 표기. 입력은 '원' 단위.
   const tickWon = (won: number) => {
@@ -166,7 +170,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
             onChange={(e) => setHighlightRegion(e.target.value)}
             className="w-full text-xs bg-blue-50/60 border border-blue-200 rounded-lg p-2.5 font-bold text-blue-900 focus:ring-1 focus:ring-blue-500"
           >
-            {data.regions.map((reg) => (
+            {regionOptions.map((reg) => (
               <option key={reg} value={reg}>
                 {reg}교육청
               </option>

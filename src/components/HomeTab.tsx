@@ -34,16 +34,20 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   // data.count는 수집한 전체 문서 수다. 계획서로 판별된 것만 따로 센다.
   const planCount = (data.office_stats ?? []).reduce((n, o) => n + (o.plan_count ?? 0), 0);
 
-  // 한 줄에 들어가는 만큼만 둔다. '돌봄교실'은 '늘봄학교'와 겹쳐서 뺐다.
-  const quickTopics = [
-    '늘봄학교',
-    '기초학력',
-    'AI교육',
-    '고교학점제',
-    '학교급식',
-    '교원연수',
-    '다문화교육',
-  ];
+  // 추천 검색어는 손으로 적지 않고 실제 문서에서 뽑는다.
+  // 'AI교육'처럼 분류 체계에 없는 이름을 적어두면 눌러도 0건이 나온다.
+  // 분야 이름은 검색에도 걸리므로 결과가 반드시 있다.
+  const quickTopics = React.useMemo(() => {
+    const n = new Map<string, number>();
+    for (const doc of data.documents ?? []) {
+      if (doc.classification_status !== '정책계획서') continue;
+      for (const cat of doc.policy_category ?? []) {
+        if (cat === '기타') continue;
+        n.set(cat, (n.get(cat) ?? 0) + 1);
+      }
+    }
+    return [...n.entries()].sort((a, b) => b[1] - a[1]).slice(0, 7).map(([cat]) => cat);
+  }, [data.documents]);
 
   const handleHeroSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,7 +88,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                   type="search"
                   value={heroSearchInput}
                   onChange={(e) => setHeroSearchInput(e.target.value)}
-                  placeholder="예: 늘봄학교, 기초학력, AI교육, 고교학점제"
+                  placeholder="예: 늘봄, 기초학력, 유아교육, 특수교육"
                   className="w-full h-14 pl-11 pr-4 text-base text-slate-900 placeholder-slate-400
  bg-white border-2 border-blue-600 rounded-lg outline-none
                              focus:border-blue-700"

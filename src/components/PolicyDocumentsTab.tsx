@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { DocumentsData, PolicyDocument, DocumentClassificationStatus } from '../types';
+import { sortOffices } from '../lib/offices';
 import {
   Search,
   Filter,
@@ -46,19 +47,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   const [activeDetailDoc, setActiveDetailDoc] = useState<PolicyDocument | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // Recommended quick topics
-  const quickTopics = [
-    '늘봄·방과후',
-    '기초학력',
-    'AI·디지털교육',
-    '고교학점제',
-    '교육복지',
-    '급식·보건',
-    '교원정책',
-    '특수교육',
-    '유보통합',
-    '학교안전'
-  ];
 
   // Filtering logic
   // 한 번에 그리는 개수. 3,800건을 통째로 그리면 브라우저가 멈춘다.
@@ -129,6 +117,23 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   ]);
 
   const visibleDocuments = filteredDocuments.slice(0, visibleCount);
+
+  // 주요 주제는 손으로 적지 않고 실제 문서에서 뽑는다.
+  // 예전에는 '고교학점제'처럼 분류 체계에 없는 이름이 섞여 눌러도 0건이었다.
+  const quickTopics = React.useMemo(() => {
+    const n = new Map<string, number>();
+    for (const doc of data.documents) {
+      if (doc.classification_status !== '정책계획서') continue;
+      for (const cat of doc.policy_category ?? []) {
+        if (cat === '기타') continue;      // 분류가 안 된 것을 모아둔 칸이라 주제가 아니다
+        n.set(cat, (n.get(cat) ?? 0) + 1);
+      }
+    }
+    return [...n.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
+  }, [data.documents]);
+
+  // 교육청은 가나다순이 아니라 행정구역 순서로 늘어놓는다.
+  const officeOptions = React.useMemo(() => sortOffices<string>(data.offices, (o) => o), [data.offices]);
 
   // '기타'는 분류가 안 된 것을 모아두는 칸이라 목록 맨 끝에 둔다.
   const categoryOptions = React.useMemo(
@@ -235,22 +240,27 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
             <Tag className="w-3.5 h-3.5 text-blue-600" />
             주요 주제:
           </span>
-          {quickTopics.map((topic) => {
-            const isActive = selectedCategory === topic || searchTerm === topic;
+          {quickTopics.map(([topic, count]) => {
+            const isActive = selectedCategory === topic;
             return (
               <button
                 key={topic}
+                type="button"
                 onClick={() => {
-                  setSelectedCategory(topic);
+                  setSelectedCategory(isActive ? 'ALL' : topic);
                   setSearchTerm('');
                 }}
-                className={`px-3 py-1 rounded-md transition-colors font-bold text-sm border ${
+                aria-pressed={isActive}
+                className={`px-3 py-1.5 rounded-md transition-colors font-bold text-sm border ${
                   isActive
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                    ? 'bg-blue-600 text-white border-blue-600'
                     : 'bg-white hover:bg-blue-50 text-slate-700 border-slate-200 hover:border-blue-300 hover:text-blue-600'
                 }`}
               >
-                #{topic}
+                {topic}
+                <span className={`ml-1 font-medium tabular-nums ${isActive ? 'text-blue-100' : 'text-slate-400'}`}>
+                  {count.toLocaleString()}
+                </span>
               </button>
             );
           })}
@@ -269,7 +279,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
             >
               <option value="ALL">전체 교육청 ({data.offices.length}개)</option>
-              {data.offices.map((off) => (
+              {officeOptions.map((off) => (
                 <option key={off} value={off}>
                   {off}교육청
                 </option>

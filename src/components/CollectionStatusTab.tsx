@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { DocumentsData, InfoListData } from '../types';
+import { DocumentsData, InfoListData, OfficeStat } from '../types';
+import { sortOffices } from '../lib/offices';
 import { Database, CheckCircle2, AlertCircle, RefreshCw, FileText, Lock, Globe, Terminal, Shield } from 'lucide-react';
 
 interface CollectionStatusTabProps {
@@ -28,6 +29,12 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
   }, [data.office_stats, infoData]);
 
   const maxInner = Math.max(1, ...opennessRows.map((r) => r.inner));
+
+  // 수집 통계 표는 행정구역 순서로 늘어놓는다(공개 수준 비교는 공개율 순서를 유지).
+  const officeStats = React.useMemo(
+    () => sortOffices<OfficeStat>(data.office_stats ?? [], (o) => o.short_name || o.name || ''),
+    [data.office_stats]
+  );
 
   return (
     <div className="space-y-6 pb-12">
@@ -229,7 +236,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium text-slate-800">
-                {data.office_stats?.map((stat) => (
+                {officeStats.map((stat) => (
                   <tr key={stat.short_name} className="hover:bg-slate-50 transition">
                     <td className="py-3 px-4 font-bold flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-emerald-500" />

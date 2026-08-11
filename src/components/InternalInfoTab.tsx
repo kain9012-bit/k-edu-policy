@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { sortOffices } from '../lib/offices';
 import { InfoListData, InternalDocument } from '../types';
 import {
   Search,
@@ -69,6 +70,9 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
   }, [data.documents, searchTerm, selectedOffice, selectedDept]);
 
   // 내부결재 목록은 4만 건이 넘는다. 한 번에 그리면 브라우저가 멈추므로 나눠 그린다.
+  // 교육청은 행정구역 순서로 늘어놓는다.
+  const officeOptions = useMemo(() => sortOffices<string>(data.offices, (o) => o), [data.offices]);
+
   const PAGE = 30;
   const [visibleCount, setVisibleCount] = useState(PAGE);
   useEffect(() => {
@@ -150,7 +154,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
               className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-medium text-slate-800 focus:ring-1 focus:ring-emerald-500"
             >
               <option value="ALL">전체 교육청 ({data.offices.length}개)</option>
-              {data.offices.map((off) => (
+              {officeOptions.map((off) => (
                 <option key={off} value={off}>
                   {off}
                 </option>
