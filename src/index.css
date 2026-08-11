@@ -304,3 +304,43 @@ mark {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---- 탭 전환: 파란 띠가 이어지듯 바뀌게 한다 (PPT 모핑과 같은 방식) ----
+   View Transitions API를 쓴다. 지원하지 않는 브라우저에서는 그냥
+   지금처럼 즉시 바뀌므로 기능이 깨지지 않는다. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 각 탭 맨 위의 파란 띠. 이름이 같아야 같은 요소로 보고 이어 그린다. */
+.tab-band {
+  view-transition-name: tab-band;
+}
+::view-transition-group(tab-band) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-old(tab-band),
+::view-transition-new(tab-band) {
+  height: 100%;
+  animation-duration: 320ms;
+}
+
+/* 띠 안의 제목도 자리를 옮겨 가며 이어지게 한다. */
+.tab-band-title {
+  view-transition-name: tab-band-title;
+}
+::view-transition-group(tab-band-title) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

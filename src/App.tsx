@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { flushSync } from 'react-dom';
 import { ArrowUp } from 'lucide-react';
 import { ActiveTab, DocumentsData, InfoListData, BudgetData, PolicyDocument } from './types';
 import {
@@ -64,6 +65,24 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [activeTab]);
 
+  // 탭을 바꿀 때 파란 띠가 툭 끊기지 않고 이어지듯 바뀌게 한다.
+  // View Transitions API를 쓰는데, 없는 브라우저에서는 그냥 즉시 바뀐다.
+  const changeTab = (tab: ActiveTab) => {
+    if (tab === activeTab) return;
+    const d = document as Document & {
+      startViewTransition?: (cb: () => void) => unknown;
+    };
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (typeof d.startViewTransition !== 'function' || reduceMotion) {
+      setActiveTab(tab);
+      return;
+    }
+    // 콜백 안에서 DOM이 곧바로 바뀌어야 해서 flushSync로 즉시 반영한다.
+    d.startViewTransition(() => {
+      flushSync(() => setActiveTab(tab));
+    });
+  };
+
   return (
     <div className="min-h-screen overflow-x-clip bg-white text-slate-800 font-sans antialiased flex flex-col selection:bg-blue-600 selection:text-white">
       {/* 본문 바로가기 — KRDS 접근성 필수 요소 */}
@@ -74,7 +93,7 @@ export default function App() {
       {/* App Header & Navigation */}
       <Header
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={changeTab}
         onOpenInfoModal={() => setShowInfoModal(true)}
       />
 
@@ -92,7 +111,7 @@ export default function App() {
               if (query !== undefined) {
                 setSearchQuery(query);
               }
-              setActiveTab(tab);
+              changeTab(tab);
             }}
             onOpenInfoModal={() => setShowInfoModal(true)}
           />
