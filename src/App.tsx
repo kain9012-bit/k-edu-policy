@@ -65,7 +65,7 @@ export default function App() {
   }, [activeTab]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased flex flex-col selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen overflow-x-clip bg-white text-slate-800 font-sans antialiased flex flex-col selection:bg-blue-600 selection:text-white">
       {/* 본문 바로가기 — KRDS 접근성 필수 요소 */}
       <a href="#container" className="krds-skip">
         본문 바로가기

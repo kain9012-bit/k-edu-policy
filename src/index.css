@@ -209,7 +209,7 @@ body {
   /* KRDS는 한글 가독성을 위해 자간을 약간 좁힌다 */
   letter-spacing: -0.02em;
   color: var(--krds-gray-90);
-  background: var(--krds-gray-5);
+  background: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   word-break: keep-all;   /* 한글 어절 단위 줄바꿈 */

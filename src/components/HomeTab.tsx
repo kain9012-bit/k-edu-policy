@@ -58,7 +58,15 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   return (
     <div className="space-y-8 pb-12">
       {/* ===== 1. 검색 영역 ===== */}
-      <section className="bg-blue-50 border border-blue-200 rounded-xl p-6 sm:p-10">
+      {/* 박스로 가두지 않고 화면 폭을 꽉 채우는 띠로 둔다.
+          본문이 max-w-7xl로 가운데 정렬돼 있어 음수 마진만으로는 양옆이 남는다.
+          화면 한가운데를 기준으로 화면 폭만큼 늘려 가장자리까지 색을 뺀다.
+          (넘치는 부분은 최상위 div의 overflow-x-clip이 잘라낸다) */}
+      <section
+        className="relative left-1/2 w-screen -translate-x-1/2 -mt-6
+                   px-4 sm:px-6 lg:px-8 py-12 sm:py-16
+                   bg-blue-50 border-b border-blue-100"
+      >
         <div className="max-w-3xl mx-auto text-center space-y-5">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-snug">
             전국 시도교육청 <span className="text-blue-700">교육정책 통합검색</span>
