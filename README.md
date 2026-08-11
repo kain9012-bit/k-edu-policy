@@ -3,7 +3,7 @@
 전국 16개 시도교육청이 공개한 **정책계획(기본계획·추진계획·운영계획 등)을 한 곳에서 통합검색**하고,
 정보공개포털의 **내부결재 정보목록**과 **지방교육재정 세출예산**을 함께 살펴보는 서비스입니다.
 
-**https://kain9012-bit.github.io/k-edu-policy/**
+**https://edupolicy-search.vercel.app/**
 
 | | 규모 |
 |---|---|
@@ -12,7 +12,7 @@
 | 세출예산 | 17개 교육청 × 2022~2026년 |
 | 수집 게시판 | 197개 · 16개 교육청 전부 연결 |
 
-서버 없이 GitHub Pages에서 동작하며, 수집기가 매일 새벽 데이터를 JSON으로 갱신합니다.
+서버 없이 정적 사이트로 동작하며, 수집기가 매일 새벽 데이터를 JSON으로 갱신합니다.
 
 > **전남·광주는 전남광주통합특별시교육청으로 통합됐습니다.**
 > 그래서 시도교육청은 **16곳**입니다. 다만 옛 전남·광주 홈페이지가 아직 살아 있어
@@ -141,7 +141,6 @@ EDUINFO_KEY=발급키 python3 scripts/collect_budget.py --years 2022 2023 2024 2
 | `refresh-documents.yml` | **매일 05:00 KST** | 등록된 게시판을 수집해 `data/documents.json` 갱신. 이전 대비 20% 이상 급감하면 실패 처리(파서 깨짐 조기 감지) |
 | `discover-boards.yml` | **매주 일요일 04:00 KST** | 교육청 사이트를 다시 훑어 계획이 쌓이는 게시판을 재발견 → `config/boards_auto.json` 갱신. 게시판 신설·조직개편에 자동 대응 |
 | `refresh-data.yml` | 매월 | 세출예산 API 수집 |
-| `deploy-pages.yml` | 푸시할 때 | 화면 빌드 후 GitHub Pages 배포 |
 
 - 두 워크플로 모두 **수동 실행(workflow_dispatch)** 가능하며, 특정 교육청만 지정할 수 있다.
 - 재발견은 **병합 방식**이라 사람이 손댄 설정(`is_active`·`keep_all`·`max_pages` 등)을 보존하고,
@@ -150,12 +149,20 @@ EDUINFO_KEY=발급키 python3 scripts/collect_budget.py --years 2022 2023 2024 2
 
 ## 배포
 
-**GitHub Pages** — `Settings → Pages → Source`를 **GitHub Actions**로 설정한다.
+**Vercel** — 저장소를 연결해두면 `main`에 푸시할 때마다 자동으로 빌드·배포된다.
+수집 워크플로가 `data/*.json`을 커밋할 때도 마찬가지로 다시 배포된다.
 
-`main`에 푸시하면 `deploy-pages.yml`이 알아서 빌드해 올린다. 손으로 npm 명령을 칠 필요는 없다.
-빌드 산출물(`dist/`)은 커밋하지 않는다.
+| 설정 | 값 |
+|---|---|
+| Framework Preset | Vite |
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
 
-수집 데이터가 비어 있으면 배포를 중단하도록 해두었다. 빈 화면이 올라가는 것보다 낫다.
+손으로 npm 명령을 칠 일은 없고, 빌드 산출물(`dist/`)은 커밋하지 않는다.
+`vite.config.ts`의 `base`가 상대경로라 최상위 주소든 하위 경로든 그대로 동작한다.
+
+방문 통계는 GoatCounter(`k-edu-policy.goatcounter.com`)로 받는다.
+쿠키·개인식별자를 쓰지 않아 별도 동의 절차가 필요 없다.
 
 ## 로드맵
 
