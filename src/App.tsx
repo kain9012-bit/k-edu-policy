@@ -26,37 +26,46 @@ export default function App() {
   // Modal controls
   const [showInfoModal, setShowInfoModal] = useState(false);
 
-  // 수집 데이터 로딩 상태 (내부결재 목록이 20MB라 표시가 필요하다)
+  // 수집 데이터 로딩 상태
   const [loading, setLoading] = useState(true);
+  // 내부결재 목록은 압축해도 3MB가 넘는다. 필요한 탭을 열 때만 받는다.
+  const [infoLoading, setInfoLoading] = useState(false);
+  const infoRequested = React.useRef(false);
 
   // 수집기가 만든 data/*.json 을 읽는다.
   // GitHub Pages 하위 경로에서도 동작하도록 절대경로(/data)가 아닌
   // import.meta.env.BASE_URL 기준 상대경로를 쓴다.
-  useEffect(() => {
+  const load = React.useCallback(async <T,>(name: string, apply: (v: T) => void) => {
     const base = import.meta.env.BASE_URL || './';
-    const url = (name: string) => `${base}data/${name}`.replace(/([^:]\/)\/+/g, '$1');
+    const url = `${base}data/${name}`.replace(/([^:]\/)\/+/g, '$1');
+    try {
+      const res = await fetch(url);
+      if (res.ok) apply(await res.json());
+      else console.warn(`${name} 응답 ${res.status} — 표본 데이터로 표시합니다.`);
+    } catch (err) {
+      console.warn(`${name} 을 불러오지 못했습니다. 표본 데이터로 표시합니다.`, err);
+    }
+  }, []);
 
-    const load = async <T,>(name: string, apply: (v: T) => void) => {
-      try {
-        const res = await fetch(url(name));
-        if (res.ok) apply(await res.json());
-        else console.warn(`${name} 응답 ${res.status} — 표본 데이터로 표시합니다.`);
-      } catch (err) {
-        console.warn(`${name} 을 불러오지 못했습니다. 표본 데이터로 표시합니다.`, err);
-      }
-    };
-
+  useEffect(() => {
     (async () => {
-      // 가벼운 것부터 먼저 그려서 화면이 비어 보이지 않게 한다.
       await Promise.all([
         load<DocumentsData>('documents.json', setDocumentsData),
         load<BudgetData>('budget.json', setBudgetData),
       ]);
       setLoading(false);
-      // 내부결재 목록은 크기가 커서 뒤이어 채운다.
-      await load<InfoListData>('infolist.json', setInfoListData);
     })();
-  }, []);
+  }, [load]);
+
+  // 내부결재 목록은 그 자료를 쓰는 탭(내부 결재·수집 출처)에 들어갈 때 받는다.
+  // 첫 화면에서 미리 받으면, 그 탭을 안 여는 사람도 3MB를 내려받게 된다.
+  useEffect(() => {
+    if (activeTab !== 'infolist' && activeTab !== 'sources') return;
+    if (infoRequested.current) return;
+    infoRequested.current = true;
+    setInfoLoading(true);
+    load<InfoListData>('infolist.json', setInfoListData).finally(() => setInfoLoading(false));
+  }, [activeTab, load]);
 
   // 탭을 바꾸면 화면 맨 위부터 보여준다.
   // 스크롤을 그대로 두면 새 탭의 중간이 보여서 어디로 왔는지 알기 어렵다.
@@ -137,6 +146,18 @@ export default function App() {
         </div>
 
       </footer>
+
+      {/* 내부결재 목록을 받는 동안 알려준다. 3MB라 회선이 느리면 몇 초 걸린다. */}
+      {infoLoading && (
+        <div
+          role="status"
+          className="fixed bottom-6 left-6 z-40 flex items-center gap-2 px-4 py-3
+                     rounded-full bg-slate-900 text-white text-sm font-bold shadow-lg"
+        >
+          <span className="w-3.5 h-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+          내부결재 목록을 불러오는 중입니다
+        </div>
+      )}
 
       {/* Modals */}
       {showInfoModal && <InfoGuideModal onClose={() => setShowInfoModal(false)} />}
