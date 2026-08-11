@@ -36,7 +36,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   // Search & Filter state
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [selectedOffice, setSelectedOffice] = useState<string>('ALL');
-  const [selectedYear, setSelectedYear] = useState<string>('ALL');
+  const [selectedYear, setSelectedYear] = useState<string>(String(new Date().getFullYear()));
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   // Specification requirement: "화면 기본값은 정책계획서만 표시한다"
   const [selectedStatus, setSelectedStatus] = useState<DocumentClassificationStatus | 'ALL'>('정책계획서');
@@ -130,10 +130,43 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
   const visibleDocuments = filteredDocuments.slice(0, visibleCount);
 
+  // 연도 목록은 config가 아니라 실제 문서에서 만든다.
+  // 연도만 빼고 나머지 조건을 적용해 센 값이라, 지금 조건에서 몇 건인지 그대로 보인다.
+  const yearOptions = React.useMemo(() => {
+    const n = new Map<number, number>();
+    for (const doc of data.documents) {
+      if (selectedStatus !== 'ALL' && doc.classification_status !== selectedStatus) continue;
+      if (selectedOffice !== 'ALL' && doc.short_name !== selectedOffice && doc.office !== selectedOffice) continue;
+      if (selectedCategory !== 'ALL' && !doc.policy_category?.includes(selectedCategory)) continue;
+      if (loginRequiredFilter === 'PUBLIC' && doc.login_required) continue;
+      if (loginRequiredFilter === 'LOGIN' && !doc.login_required) continue;
+      if (searchTerm.trim() !== '') {
+        const q = searchTerm.toLowerCase().trim();
+        const hit =
+          doc.title.toLowerCase().includes(q) ||
+          doc.department?.toLowerCase().includes(q) ||
+          doc.board_name.toLowerCase().includes(q) ||
+          doc.attachment_names?.some((x) => x.toLowerCase().includes(q)) ||
+          doc.policy_category?.some((c) => c.toLowerCase().includes(q));
+        if (!hit) continue;
+      }
+      if (!doc.policy_year) continue;
+      n.set(doc.policy_year, (n.get(doc.policy_year) ?? 0) + 1);
+    }
+    return [...n.entries()].sort((a, b) => b[0] - a[0]).map(([year, count]) => ({ year, count }));
+  }, [data.documents, selectedStatus, selectedOffice, selectedCategory, loginRequiredFilter, searchTerm]);
+
+  // 고른 연도에 문서가 없으면(예: 조건을 좁혔을 때) 전체 연도로 되돌린다.
+  useEffect(() => {
+    if (selectedYear === 'ALL') return;
+    if (!yearOptions.some((o) => String(o.year) === selectedYear)) setSelectedYear('ALL');
+  }, [yearOptions, selectedYear]);
+
+
   const resetFilters = () => {
     setSearchTerm('');
     setSelectedOffice('ALL');
-    setSelectedYear('ALL');
+    setSelectedYear(String(new Date().getFullYear()));
     setSelectedCategory('ALL');
     setSelectedStatus('정책계획서');
     setLoginRequiredFilter('ALL');
@@ -264,9 +297,9 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
             >
               <option value="ALL">전체 연도</option>
-              {data.years.map((y) => (
-                <option key={y} value={y}>
-                  {y}년
+              {yearOptions.map(({ year, count }) => (
+                <option key={year} value={year}>
+                  {year}년 ({count.toLocaleString()})
                 </option>
               ))}
             </select>
