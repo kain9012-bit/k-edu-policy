@@ -115,7 +115,9 @@ export const Header: React.FC<HeaderProps> = ({
       {/* ── GNB (KRDS 탭 스타일: 선택 항목 하단 밑줄) ── */}
       <nav aria-label="주 메뉴" className="border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ul className="flex gap-1 overflow-x-auto" role="tablist">
+          {/* overflow-x만 주면 overflow-y도 auto가 되어, 탭 밑줄의 -1px 때문에
+              오른쪽에 세로 스크롤바가 생긴다. 세로는 명시적으로 잠근다. */}
+          <ul className="flex gap-1 overflow-x-auto overflow-y-hidden no-scrollbar" role="tablist">
             {TABS.map(({ id, label, Icon }) => {
               const on = activeTab === id;
               return (

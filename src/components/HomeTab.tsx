@@ -34,6 +34,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   // data.count는 수집한 전체 문서 수다. 계획서로 판별된 것만 따로 센다.
   const planCount = (data.office_stats ?? []).reduce((n, o) => n + (o.plan_count ?? 0), 0);
 
+  // 한 줄에 들어가는 만큼만 둔다. '돌봄교실'은 '늘봄학교'와 겹쳐서 뺐다.
   const quickTopics = [
     '늘봄학교',
     '기초학력',
@@ -41,7 +42,6 @@ export const HomeTab: React.FC<HomeTabProps> = ({
     '고교학점제',
     '학교급식',
     '교원연수',
-    '돌봄교실',
     '다문화교육',
   ];
 

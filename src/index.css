@@ -259,6 +259,16 @@ mark {
   font-weight: 700;
 }
 
+/* 가로로 넘칠 때만 밀어서 보는 영역(탭 줄 등)은 스크롤바를 감춘다 */
+.no-scrollbar {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* 구형 Edge */
+}
+.no-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 /* ---- 스크롤바 ---- */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--krds-gray-5); }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowUp } from 'lucide-react';
 import { ActiveTab, DocumentsData, InfoListData, BudgetData, PolicyDocument } from './types';
 import {
   fallbackDocumentsData,
@@ -68,6 +69,12 @@ export default function App() {
       await load<InfoListData>('infolist.json', setInfoListData);
     })();
   }, []);
+
+  // 탭을 바꾸면 화면 맨 위부터 보여준다.
+  // 스크롤을 그대로 두면 새 탭의 중간이 보여서 어디로 왔는지 알기 어렵다.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [activeTab]);
 
   // Save bookmark IDs to LocalStorage
   useEffect(() => {
@@ -196,7 +203,38 @@ export default function App() {
       )}
 
       {showInfoModal && <InfoGuideModal onClose={() => setShowInfoModal(false)} />}
+
+      <ScrollToTopButton />
     </div>
+  );
+}
+
+/** 화면을 어느 정도 내렸을 때만 나타나는 '맨 위로' 버튼 (KRDS 상단이동 패턴) */
+function ScrollToTopButton() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 400);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <button
+      type="button"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="맨 위로 이동"
+      className={`fixed bottom-6 right-6 z-40 flex items-center gap-1.5 px-4 py-3
+                  rounded-full border border-slate-300 bg-white text-slate-700 shadow-lg
+                  text-sm font-bold hover:bg-blue-600 hover:border-blue-600 hover:text-white
+                  transition-all ${
+                    show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
+                  }`}
+    >
+      <ArrowUp className="w-4 h-4" aria-hidden="true" />
+      <span className="hidden sm:inline">맨 위로</span>
+    </button>
   );
 }
 
