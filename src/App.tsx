@@ -116,40 +116,26 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-5">
+      <footer className="bg-slate-900 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-5">
             <div className="space-y-1.5">
-              <p className="text-base font-bold text-slate-900">
+              <p className="text-base font-bold text-white">
                 교육정책 통합검색 <span className="text-slate-400 font-medium">EduPolicy Search</span>
               </p>
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-300">
                 전국 16개 시도교육청 공개 정책계획서 · 정보공개포털 정보목록 · 지방교육재정 세출예산
               </p>
             </div>
 
-            <div className="text-sm text-slate-600 md:text-right space-y-1">
+            <div className="text-sm text-slate-300 md:text-right space-y-1">
               <p>정책계획 출처: 각 시도교육청 공개 게시판</p>
               <p>내부결재 계획 출처: 정보공개포털(open.go.kr)</p>
               <p>예산 출처: 지방교육재정알리미 Open API (공공누리 출처표시)</p>
             </div>
           </div>
-
-          <div className="pt-5 border-t border-slate-100 space-y-1 text-xs text-slate-500">
-            <p>
-              원본 계획서 파일은 재배포하지 않으며 해당 교육청 원문 게시글로 연결합니다.
-              담당자명 등 개인정보는 수집·저장하지 않습니다.
-            </p>
-            <p>UI: KRDS(대한민국 디지털 정부 디자인시스템) 가이드 적용</p>
-          </div>
         </div>
 
-        {/* KRDS 식별자 영역 */}
-        <div className="bg-slate-100 border-t border-slate-200">
-          <p className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 text-center text-xs text-slate-600">
-            이 누리집은 공개된 정부 데이터를 모아 보여주는 비공식 서비스입니다.
-          </p>
-        </div>
       </footer>
 
       {/* Modals */}

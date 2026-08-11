@@ -24,7 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="bg-white sticky top-0 z-30 border-b border-slate-200">
       {/* ── 안내 띠: 비공식 서비스임을 먼저 밝힌다(KRDS 마스트헤드 관례) ── */}
-      <div className="bg-slate-900 text-slate-300">
+      <div className="bg-slate-100 text-slate-600 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs">
           <p>
             이 누리집은 대한민국 공식 전자정부 누리집이 아닙니다.
@@ -33,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={onOpenInfoModal}
-            className="inline-flex items-center gap-1.5 font-bold text-white hover:underline underline-offset-4 shrink-0"
+            className="inline-flex items-center gap-1.5 font-bold text-slate-900 hover:underline underline-offset-4 shrink-0"
           >
             <Info className="w-4 h-4" aria-hidden="true" />
             기획 의도 및 안내
