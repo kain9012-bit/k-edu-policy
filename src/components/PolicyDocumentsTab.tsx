@@ -732,13 +732,13 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                 <span className="font-medium text-slate-800">{activeDetailDoc.department || '미지정'}</span>
               </div>
               <div>
-                <span className="text-slate-400 font-semibold block mb-0.5">게시일자 / 수집일</span>
+                <span className="text-slate-400 font-semibold block mb-0.5">게시일자</span>
                 <span className="font-medium text-slate-800">
-                  {activeDetailDoc.published_date || '미상'} (수집: {activeDetailDoc.collected_at})
+                  {activeDetailDoc.published_date || '미상'}
                 </span>
               </div>
               <div>
-                <span className="text-slate-400 font-semibold block mb-0.5">정책 연도 및 문서유형</span>
+                <span className="text-slate-400 font-semibold block mb-0.5">게시 연도 및 문서유형</span>
                 <span className="font-medium text-slate-800">
                   {activeDetailDoc.policy_year}년도 / {activeDetailDoc.document_type || '미분류'}
                 </span>
@@ -759,40 +759,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                   </span>
                 ))}
               </div>
-            </div>
-
-            {/* Attachments Section */}
-            <div>
-              <h4 className="text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1">
-                <Download className="w-3.5 h-3.5 text-indigo-600" /> 수집된 첨부문서
-              </h4>
-              {activeDetailDoc.attachments && activeDetailDoc.attachments.length > 0 ? (
-                <div className="space-y-1.5">
-                  {activeDetailDoc.attachments.map((att, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-xs"
-                    >
-                      <div className="flex items-center gap-2 truncate">
-                        <FileText className="w-4 h-4 text-indigo-600 shrink-0" />
-                        <span className="font-medium text-slate-800 truncate">{att.name}</span>
-                      </div>
-                      <a
-                        href={att.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-3 py-1 bg-indigo-600 text-white rounded font-medium hover:bg-indigo-700 shrink-0"
-                      >
-                        다운로드
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-xs text-slate-400 italic bg-slate-50 p-3 rounded-lg border">
-                  첨부 파일이 없거나 게시글 본문 링크로 제공되는 문서입니다.
-                </p>
-              )}
             </div>
 
             {/* Guidance Note */}
