@@ -235,8 +235,13 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
   return (
     <div className="space-y-6 pb-12">
-      {/* Top Search & Filter Bar Section */}
-      <div className="bg-white rounded-lg shadow-xs border border-slate-200 p-5 space-y-4">
+      {/* 조건 고르는 영역. 홈의 검색 띠와 같은 방식으로 화면 폭을 채워
+          아래 결과 목록과 경계로 구분한다. */}
+      <section
+        className="relative left-1/2 w-screen -translate-x-1/2 -mt-6 py-6
+                   bg-blue-50 border-b border-blue-100"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         {/* Search Input Bar - Design Theme Clean Pill Input */}
         <div className="max-w-3xl mx-auto w-full">
           <label htmlFor="docSearch" className="sr-only">
@@ -349,7 +354,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
             <select
               value={selectedOffice}
               onChange={(e) => setSelectedOffice(e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
+              className="w-full text-xs bg-white border border-slate-300 rounded-md p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
             >
               <option value="ALL">전체 교육청 ({data.offices.length}개)</option>
               {officeOptions.map((off) => (
@@ -368,7 +373,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value as DocumentClassificationStatus | 'ALL')}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
+              className="w-full text-xs bg-white border border-slate-300 rounded-md p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
             >
               <option value="정책계획서">정책계획서 (기본)</option>
               <option value="정책참고자료">정책참고자료</option>
@@ -386,7 +391,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
+              className="w-full text-xs bg-white border border-slate-300 rounded-md p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
             >
               <option value="ALL">전체 연도</option>
               {yearOptions.map(({ year, count }) => (
@@ -405,7 +410,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
+              className="w-full text-xs bg-white border border-slate-300 rounded-md p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
             >
               <option value="ALL">전체 분야</option>
               {categoryOptions.map((cat) => (
@@ -420,14 +425,15 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
           <div className="flex items-end">
             <button
               onClick={resetFilters}
-              className="w-full text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 px-3 rounded-lg border border-slate-200 transition flex items-center justify-center gap-1.5"
+              className="w-full text-xs bg-white hover:bg-slate-100 text-slate-700 font-semibold py-2 px-3 rounded-md border border-slate-300 transition flex items-center justify-center gap-1.5"
             >
               <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
               필터 초기화
             </button>
           </div>
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* Results Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 px-1 text-slate-700 text-xs font-medium">
@@ -467,7 +473,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
             return (
               <div
                 key={doc.id}
-                className="group bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all flex flex-col md:flex-row md:items-start justify-between gap-4"
+                className="group bg-white p-5 rounded-lg border border-slate-200 hover:border-blue-600 transition-colors flex flex-col md:flex-row md:items-start justify-between gap-4"
               >
                 {/* Main Doc Info */}
                 <div className="space-y-2.5 flex-1">

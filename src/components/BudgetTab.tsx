@@ -200,28 +200,32 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
 
   return (
     <div className="space-y-6 pb-12">
-      {/* Top Banner - Clean Minimal Style */}
-      <div className="bg-white rounded-lg border border-slate-200 p-5 shadow-xs space-y-2">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-200">
-            <BarChart3 className="w-5 h-5 text-amber-600" />
-          </div>
-          <div className="space-y-1">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              {data.regions.length}개 시도교육청 세출예산 현황 비교
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">
-                지방교육재정알리미 Open API
-              </span>
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              지방교육재정알리미 자료로 정책사업별 세출예산을 교육청끼리 견줍니다. 우리 교육청이 어디쯤인지 확인해 보세요.
-            </p>
+      {/* 조건 고르는 영역. 홈의 검색 띠와 같은 방식으로 화면 폭을 채워
+          아래 결과와 경계로 구분한다. */}
+      <section
+        className="relative left-1/2 w-screen -translate-x-1/2 -mt-6 py-6
+                   bg-blue-50 border-b border-blue-100"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+          <div className="bg-white rounded-lg border border-slate-200 p-5 shadow-xs flex items-start gap-3">
+            <span className="w-9 h-9 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center shrink-0 border border-blue-200">
+              <BarChart3 className="w-5 h-5" aria-hidden="true" />
+            </span>
+            <div>
+              <h3 className="text-base font-bold text-slate-900 flex flex-wrap items-center gap-2">
+                {data.regions.length}개 시도교육청 세출예산 현황 비교
+                <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+                  지방교육재정알리미 Open API
+                </span>
+              </h3>
+              <p className="text-sm text-slate-600 mt-0.5">
+                정책사업별 세출예산을 교육청끼리 견줍니다. 우리 교육청이 어디쯤인지 확인해 보세요.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Control Panel Bar */}
-      <div className="bg-white rounded-lg shadow-xs border border-slate-200 p-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Item Selector */}
         <div>
           <label className="block text-xs font-bold text-slate-600 mb-1 flex items-center gap-1">
@@ -233,7 +237,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
           <select
             value={selectedItem}
             onChange={(e) => setSelectedItem(e.target.value)}
-            className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-semibold text-slate-800 focus:ring-1 focus:ring-amber-500"
+            className="w-full text-xs bg-white border border-slate-300 rounded-md p-2.5 font-semibold text-slate-800 focus:ring-1 focus:ring-amber-500"
           >
             <option value="세출예산액">세출예산액 (총액)</option>
             {itemGroups.map(({ policy, children }) => (
@@ -257,7 +261,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
-            className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500"
+            className="w-full text-xs bg-white border border-slate-300 rounded-md p-2.5 font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500"
           >
             {data.years.map((y) => (
               <option key={y} value={y}>
@@ -284,7 +288,8 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
             ))}
           </select>
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* ① 예산 구성 한눈에 · ③ 급증·급감 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
