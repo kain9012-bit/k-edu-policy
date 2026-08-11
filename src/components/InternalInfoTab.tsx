@@ -17,6 +17,9 @@ interface InternalInfoTabProps {
 }
 
 export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
+  // 입력칸에 적는 값과 실제로 찾는 값을 나눈다.
+  // 한 글자 칠 때마다 5만 건이 다시 걸러져서 목록이 계속 요동쳤다.
+  const [inputTerm, setInputTerm] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOffice, setSelectedOffice] = useState<string>('ALL');
   const [selectedDept, setSelectedDept] = useState<string>('ALL');
@@ -92,6 +95,17 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
   }, [searchTerm, selectedOffice, selectedDept, selectedYear]);
   const visibleDocs = filteredDocs.slice(0, visibleCount);
 
+  /** 검색 버튼을 누르거나 엔터를 쳤을 때만 결과를 바꾼다 */
+  const runSearch = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    setSearchTerm(inputTerm.trim());
+  };
+
+  const clearSearch = () => {
+    setInputTerm('');
+    setSearchTerm('');
+  };
+
   const handleCopyDocNo = (docNo: string) => {
     navigator.clipboard.writeText(docNo);
     setCopiedDocNo(docNo);
@@ -123,30 +137,40 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
           <label htmlFor="openSearch" className="sr-only">
             내부결재 제목 검색
           </label>
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-              <Search className="w-5 h-5" aria-hidden="true" />
-            </span>
-            <input
-              id="openSearch"
-              type="search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="내부결재 제목·문서번호·부서명 검색 (예: 초등교육과-12097, 심층면접)"
-              className="w-full h-12 pl-11 pr-20 bg-white text-slate-900 placeholder-slate-400
-                         text-base rounded-md border border-slate-300
-                         focus:border-blue-600 outline-none transition-colors"
-            />
-            {searchTerm && (
-              <button
-                type="button"
-                onClick={() => setSearchTerm('')}
-                className="absolute inset-y-0 right-3 flex items-center text-sm text-slate-500 hover:text-slate-900 font-medium"
-              >
-                지우기
-              </button>
-            )}
-          </div>
+          <form onSubmit={runSearch} className="flex gap-2">
+            <div className="relative flex-1">
+              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <Search className="w-5 h-5" aria-hidden="true" />
+              </span>
+              <input
+                id="openSearch"
+                type="search"
+                value={inputTerm}
+                onChange={(e) => setInputTerm(e.target.value)}
+                placeholder="내부결재 제목·문서번호·부서명 검색 (예: 초등교육과-12097, 심층면접)"
+                className="w-full h-12 pl-11 pr-20 bg-white text-slate-900 placeholder-slate-400
+                           text-base rounded-md border border-slate-300
+                           focus:border-blue-600 outline-none transition-colors"
+              />
+              {inputTerm && (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  className="absolute inset-y-0 right-3 flex items-center text-sm text-slate-500 hover:text-slate-900 font-medium"
+                >
+                  지우기
+                </button>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="h-12 px-6 shrink-0 bg-blue-600 hover:bg-blue-700 text-white
+                         font-bold rounded-md transition-colors"
+            >
+              검색
+            </button>
+          </form>
         </div>
 
         {/* 아랫줄: 필터 */}

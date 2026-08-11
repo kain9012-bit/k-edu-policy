@@ -29,6 +29,9 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   initialSearchTerm = '',
 }) => {
   // Search & Filter state
+  // 입력칸에 적는 값과 실제로 찾는 값을 나눈다.
+  // 한 글자 칠 때마다 결과가 바뀌면 목록이 계속 요동쳐서 읽기 어렵다.
+  const [inputTerm, setInputTerm] = useState(initialSearchTerm);
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [selectedOffice, setSelectedOffice] = useState<string>('ALL');
   const [selectedYear, setSelectedYear] = useState<string>(String(new Date().getFullYear()));
@@ -147,6 +150,11 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   }, [data.documents, keywords, titleMatches, selectedStatus, selectedOffice, selectedYear, selectedCategory]);
 
   useEffect(() => {
+    setInputTerm(initialSearchTerm);
+    setSearchTerm(initialSearchTerm);
+  }, [initialSearchTerm]);
+
+  useEffect(() => {
     setShowRelated(false);
     setRelatedCount(RELATED_PAGE);
   }, [searchTerm]);
@@ -218,7 +226,19 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   }, [yearOptions, selectedYear]);
 
 
+  /** 검색 버튼을 누르거나 엔터를 쳤을 때만 결과를 바꾼다 */
+  const runSearch = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    setSearchTerm(inputTerm.trim());
+  };
+
+  const clearSearch = () => {
+    setInputTerm('');
+    setSearchTerm('');
+  };
+
   const resetFilters = () => {
+    setInputTerm('');
     setSearchTerm('');
     setSelectedOffice('ALL');
     setSelectedYear(String(new Date().getFullYear()));
@@ -265,7 +285,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
             계획서 제목 검색
           </label>
 
-          <div className="flex flex-col sm:flex-row gap-2">
+          <form onSubmit={runSearch} className="flex flex-col sm:flex-row gap-2">
             <div className="relative flex-1">
               <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <Search className="w-5 h-5" aria-hidden="true" />
@@ -273,17 +293,17 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               <input
                 id="docSearch"
                 type="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={inputTerm}
+                onChange={(e) => setInputTerm(e.target.value)}
                 placeholder="계획서 제목 검색 · 여러 낱말은 쉼표나 띄어쓰기로 (예: 늘봄, 방과후)"
                 className="w-full h-12 pl-11 pr-20 bg-white text-slate-900 placeholder-slate-400
                            text-base rounded-md border border-slate-300
                            focus:border-blue-600 outline-none transition-colors"
               />
-              {searchTerm && (
+              {inputTerm && (
                 <button
                   type="button"
-                  onClick={() => setSearchTerm('')}
+                  onClick={clearSearch}
                   className="absolute inset-y-0 right-3 flex items-center text-sm text-slate-500 hover:text-slate-900 font-medium"
                 >
                   지우기
@@ -317,7 +337,15 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                 </button>
               ))}
             </div>
-          </div>
+
+            <button
+              type="submit"
+              className="h-12 px-6 shrink-0 bg-blue-600 hover:bg-blue-700 text-white
+                         font-bold rounded-md transition-colors"
+            >
+              검색
+            </button>
+          </form>
 
           {keywords.length > 1 && (
             <p className="mt-2 text-xs text-slate-500">
@@ -342,7 +370,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                 type="button"
                 onClick={() => {
                   setSelectedCategory(isActive ? 'ALL' : topic);
-                  setSearchTerm('');
+                  clearSearch();
                 }}
                 aria-pressed={isActive}
                 className={`flex-auto whitespace-nowrap px-3 py-1.5 rounded-md
