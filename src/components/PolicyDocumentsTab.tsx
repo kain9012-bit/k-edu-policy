@@ -121,7 +121,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
   const visibleDocuments = filteredDocuments.slice(0, visibleCount);
 
-  // 제목에는 없지만 분야·첨부·부서로 이어지는 문서.
+  // 제목에는 없지만 같은 정책 분야로 묶이는 문서.
   // 검색 결과 건수를 흐리지 않도록 본 목록과 분리해서 접어둔다.
   const RELATED_PAGE = 20;
   const [showRelated, setShowRelated] = useState(false);
@@ -137,14 +137,11 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         if (selectedOffice !== 'ALL' && doc.short_name !== selectedOffice && doc.office !== selectedOffice) return false;
         if (selectedYear !== 'ALL' && doc.policy_year !== Number(selectedYear)) return false;
         if (selectedCategory !== 'ALL' && !doc.policy_category?.includes(selectedCategory)) return false;
-        // 낱말 중 하나라도 분야·첨부·부서·게시판에 걸리면 관련 문서로 본다
-        const hay = [
-          ...(doc.policy_category ?? []),
-          ...(doc.attachment_names ?? []),
-          doc.department ?? '',
-          doc.board_name,
-        ].join(' ').toLowerCase();
-        return keywords.some((k) => hay.includes(k));
+        // 오직 정책 분야 태그로만 잇는다.
+        // 게시판·부서 이름까지 보면 '정보마당'·'정보모음'·'과학직업정보과'처럼
+        // 그릇 이름에 걸려서 내용과 아무 상관없는 계획서가 통째로 딸려 왔다.
+        const cats = (doc.policy_category ?? []).map((c) => c.toLowerCase());
+        return keywords.some((k) => cats.some((c) => c.includes(k)));
       })
       .sort((a, b) => (b.published_date || '').localeCompare(a.published_date || ''));
   }, [data.documents, keywords, titleMatches, selectedStatus, selectedOffice, selectedYear, selectedCategory]);
@@ -159,16 +156,11 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     setRelatedCount(RELATED_PAGE);
   }, [searchTerm]);
 
-  /** 이 문서가 왜 관련 목록에 들어왔는지 */
-  const matchReasons = (doc: PolicyDocument): string[] => {
-    const why: string[] = [];
-    const cat = doc.policy_category?.find((c) => keywords.some((k) => c.toLowerCase().includes(k)));
-    if (cat) why.push(`분야: ${cat}`);
-    if (doc.attachment_names?.some((a) => keywords.some((k) => a.toLowerCase().includes(k)))) why.push('첨부파일명');
-    if (doc.department && keywords.some((k) => doc.department!.toLowerCase().includes(k))) why.push(`부서: ${doc.department}`);
-    if (!why.length && keywords.some((k) => doc.board_name.toLowerCase().includes(k))) why.push(`게시판: ${doc.board_name}`);
-    return why;
-  };
+  /** 이 문서가 왜 관련 목록에 들어왔는지 — 걸린 정책 분야 태그 */
+  const matchReasons = (doc: PolicyDocument): string[] =>
+    (doc.policy_category ?? []).filter((c) =>
+      keywords.some((k) => c.toLowerCase().includes(k))
+    );
 
 
   // 주요 주제는 손으로 적지 않고 실제 문서에서 뽑는다.
@@ -715,9 +707,14 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                         <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">
                           {doc.short_name}
                         </span>
-                        {matchReasons(doc).map((r) => (
-                          <span key={r} className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-100">
-                            {r}
+                        {matchReasons(doc).map((cat) => (
+                          <span
+                            key={cat}
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded
+                                       bg-blue-50 text-blue-700 border border-blue-100 font-bold"
+                          >
+                            <Tag className="w-3 h-3" aria-hidden="true" />
+                            {cat}
                           </span>
                         ))}
                         <span className="text-slate-400 tabular-nums">{doc.published_date || '날짜 미상'}</span>
