@@ -11,6 +11,13 @@
 인덱스가 불규칙하면 LLM으로 '부서명+게시판링크'를 추출하는 어댑터로 대체할 수 있다.
 """
 import os, re, json, sys, time
+import datetime
+# 수집 시각은 한국시간으로 적는다.
+# GitHub Actions 러너는 UTC라, 그냥 now() 를 쓰면 새벽 5시(KST)에 돌린 수집이
+# 전날 20시로 기록돼 화면에 하루 어긋나 보인다.
+from zoneinfo import ZoneInfo
+KST = ZoneInfo("Asia/Seoul")
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -275,7 +282,7 @@ def main():
         # 이번에 안 잡힌 기존 게시판은 삭제하지 않고 '실종' 표시만 남긴다
         # (일시적 사이트 오류·개편으로 사라져 보일 수 있어 데이터 손실을 막는다)
         missing = 0
-        today = time.strftime("%Y-%m-%d")
+        today = datetime.datetime.now(KST).strftime("%Y-%m-%d")
         for bid, b in by_id.items():
             if b["office"] == office and bid not in found_ids:
                 b.setdefault("missing_since", today)
@@ -288,7 +295,7 @@ def main():
         print("\n[요약] 실패·0건 어댑터:")
         for office, msg in failed:
             print(f"  - {office}: {msg}")
-    out = {"generated_at": time.strftime("%Y-%m-%d %H:%M:%S"), "boards": existing}
+    out = {"generated_at": datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"), "boards": existing}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print(f"\n저장: {OUT} · 총 {len(existing)}개")

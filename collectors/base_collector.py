@@ -6,6 +6,12 @@
 import os, re, json, time, hashlib, datetime
 import requests
 from bs4 import BeautifulSoup
+# 수집 시각은 한국시간으로 적는다.
+# GitHub Actions 러너는 UTC라, 그냥 now() 를 쓰면 새벽 5시(KST)에 돌린 수집이
+# 전날 20시로 기록돼 화면에 하루 어긋나 보인다.
+from zoneinfo import ZoneInfo
+KST = ZoneInfo("Asia/Seoul")
+
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36 K-EduPolicyBot/1.0"
@@ -226,7 +232,7 @@ def build_document(office, short_name, board, raw):
         dept = dept or pm.group(1).strip()
         title_raw = pm.group(2).strip()
     status, dtype, cats = classify(title_raw, att_names)
-    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
     return {
         "id": doc_id(office, raw["external_post_id"]),
         "office": office,

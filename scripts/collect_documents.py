@@ -9,6 +9,12 @@ config/offices.json + config/boards.json 을 읽어 활성 게시판을 교육�
   python3 scripts/collect_documents.py --office jeonbuk
 """
 import os, sys, json, argparse, datetime
+# 수집 시각은 한국시간으로 적는다.
+# GitHub Actions 러너는 UTC라, 그냥 now() 를 쓰면 새벽 5시(KST)에 돌린 수집이
+# 전날 20시로 기록돼 화면에 하루 어긋나 보인다.
+from zoneinfo import ZoneInfo
+KST = ZoneInfo("Asia/Seoul")
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # 첨부파일은 수집하지 않는다(원문 링크로 연결). 목록 페이지만 수집해 빠르고 정중하게 동작.
@@ -70,7 +76,7 @@ def run(office_filter=None):
             print(f"  [skip] {board['id']}: 수집기 없음({board['collector_type']})")
             continue
 
-        log = {"board_id": board["id"], "started_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        log = {"board_id": board["id"], "started_at": datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"),
                "status": "성공", "new_count": 0, "updated_count": 0, "skipped_count": 0, "error_count": 0}
         try:
             raws = mod.collect(board, session, log)
@@ -92,7 +98,7 @@ def run(office_filter=None):
                 log["new_count"] += 1
             existing[doc["id"]] = doc
             kept += 1
-        log["finished_at"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log["finished_at"] = datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
         if log["error_count"]:
             log["status"] = "부분성공"
         logs.append(log)
@@ -179,7 +185,7 @@ def run(office_filter=None):
         return sorted({v for d in docs for v in ([d[key]] if isinstance(d[key], str) else d[key]) if v})
 
     out = {
-        "generated_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "generated_at": datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"),
         "offices": sorted({d["short_name"] for d in docs}),
         "years": sorted({d["policy_year"] for d in docs if d["policy_year"]}, reverse=True),
         "departments": sorted({d["department"] for d in docs if d["department"]}),

@@ -11,6 +11,13 @@
 """
 import os, sys, json, time, argparse, urllib.request, urllib.parse
 import xml.etree.ElementTree as ET
+import datetime
+# 수집 시각은 한국시간으로 적는다.
+# GitHub Actions 러너는 UTC라, 그냥 now() 를 쓰면 새벽 5시(KST)에 돌린 수집이
+# 전날 20시로 기록돼 화면에 하루 어긋나 보인다.
+from zoneinfo import ZoneInfo
+KST = ZoneInfo("Asia/Seoul")
+
 
 API = "http://openapi.eduinfo.go.kr/openApi.do"
 REQUEST_TYPE = "opbdfnctByPoli"
@@ -109,7 +116,7 @@ def main():
     out = {
         "source": "지방교육재정알리미 Open API (opbdfnctByPoli)",
         "license": "공공누리 출처표시",
-        "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "generated_at": datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"),
         "years": sorted(set(meta_years)),
         "regions": sorted({r["region"] for r in all_rows}),
         # 화면 기본 목록은 정책사업만. 단위사업을 섞으면 합계가 총액을 넘는다.

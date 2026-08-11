@@ -38,6 +38,12 @@
   python scripts/collect_infolist.py
 """
 import os, re, json, time, argparse, datetime
+# 수집 시각은 한국시간으로 적는다.
+# GitHub Actions 러너는 UTC라, 그냥 now() 를 쓰면 새벽 5시(KST)에 돌린 수집이
+# 전날 20시로 기록돼 화면에 하루 어긋나 보인다.
+from zoneinfo import ZoneInfo
+KST = ZoneInfo("Asia/Seoul")
+
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "data", "infolist.json")
@@ -384,7 +390,7 @@ def _pack(docs, stats, note):
     return {
         "source": "정보공개포털(open.go.kr) 정보목록",
         "note": note,
-        "generated_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "generated_at": datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"),
         "count": len(docs),
         "offices": sorted({d["office"] for d in docs if d["office"]}),
         "departments": sorted({d["department"] for d in docs if d["department"]}),
