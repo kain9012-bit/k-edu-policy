@@ -108,9 +108,12 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         {/* 탭 소제목 — 세 탭이 같은 크기·굵기를 쓴다 */}
-        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
-          정보공개포털(open.go.kr) 내부결재 정보목록
-        </h2>
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">내부결재 정보목록</h2>
+          <p className="mt-1 text-sm text-slate-500">
+            정보공개포털(open.go.kr) {data.count.toLocaleString()}건
+          </p>
+        </div>
 
         {/* 윗줄: 검색창 — 공개 계획서 탭과 같은 짜임 */}
         <div className="max-w-3xl w-full">

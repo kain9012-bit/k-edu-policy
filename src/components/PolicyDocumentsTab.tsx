@@ -181,6 +181,12 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   // 교육청은 가나다순이 아니라 행정구역 순서로 늘어놓는다.
   const officeOptions = React.useMemo(() => sortOffices<string>(data.offices, (o) => o), [data.offices]);
 
+  // 소제목 아래에 적는 건수. 화면 기본값과 같게 정책계획서만 센다.
+  const planCount = React.useMemo(
+    () => data.documents.filter((d) => d.classification_status === '정책계획서').length,
+    [data.documents]
+  );
+
   // '기타'는 분류가 안 된 것을 모아두는 칸이라 목록 맨 끝에 둔다.
   const categoryOptions = React.useMemo(
     () => [...data.categories].sort((a, b) =>
@@ -243,7 +249,12 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         {/* 탭 소제목 — 세 탭이 같은 크기·굵기를 쓴다 */}
-        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">공개 계획서</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">공개 계획서</h2>
+          <p className="mt-1 text-sm text-slate-500">
+            16개 시도교육청 누리집에서 모은 계획서 {planCount.toLocaleString()}건
+          </p>
+        </div>
 
         {/* Search Input Bar - Design Theme Clean Pill Input */}
         <div className="max-w-3xl w-full">
