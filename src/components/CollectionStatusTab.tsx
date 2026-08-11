@@ -155,11 +155,14 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
             <h4 className="text-base font-bold text-slate-900">
               계획을 안 세우는 게 아니라, 공개를 안 하는 것입니다
             </h4>
-            <p className="text-sm text-slate-700 leading-relaxed">
-              내부결재 계획은 17개 교육청 모두 비슷한 규모로 쌓입니다. 그런데 홈페이지에 공개하는 양은
-              교육청마다 크게 다릅니다. 아래 <strong className="font-bold">공개율</strong>은 내부결재 계획 대비
-              홈페이지에 올라온 계획서의 비율입니다.
-            </p>
+            <div className="text-sm text-slate-700 leading-relaxed space-y-1">
+              <p>내부결재 계획은 교육청마다 비슷한 규모로 쌓입니다.</p>
+              <p>그런데 홈페이지에 공개하는 양은 교육청마다 크게 다릅니다.</p>
+              <p>
+                아래 <strong className="font-bold">공개율</strong>은 내부결재 계획 대비 홈페이지에
+                올라온 계획서의 비율입니다.
+              </p>
+            </div>
             <p className="text-xs text-slate-500">
               내부결재 수집 기간: {infoData?.coverage?.from ?? '-'} ~ {infoData?.coverage?.to ?? '-'} ·
               홈페이지 수집 기준: {data.generated_at}

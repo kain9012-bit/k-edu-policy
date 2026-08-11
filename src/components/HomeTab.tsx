@@ -175,11 +175,18 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
             이 서비스가 필요한 이유
           </h2>
-          <p className="text-sm text-slate-600 leading-relaxed">
-            교육정책 정보는 각 시도교육청 홈페이지에 흩어져 있고, 공개 게시판과 내부결재 시스템에
-            나뉘어 있어 찾기 어려웠습니다. 이 서비스는 공개된 자료를 한곳에 모아
-            <strong className="font-bold text-slate-900"> 제목 한 번으로 검색되게</strong> 만듭니다.
-          </p>
+          {/* 문장이 길면 '이 서비스는'처럼 어중간한 곳에서 줄이 바뀐다.
+              문단을 나누면 어느 폭에서든 뜻 단위로 끊긴다. */}
+          <div className="text-sm text-slate-600 leading-relaxed space-y-1">
+            <p>
+              교육정책 정보는 각 시도교육청 홈페이지에 흩어져 있고, 공개 게시판과 내부결재
+              시스템에 나뉘어 있어 찾기 어려웠습니다.
+            </p>
+            <p>
+              이 서비스는 공개된 자료를 한곳에 모아
+              <strong className="font-bold text-slate-900"> 제목 한 번으로 검색되게</strong> 만듭니다.
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -387,10 +394,10 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           <h3 className="text-lg font-bold text-white">
             어디서 언제 무엇을 가져왔는지 그대로 공개합니다
           </h3>
-          <p className="text-sm text-slate-300 leading-relaxed">
-            17개 시도교육청 게시판의 연동 상태, 수집 주기, 성공·실패 기록과 출처 주소를
-            가공 없이 공개합니다. 수집이 밀리거나 실패한 곳도 숨기지 않습니다.
-          </p>
+          <div className="text-sm text-slate-300 leading-relaxed space-y-1">
+            <p>게시판의 연동 상태, 수집 주기, 성공·실패 기록과 출처 주소를 가공 없이 공개합니다.</p>
+            <p>수집이 밀리거나 실패한 곳도 숨기지 않습니다.</p>
+          </div>
         </div>
 
         <button
