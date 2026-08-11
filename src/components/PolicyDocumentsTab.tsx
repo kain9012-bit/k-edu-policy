@@ -329,7 +329,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         </div>
 
         {/* Quick Topic Chips */}
-        <div className="flex items-center gap-1.5 flex-wrap text-xs pt-1 justify-start">
+        <div className="flex items-center gap-1.5 flex-wrap text-xs pt-1">
           <span className="text-slate-400 font-bold text-[11px] flex items-center gap-1 shrink-0 mr-1">
             <Tag className="w-3.5 h-3.5 text-blue-600" />
             주요 주제:
@@ -345,7 +345,8 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                   setSearchTerm('');
                 }}
                 aria-pressed={isActive}
-                className={`px-3 py-1.5 rounded-md transition-colors font-bold text-sm border ${
+                className={`flex-1 min-w-[7.5rem] whitespace-nowrap px-3 py-1.5 rounded-md
+                            transition-colors font-bold text-sm border ${
                   isActive
                     ? 'bg-blue-600 text-white border-blue-600'
                     : 'bg-white hover:bg-blue-50 text-slate-700 border-slate-200 hover:border-blue-300 hover:text-blue-600'
