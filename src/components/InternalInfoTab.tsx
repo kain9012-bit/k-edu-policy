@@ -26,6 +26,8 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
   const [selectedYear, setSelectedYear] = useState<string>('ALL');
   const [copiedDocNo, setCopiedDocNo] = useState<string | null>(null);
   const [showInfoGuide, setShowInfoGuide] = useState(false);
+  // 여러 낱말을 넣었을 때 모두 담긴 것만 볼지, 하나라도 담기면 볼지
+  const [matchMode, setMatchMode] = useState<'all' | 'any'>('all');
 
   // Link generation helper exact rule from spec
   const getOpenGoKrUrl = (id: string) => {
@@ -39,6 +41,12 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
       '&nstSeCd=E'
     );
   };
+
+  // 쉼표나 띄어쓰기로 나눠 여러 낱말로 받는다. 빈 조각은 버린다.
+  const keywords = useMemo(
+    () => searchTerm.split(/[,\s]+/).map((k) => k.trim().toLowerCase()).filter(Boolean),
+    [searchTerm]
+  );
 
   const filteredDocs = useMemo(() => {
     return data.documents.filter((doc) => {
@@ -57,22 +65,21 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
         return false;
       }
 
-      // Search term
-      if (searchTerm.trim() !== '') {
-        const q = searchTerm.toLowerCase().trim();
-        const titleMatch = doc.title.toLowerCase().includes(q);
-        const docNoMatch = doc.doc_no.toLowerCase().includes(q);
-        const deptMatch = doc.department.toLowerCase().includes(q);
-        const officeMatch = doc.office.toLowerCase().includes(q);
-
-        if (!titleMatch && !docNoMatch && !deptMatch && !officeMatch) {
-          return false;
-        }
+      // 제목·문서번호·부서·교육청을 한데 묶어 낱말별로 본다
+      if (keywords.length > 0) {
+        const hay = [doc.title, doc.doc_no, doc.department, doc.office]
+          .join(' ')
+          .toLowerCase();
+        const ok =
+          matchMode === 'all'
+            ? keywords.every((k) => hay.includes(k))
+            : keywords.some((k) => hay.includes(k));
+        if (!ok) return false;
       }
 
       return true;
     });
-  }, [data.documents, searchTerm, selectedOffice, selectedDept, selectedYear]);
+  }, [data.documents, keywords, matchMode, selectedOffice, selectedDept, selectedYear]);
 
   // 내부결재 목록은 4만 건이 넘는다. 한 번에 그리면 브라우저가 멈추므로 나눠 그린다.
   // 교육청은 행정구역 순서로 늘어놓는다.
@@ -92,7 +99,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
   const [visibleCount, setVisibleCount] = useState(PAGE);
   useEffect(() => {
     setVisibleCount(PAGE);
-  }, [searchTerm, selectedOffice, selectedDept, selectedYear]);
+  }, [searchTerm, matchMode, selectedOffice, selectedDept, selectedYear]);
   const visibleDocs = filteredDocs.slice(0, visibleCount);
 
   /** 검색 버튼을 누르거나 엔터를 쳤을 때만 결과를 바꾼다 */
@@ -137,7 +144,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
           <label htmlFor="openSearch" className="sr-only">
             내부결재 제목 검색
           </label>
-          <form onSubmit={runSearch} className="flex gap-2">
+          <form onSubmit={runSearch} className="flex flex-col sm:flex-row gap-2">
             <div className="relative flex-1">
               <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <Search className="w-5 h-5" aria-hidden="true" />
@@ -147,7 +154,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
                 type="search"
                 value={inputTerm}
                 onChange={(e) => setInputTerm(e.target.value)}
-                placeholder="내부결재 제목·문서번호·부서명 검색 (예: 초등교육과-12097, 심층면접)"
+                placeholder="제목·문서번호·부서명 검색 · 여러 낱말은 쉼표나 띄어쓰기로 (예: 초등, 연수)"
                 className="w-full h-12 pl-11 pr-20 bg-white text-slate-900 placeholder-slate-400
                            text-base rounded-md border border-slate-300
                            focus:border-blue-600 outline-none transition-colors"
@@ -163,6 +170,34 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
               )}
             </div>
 
+            {/* 여러 낱말을 어떻게 묶을지. 낱말이 하나여도 늘 보이게 두어
+                지금 어떤 방식으로 찾는지 알 수 있게 한다. */}
+            <div
+              role="group"
+              aria-label="여러 낱말 검색 방식"
+              className="inline-flex h-12 shrink-0 rounded-md border border-slate-300 overflow-hidden text-sm"
+            >
+              {([
+                ['all', '모두 포함', '넣은 낱말이 모두 들어간 것만 찾습니다'],
+                ['any', '하나라도', '넣은 낱말 중 하나만 들어가도 찾습니다'],
+              ] as const).map(([mode, label, hint]) => (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setMatchMode(mode)}
+                  aria-pressed={matchMode === mode}
+                  title={hint}
+                  className={`px-3.5 font-bold whitespace-nowrap transition-colors ${
+                    matchMode === mode
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
             <button
               type="submit"
               className="h-12 px-6 shrink-0 bg-blue-600 hover:bg-blue-700 text-white
@@ -171,6 +206,14 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
               검색
             </button>
           </form>
+
+          {keywords.length > 1 && (
+            <p className="mt-2 text-xs text-slate-500">
+              {matchMode === 'all'
+                ? `‘${keywords.join('’, ‘')}’ 를 모두 담은 결재문서를 찾습니다.`
+                : `‘${keywords.join('’, ‘')}’ 중 하나라도 담은 결재문서를 찾습니다.`}
+            </p>
+          )}
         </div>
 
         {/* 아랫줄: 필터 */}
