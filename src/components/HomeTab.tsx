@@ -289,18 +289,18 @@ export const HomeTab: React.FC<HomeTabProps> = ({
 
       {/* ===== 5. 출처 공개 ===== */}
       <section
-        className="bg-slate-900 text-white rounded-xl p-6 sm:p-8
+        className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8
  flex flex-col md:flex-row md:items-center justify-between gap-6"
       >
         <div className="space-y-2 max-w-2xl">
-          <span className="inline-flex items-center gap-2 text-sm font-bold text-emerald-400">
+          <span className="inline-flex items-center gap-2 text-sm font-bold text-emerald-600">
             <ShieldCheck className="w-5 h-5" aria-hidden="true" />
             수집 내역 공개
           </span>
-          <h3 className="text-lg font-bold text-white">
+          <h3 className="text-lg font-bold text-slate-900">
             어디서 언제 무엇을 가져왔는지 그대로 공개합니다
           </h3>
-          <div className="text-sm text-slate-300 leading-relaxed space-y-1">
+          <div className="text-sm text-slate-600 leading-relaxed space-y-1">
             <p>게시판의 연동 상태, 수집 주기, 성공·실패 기록과 출처 주소를 가공 없이 공개합니다.</p>
             <p>수집이 밀리거나 실패한 곳도 숨기지 않습니다.</p>
           </div>
@@ -309,7 +309,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
         <button
           type="button"
           onClick={() => onNavigateTab('sources')}
-          className="px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold
+          className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold
  rounded-md transition-colors flex items-center justify-center gap-2
                      shrink-0 self-start md:self-auto"
         >
