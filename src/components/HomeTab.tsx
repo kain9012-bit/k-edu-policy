@@ -62,10 +62,10 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-snug">
             전국 시도교육청 <span className="text-blue-700">교육정책 통합검색</span>
           </h2>
-          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-            흩어져 있는 17개 시도교육청의 <strong className="font-bold text-slate-900">공개 정책계획서</strong>,
-            정보공개포털 <strong className="font-bold text-slate-900">내부결재 정보목록</strong>,
-            <strong className="font-bold text-slate-900"> 지방교육재정 세출예산</strong>을 한곳에서 찾습니다.
+          <p className="text-sm sm:text-base text-slate-600">
+            17개 시도교육청의 <strong className="font-bold text-slate-900">공개 계획서</strong> ·
+            <strong className="font-bold text-slate-900"> 내부결재 목록</strong> ·
+            <strong className="font-bold text-slate-900"> 세출예산</strong>을 한곳에서 찾습니다
           </p>
 
           {/* 통합 검색창 */}

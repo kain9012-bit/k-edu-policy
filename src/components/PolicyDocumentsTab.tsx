@@ -38,7 +38,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   const [selectedOffice, setSelectedOffice] = useState<string>('ALL');
   const [selectedYear, setSelectedYear] = useState<string>('ALL');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
-  const [selectedDocType, setSelectedDocType] = useState<string>('ALL');
   // Specification requirement: "화면 기본값은 정책계획서만 표시한다"
   const [selectedStatus, setSelectedStatus] = useState<DocumentClassificationStatus | 'ALL'>('정책계획서');
   const [loginRequiredFilter, setLoginRequiredFilter] = useState<'ALL' | 'PUBLIC' | 'LOGIN'>('ALL');
@@ -102,11 +101,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         return false;
       }
 
-      // Doc type filter
-      if (selectedDocType !== 'ALL' && doc.document_type !== selectedDocType) {
-        return false;
-      }
-
       // Login required filter
       if (loginRequiredFilter === 'PUBLIC' && doc.login_required) return false;
       if (loginRequiredFilter === 'LOGIN' && !doc.login_required) return false;
@@ -119,7 +113,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     selectedOffice,
     selectedYear,
     selectedCategory,
-    selectedDocType,
     selectedStatus,
     loginRequiredFilter,
   ]);
@@ -131,7 +124,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     selectedOffice,
     selectedYear,
     selectedCategory,
-    selectedDocType,
     selectedStatus,
     loginRequiredFilter,
   ]);
@@ -143,7 +135,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     setSelectedOffice('ALL');
     setSelectedYear('ALL');
     setSelectedCategory('ALL');
-    setSelectedDocType('ALL');
     setSelectedStatus('정책계획서');
     setLoginRequiredFilter('ALL');
   };
@@ -224,7 +215,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         </div>
 
         {/* Detailed Filters Grid */}
-        <div className="pt-3 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="pt-3 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {/* Office Filter */}
           <div>
             <label className="block text-[10px] font-bold text-slate-400 mb-1 flex items-center gap-1">
@@ -295,25 +286,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               {data.categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Document Type Filter */}
-          <div>
-            <label className="block text-[10px] font-bold text-slate-400 mb-1 flex items-center gap-1">
-              <FileText className="w-3 h-3 text-slate-400" /> 문서 유형
-            </label>
-            <select
-              value={selectedDocType}
-              onChange={(e) => setSelectedDocType(e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
-            >
-              <option value="ALL">전체 유형</option>
-              {data.document_types.map((dt) => (
-                <option key={dt} value={dt}>
-                  {dt}
                 </option>
               ))}
             </select>
