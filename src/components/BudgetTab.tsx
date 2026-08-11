@@ -209,7 +209,10 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         {/* 탭 소제목 — 세 탭이 같은 크기·굵기를 쓴다 */}
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h2 className="text-4xl font-bold text-slate-900 tracking-tight">세출예산 비교</h2>
+          <h2 className="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+            <BarChart3 className="w-8 h-8 text-blue-600 shrink-0" aria-hidden="true" />
+            세출예산 비교
+          </h2>
           <p className="text-sm text-slate-500">
             지방교육재정알리미 · {data.regions.length}개 시도교육청
           </p>
