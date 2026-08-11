@@ -8,14 +8,9 @@ import {
   Database,
   ArrowRight,
   CheckCircle2,
-  Building2,
-  Users,
   ShieldCheck,
-  BookOpen,
   HelpCircle,
   Tag,
-  Check,
-  X,
 } from 'lucide-react';
 
 interface HomeTabProps {
@@ -172,73 +167,6 @@ export const HomeTab: React.FC<HomeTabProps> = ({
         </div>
       </section>
 
-      {/* ===== 2. 기획 의도 ===== */}
-      <section className="bg-white rounded-xl p-6 sm:p-8 border border-slate-200 space-y-6">
-        <div className="max-w-3xl space-y-2">
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
-            이 서비스가 필요한 이유
-          </h2>
-          {/* 문장이 길면 '이 서비스는'처럼 어중간한 곳에서 줄이 바뀐다.
-              문단을 나누면 어느 폭에서든 뜻 단위로 끊긴다. */}
-          <div className="text-sm text-slate-600 leading-relaxed space-y-1">
-            <p>
-              교육정책 정보는 각 시도교육청 홈페이지에 흩어져 있고, 공개 게시판과 내부결재
-              시스템에 나뉘어 있어 찾기 어려웠습니다.
-            </p>
-            <p>
-              이 서비스는 공개된 자료를 한곳에 모아
-              <strong className="font-bold text-slate-900"> 제목 한 번으로 검색되게</strong> 만듭니다.
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* 기존의 한계 */}
-          <div className="bg-slate-50 rounded-lg p-5 border border-slate-200 space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-1 rounded bg-slate-200 text-slate-700 font-bold text-xs shrink-0">
-                지금까지
-              </span>
-              <h3 className="text-base font-bold text-slate-800">이렇게 불편했습니다</h3>
-            </div>
-            <ul className="space-y-2.5 text-sm text-slate-600 leading-relaxed">
-              {[
-                '시도교육청 홈페이지를 일일이 찾아다니며 게시판을 검색해야 함',
-                '홈페이지에 올라오지 않는 내부결재 계획은 존재 여부조차 알 수 없음',
-                '정책 사업과 거기 투입되는 세출예산을 이어서 비교하기 어려움',
-              ].map((t) => (
-                <li key={t} className="flex items-start gap-2">
-                  <X className="w-4 h-4 text-red-500 shrink-0 mt-0.5" aria-hidden="true" />
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* 해결 */}
-          <div className="bg-blue-50 rounded-lg p-5 border border-blue-200 space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-1 rounded bg-blue-600 text-white font-bold text-xs shrink-0">
-                이제부터
-              </span>
-              <h3 className="text-base font-bold text-slate-900">이렇게 달라집니다</h3>
-            </div>
-            <ul className="space-y-2.5 text-sm text-slate-700 leading-relaxed">
-              {[
-                '검색어 한 번으로 16개 교육청 공개 계획서를 원문까지 바로 확인',
-                '정보공개포털 내부결재 목록에서 문서번호와 담당부서까지 확인',
-                '지방교육재정 자료로 항목별 세출예산을 교육청끼리 대조',
-              ].map((t) => (
-                <li key={t} className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" aria-hidden="true" />
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
       {/* ===== 3. 세 가지 데이터 ===== */}
       <section className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
@@ -339,46 +267,6 @@ export const HomeTab: React.FC<HomeTabProps> = ({
                 <span>{cta}</span>
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ===== 4. 대상 사용자 ===== */}
-      <section className="bg-white rounded-xl p-6 sm:p-8 border border-slate-200 space-y-6">
-        <div>
-          <h2 className="text-xl font-bold text-slate-900">누가 쓰는 서비스인가요</h2>
-          <p className="text-sm text-slate-500 mt-1">
-            공개된 정책 정보가 필요한 분들을 위해 만들었습니다.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          {[
-            {
-              Icon: Building2,
-              title: '교육청 정책 담당자',
-              desc: '새 사업을 세울 때 다른 시도교육청의 비슷한 계획서와 내부결재 사례, 예산 규모를 찾아봅니다.',
-            },
-            {
-              Icon: BookOpen,
-              title: '교육 연구자·기자',
-              desc: '시도별 정책 동향을 비교하고, 정보공개청구에 필요한 문서번호와 생산부서를 확인합니다.',
-            },
-            {
-              Icon: Users,
-              title: '학교 관리자·교사·시민',
-              desc: '우리 지역 교육청이 무엇을 어떻게 추진한다고 했는지 근거 문서를 직접 확인합니다.',
-            },
-          ].map(({ Icon, title, desc }) => (
-            <div key={title} className="p-5 rounded-lg bg-slate-50 border border-slate-200 space-y-3">
-              <span className="w-10 h-10 rounded-lg bg-white border border-slate-200 text-blue-700 flex items-center justify-center">
-                <Icon className="w-5 h-5" aria-hidden="true" />
-              </span>
-              <div>
-                <h3 className="text-base font-bold text-slate-900">{title}</h3>
-                <p className="text-sm text-slate-600 mt-1 leading-relaxed">{desc}</p>
-              </div>
             </div>
           ))}
         </div>
