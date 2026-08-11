@@ -31,19 +31,26 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   // 전남·광주가 전남광주로 통합돼 실제 기관은 16곳이다(수집 대상은 옛 홈페이지까지 18곳).
   const agencyCount = data.coverage.agency_count ?? data.coverage.total;
 
-  // 추천 검색어는 손으로 적지 않고 실제 문서에서 뽑는다.
-  // 'AI교육'처럼 분류 체계에 없는 이름을 적어두면 눌러도 0건이 나온다.
-  // 분야 이름은 검색에도 걸리므로 결과가 반드시 있다.
+  // 추천 검색어.
+  // 예전에는 '중등교육'처럼 분야 이름을 넣었는데, 이 검색은 제목만 보기 때문에
+  // 제목에 그 낱말이 그대로 박힌 계획서가 거의 없어 눌러도 몇 건 안 나왔다.
+  // 그래서 후보 낱말을 실제 제목에 대고 세어 많이 걸리는 것부터 보여준다.
+  const KEYWORD_POOL = [
+    '유치원', '특수교육', '안전', '급식', '교원', '연수', '장학', '과학',
+    '평가', '자유학기', '교육복지', '체육', '진로', '독서', '상담',
+    '학교폭력', '방과후', '인권', '예술', '건강',
+  ];
+
   const quickTopics = React.useMemo(() => {
-    const n = new Map<string, number>();
-    for (const doc of data.documents ?? []) {
-      if (doc.classification_status !== '정책계획서') continue;
-      for (const cat of doc.policy_category ?? []) {
-        if (cat === '기타') continue;
-        n.set(cat, (n.get(cat) ?? 0) + 1);
-      }
-    }
-    return [...n.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([cat]) => cat);   // 칩이 커져 5개가 한 줄 한도다
+    const titles = (data.documents ?? [])
+      .filter((d) => d.classification_status === '정책계획서')
+      .map((d) => d.title.toLowerCase());
+    return KEYWORD_POOL
+      .map((k) => ({ k, n: titles.filter((t) => t.includes(k.toLowerCase())).length }))
+      .filter((x) => x.n > 0)
+      .sort((a, b) => b.n - a.n)
+      .slice(0, 5)                 // 칩이 커져 5개가 한 줄 한도다
+      .map((x) => x.k);
   }, [data.documents]);
 
   const handleHeroSearchSubmit = (e: React.FormEvent) => {
