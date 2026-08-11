@@ -206,30 +206,17 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
         className="relative left-1/2 w-screen -translate-x-1/2 -mt-6 py-6
                    bg-blue-50 border-b border-blue-100"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-          <div className="bg-white rounded-lg border border-slate-200 p-5 shadow-xs flex items-start gap-3">
-            <span className="w-9 h-9 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center shrink-0 border border-blue-200">
-              <BarChart3 className="w-5 h-5" aria-hidden="true" />
-            </span>
-            <div>
-              <h3 className="text-base font-bold text-slate-900 flex flex-wrap items-center gap-2">
-                {data.regions.length}개 시도교육청 세출예산 현황 비교
-                <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600">
-                  지방교육재정알리미 Open API
-                </span>
-              </h3>
-              <p className="text-sm text-slate-600 mt-0.5">
-                정책사업별 세출예산을 교육청끼리 견줍니다. 우리 교육청이 어디쯤인지 확인해 보세요.
-              </p>
-            </div>
-          </div>
-        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        {/* 탭 소제목 — 세 탭이 같은 크기·굵기를 쓴다 */}
+        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
+          {data.regions.length}개 시도교육청 세출예산 현황 비교
+        </h2>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="pt-3 border-t border-blue-200 grid grid-cols-1 sm:grid-cols-3 gap-3">
         {/* Item Selector */}
         <div>
-          <label className="block text-xs font-bold text-slate-600 mb-1 flex items-center gap-1">
-            <DollarSign className="w-3.5 h-3.5 text-amber-600" /> 세출예산 항목 선택
+          <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">
+            <DollarSign className="w-3 h-3 text-slate-400" /> 세출예산 항목
             {selectedLevel && (
               <span className="ml-1 font-medium text-slate-400">· {selectedLevel}</span>
             )}
@@ -237,7 +224,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
           <select
             value={selectedItem}
             onChange={(e) => setSelectedItem(e.target.value)}
-            className="w-full text-xs bg-white border border-slate-300 rounded-md p-2.5 font-semibold text-slate-800 focus:ring-1 focus:ring-amber-500"
+            className="w-full text-xs bg-white border border-slate-300 rounded-md p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
           >
             <option value="세출예산액">세출예산액 (총액)</option>
             {itemGroups.map(({ policy, children }) => (
@@ -255,13 +242,13 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
 
         {/* Year Selector */}
         <div>
-          <label className="block text-xs font-bold text-slate-600 mb-1 flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5 text-blue-600" /> 회계 연도
+          <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">
+            <Calendar className="w-3 h-3 text-slate-400" /> 회계 연도
           </label>
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
-            className="w-full text-xs bg-white border border-slate-300 rounded-md p-2.5 font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500"
+            className="w-full text-xs bg-white border border-slate-300 rounded-md p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
           >
             {data.years.map((y) => (
               <option key={y} value={y}>
@@ -273,13 +260,13 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
 
         {/* Highlight Region Selector */}
         <div>
-          <label className="block text-xs font-bold text-slate-600 mb-1 flex items-center gap-1">
-            <Building2 className="w-3.5 h-3.5 text-blue-600" /> 우리 교육청 강조 선택
+          <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">
+            <Building2 className="w-3 h-3 text-slate-400" /> 우리 교육청 강조 선택
           </label>
           <select
             value={highlightRegion}
             onChange={(e) => setHighlightRegion(e.target.value)}
-            className="w-full text-xs bg-blue-50/60 border border-blue-200 rounded-lg p-2.5 font-bold text-blue-900 focus:ring-1 focus:ring-blue-500"
+            className="w-full text-xs bg-white border border-slate-300 rounded-md p-2 font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
           >
             {regionOptions.map((reg) => (
               <option key={reg} value={reg}>
@@ -287,6 +274,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
               </option>
             ))}
           </select>
+        </div>
         </div>
         </div>
       </section>

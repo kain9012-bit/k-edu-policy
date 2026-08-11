@@ -242,8 +242,11 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                    bg-blue-50 border-b border-blue-100"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        {/* 탭 소제목 — 세 탭이 같은 크기·굵기를 쓴다 */}
+        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">공개 계획서</h2>
+
         {/* Search Input Bar - Design Theme Clean Pill Input */}
-        <div className="max-w-3xl mx-auto w-full">
+        <div className="max-w-3xl w-full">
           <label htmlFor="docSearch" className="sr-only">
             계획서 제목 검색
           </label>
@@ -313,7 +316,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         </div>
 
         {/* Quick Topic Chips */}
-        <div className="flex items-center gap-1.5 flex-wrap text-xs pt-1 justify-center sm:justify-start">
+        <div className="flex items-center gap-1.5 flex-wrap text-xs pt-1 justify-start">
           <span className="text-slate-400 font-bold text-[11px] flex items-center gap-1 shrink-0 mr-1">
             <Tag className="w-3.5 h-3.5 text-blue-600" />
             주요 주제:
@@ -345,10 +348,10 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         </div>
 
         {/* Detailed Filters Grid */}
-        <div className="pt-3 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="pt-3 border-t border-blue-200 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {/* Office Filter */}
           <div>
-            <label className="block text-[10px] font-bold text-slate-400 mb-1 flex items-center gap-1">
+            <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">
               <Building2 className="w-3 h-3 text-slate-400" /> 교육청
             </label>
             <select
@@ -367,7 +370,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
           {/* Classification Status Filter */}
           <div>
-            <label className="block text-[10px] font-bold text-slate-400 mb-1 flex items-center gap-1">
+            <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">
               <Layers className="w-3 h-3 text-slate-400" /> 판별 상태
             </label>
             <select
@@ -385,7 +388,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
           {/* Year Filter */}
           <div>
-            <label className="block text-[10px] font-bold text-slate-400 mb-1 flex items-center gap-1">
+            <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">
               <Calendar className="w-3 h-3 text-slate-400" /> 게시 연도
             </label>
             <select
@@ -404,7 +407,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
           {/* Category Filter */}
           <div>
-            <label className="block text-[10px] font-bold text-slate-400 mb-1 flex items-center gap-1">
+            <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">
               <Tag className="w-3 h-3 text-slate-400" /> 정책 분야
             </label>
             <select
