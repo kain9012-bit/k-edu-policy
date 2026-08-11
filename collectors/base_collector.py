@@ -117,48 +117,36 @@ def pick_date(cells):
 
 
 def extract_year(text, fallback_date=None):
-    """계획서의 '정책 연도'를 뽑는다.
+    """문서의 연도. **게시일(생산일) 기준**이다.
 
-    제목의 네 자리 숫자를 무조건 연도로 보면
-    '독서·토론·인문학 교육 2030 추진 계획'처럼 정책 이름에 든 숫자를 연도로 잡는다.
-    그래서 연도 표기가 분명한 것만 쓰고, 그마저도 게시일과 동떨어져 있으면 게시일을 따른다.
+    제목에서 네 자리 숫자를 뽑던 방식은 오판이 잦았다.
+      - '독서·토론·인문학 교육 2030 추진 계획' → 2030은 정책 이름
+      - '2027학년도 대학수학능력시험 시행계획' → 학년도지 달력 연도가 아니다
+        (2027학년도 수능은 2026년 11월에 치고, 계획도 2026년에 나온다)
+    그래서 게시일을 그대로 쓰고, 게시일이 없을 때만 제목에서 조심스럽게 찾는다.
     """
+    if fallback_date:
+        m = re.match(r"(\d{4})", str(fallback_date))
+        if m:
+            y = int(m.group(1))
+            if 1990 <= y <= 2100:
+                return y
+
+    # 게시일이 없는 문서(게시판이 날짜를 안 주는 경우)에 한해 제목에서 찾는다.
     t = text or ""
-
-    # 1) '2023~2026'처럼 기간을 나타내는 구간은 따로 떼어 둔다.
-    #    구간 안의 끝 연도를 정책 연도로 착각하면 안 된다.
-    #    예: '2026~2030년 중기지방교육재정계획' → 2030이 아니라 2026
-    ranges = [(m.start(), m.end(), int(m.group(1)))
-              for m in re.finditer(r"(20\d{2})\s*[~∼〜–—-]\s*(20\d{2})", t)]
-
-    def in_range(pos):
-        return any(s <= pos < e for s, e, _ in ranges)
-
-    # 2) '2026년' '2026학년도' '2026년도' '2026.' 처럼 연도임이 분명한 표기.
-    #    구간 안에 든 것은 뺀다.
-    for m in re.finditer(r"(20\d{2})\s*(?:학년도|년도|년|[.\-/])", t):
-        if not in_range(m.start()):
-            return int(m.group(1))
-
-    # 3) 제목 맨 앞의 연도. 관례상 정책 연도다. 예) '2012 충남교육 주요업무계획'
-    #    '2030교실'처럼 숫자에 말이 바로 붙은 것은 연도가 아니므로 뒤에 공백·마침표를 요구한다.
+    # 기간 표기는 시작 연도를 쓴다. 예) '2023~2026 중장기 발전 계획'
+    rng = re.search(r"(20\d{2})\s*[~\u223c\u301c\u2013\u2014-]\s*20\d{2}", t)
+    if rng:
+        return int(rng.group(1))
+    # 제목 맨 앞의 연도. '2030교실'처럼 말이 바로 붙은 것은 연도가 아니다.
     head = re.match(r"^\s*\[?\s*(20\d{2})[\s.]", t)
     if head:
         return int(head.group(1))
-
-    # 4) 기간만 있으면 시작 연도를 쓴다.
-    if ranges:
-        return ranges[0][2]
-
-    # 5) 제목에 단서가 없으면 게시일을 따른다.
-    #    제목 한가운데 그냥 박힌 네 자리 숫자는 정책 이름일 때가 많아 쓰지 않는다.
-    #    예: '독서·토론·인문학 교육 2030 추진 계획'(2025년 게시)
-    if fallback_date:
-        mm = re.match(r"(\d{4})", str(fallback_date))
-        if mm:
-            return int(mm.group(1))
+    # '2026년' '2026년도' 같은 분명한 표기
+    m = re.search(r"(20\d{2})\s*년", t)
+    if m:
+        return int(m.group(1))
     return None
-
 
 def classify(title, attach_names):
     """반환: (status, document_type, categories)

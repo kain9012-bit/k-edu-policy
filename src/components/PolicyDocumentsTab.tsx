@@ -289,7 +289,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
           {/* Year Filter */}
           <div>
             <label className="block text-[10px] font-bold text-slate-400 mb-1 flex items-center gap-1">
-              <Calendar className="w-3 h-3 text-slate-400" /> 정책 연도
+              <Calendar className="w-3 h-3 text-slate-400" /> 게시 연도
             </label>
             <select
               value={selectedYear}
