@@ -66,7 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </span>
             <p className="text-xs text-slate-500 mt-0.5 truncate">
-              17개 시도교육청 공개 계획서 · 정보공개포털 내부결재 · 지방교육재정 세출예산
+              16개 시도교육청 공개 계획서 · 정보공개포털 내부결재 · 지방교육재정 세출예산
             </p>
           </span>
         </button>

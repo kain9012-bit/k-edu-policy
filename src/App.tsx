@@ -162,7 +162,7 @@ export default function App() {
                 교육정책 통합검색 <span className="text-slate-400 font-medium">EduPolicy Search</span>
               </p>
               <p className="text-sm text-slate-600">
-                전국 17개 시도교육청 공개 정책계획서 · 정보공개포털 정보목록 · 지방교육재정 세출예산
+                전국 16개 시도교육청 공개 정책계획서 · 정보공개포털 정보목록 · 지방교육재정 세출예산
               </p>
             </div>
 

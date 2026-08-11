@@ -101,7 +101,9 @@
     "short_name": "전남",
     "homepage_url": "https://www.jne.go.kr/",
     "is_active": true,
-    "display_order": 13
+    "display_order": 13,
+    "merged_into": "jeonnamgwangju",
+    "note": "전남광주통합특별시교육청으로 통합. 옛 홈페이지가 남아 있어 수집은 유지한다."
   },
   {
     "id": "jeonnamgwangju",
@@ -118,7 +120,9 @@
     "short_name": "광주",
     "homepage_url": "http://www.gen.go.kr/",
     "is_active": true,
-    "display_order": 15
+    "display_order": 15,
+    "merged_into": "jeonnamgwangju",
+    "note": "전남광주통합특별시교육청으로 통합. 옛 홈페이지가 남아 있어 수집은 유지한다."
   },
   {
     "id": "gyeongbuk",

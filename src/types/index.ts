@@ -74,6 +74,8 @@ export interface DocumentsData {
     total: number;
     boards: number;
     active_offices: number;
+    /** 전남·광주 통합을 반영한 실제 기관 수. 수집 대상 수(active_offices)와 다르다. */
+    agency_count?: number;
   };
   office_stats: OfficeStat[];
   sources: BoardSource[];

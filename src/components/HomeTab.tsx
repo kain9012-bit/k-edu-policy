@@ -33,6 +33,8 @@ export const HomeTab: React.FC<HomeTabProps> = ({
 
   // data.count는 수집한 전체 문서 수다. 계획서로 판별된 것만 따로 센다.
   const planCount = (data.office_stats ?? []).reduce((n, o) => n + (o.plan_count ?? 0), 0);
+  // 전남·광주가 전남광주로 통합돼 실제 기관은 16곳이다(수집 대상은 옛 홈페이지까지 18곳).
+  const agencyCount = data.coverage.agency_count ?? data.coverage.total;
 
   // 추천 검색어는 손으로 적지 않고 실제 문서에서 뽑는다.
   // 'AI교육'처럼 분류 체계에 없는 이름을 적어두면 눌러도 0건이 나온다.
@@ -67,7 +69,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             전국 시도교육청 <span className="text-blue-700">교육정책 통합검색</span>
           </h2>
           <p className="text-sm sm:text-base text-slate-600">
-            17개 시도교육청의 <strong className="font-bold text-slate-900">공개 계획서</strong> ·
+            16개 시도교육청의 <strong className="font-bold text-slate-900">공개 계획서</strong> ·
             <strong className="font-bold text-slate-900"> 내부결재 목록</strong> ·
             <strong className="font-bold text-slate-900"> 세출예산</strong>을 한곳에서 찾습니다
           </p>
@@ -129,8 +131,9 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           <dl className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-5 border-t border-blue-200 text-left">
             {[
               {
+                // 수집 대상은 18곳이지만 전남·광주는 전남광주로 통합돼 기관은 16곳이다.
                 t: '연동 시도교육청',
-                v: `${data.coverage.connected} / ${data.coverage.total}곳`,
+                v: `${agencyCount} / ${agencyCount}곳`,
                 sub: '전국 수집 완료',
                 ok: true,
               },
@@ -200,7 +203,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             </div>
             <ul className="space-y-2.5 text-sm text-slate-600 leading-relaxed">
               {[
-                '17개 시도교육청 홈페이지를 일일이 찾아다니며 게시판을 검색해야 함',
+                '시도교육청 홈페이지를 일일이 찾아다니며 게시판을 검색해야 함',
                 '홈페이지에 올라오지 않는 내부결재 계획은 존재 여부조차 알 수 없음',
                 '정책 사업과 거기 투입되는 세출예산을 이어서 비교하기 어려움',
               ].map((t) => (
@@ -222,7 +225,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             </div>
             <ul className="space-y-2.5 text-sm text-slate-700 leading-relaxed">
               {[
-                '검색어 한 번으로 17개 교육청 공개 계획서를 원문까지 바로 확인',
+                '검색어 한 번으로 16개 교육청 공개 계획서를 원문까지 바로 확인',
                 '정보공개포털 내부결재 목록에서 문서번호와 담당부서까지 확인',
                 '지방교육재정 자료로 항목별 세출예산을 교육청끼리 대조',
               ].map((t) => (
@@ -262,7 +265,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               Icon: FileText,
               n: '01',
               title: '공개 정책계획서',
-              desc: '전국 17개 시도교육청 게시판에서 기본계획·추진계획·운영계획 원문을 수집해 색인합니다.',
+              desc: '전국 16개 시도교육청 게시판에서 기본계획·추진계획·운영계획 원문을 수집해 색인합니다.',
               points: [
                 '원문 게시글과 첨부파일로 바로 연결',
                 '교육청·연도·분야별 상세 필터',
@@ -288,7 +291,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               Icon: BarChart3,
               n: '03',
               title: '지방교육재정 세출예산',
-              desc: '지방교육재정알리미 자료로 17개 시도교육청의 정책사업별 세출예산 규모를 견줍니다.',
+              desc: '지방교육재정알리미 자료로 시도교육청의 정책사업별 세출예산 규모를 견줍니다.',
               points: [
                 '항목별 교육청 예산 순위',
                 '연도별 세출예산 추이',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { DocumentsData, InfoListData, OfficeStat } from '../types';
-import { sortOffices, shortOfficeName } from '../lib/offices';
+import { DocumentsData, InfoListData, OfficeStat, BoardSource } from '../types';
+import { sortOffices, shortOfficeName, officeRank } from '../lib/offices';
 import { Database, CheckCircle2, AlertCircle, RefreshCw, FileText, Lock, Globe, Terminal, Shield } from 'lucide-react';
 
 interface CollectionStatusTabProps {
@@ -42,10 +42,21 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
       });
     }
 
-    return rows.sort((a, b) => b.ratio - a.ratio);
+    // 교육청 순서는 행정구역 순서로 고정한다. 공개율순으로 섞으면 찾기 어렵다.
+    return sortOffices<(typeof rows)[number]>(rows, (r) => r.name);
   }, [data.office_stats, infoData]);
 
   const maxInner = Math.max(1, ...opennessRows.map((r) => r.inner));
+
+  // 게시판 목록도 교육청 순서로 늘어놓는다(같은 교육청 안에서는 게시판 이름순).
+  const sortedSources = React.useMemo(
+    () =>
+      [...(data.sources ?? [])].sort((a: BoardSource, b: BoardSource) => {
+        const d = officeRank(a.office || '') - officeRank(b.office || '');
+        return d !== 0 ? d : (a.board_name || '').localeCompare(b.board_name || '', 'ko');
+      }),
+    [data.sources]
+  );
 
   // 수집 통계 표는 행정구역 순서로 늘어놓는다(공개 수준 비교는 공개율 순서를 유지).
   const officeStats = React.useMemo(
@@ -76,9 +87,12 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
         {/* Coverage KPI Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-slate-100">
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
-            <span className="text-[11px] text-slate-500 block mb-0.5 font-medium">연동 교육청</span>
+            <span className="text-xs text-slate-500 block mb-0.5 font-medium">시도교육청</span>
             <span className="text-xl font-bold text-emerald-600 tabular-nums">
-              {data.coverage.connected} / {data.coverage.total}개
+              {data.coverage.agency_count ?? data.coverage.total}개
+            </span>
+            <span className="text-xs text-slate-500 block mt-0.5">
+              옛 전남·광주 홈페이지 포함 {data.coverage.total}곳 수집
             </span>
           </div>
 
@@ -306,7 +320,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
           </div>
 
           <div className="divide-y divide-slate-100">
-            {data.sources?.map((src, idx) => (
+            {sortedSources.map((src, idx) => (
               <div key={idx} className="p-4 hover:bg-slate-50 transition space-y-2">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-2">

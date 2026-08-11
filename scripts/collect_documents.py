@@ -144,6 +144,10 @@ def run(office_filter=None):
             "last_collected": attempt,      # 이전 버전 호환
         })
     total_offices = sum(1 for o in offices.values() if o.get("is_active"))
+    # 전남·광주는 전남광주통합특별시교육청으로 통합됐다. 옛 홈페이지가 남아 있어
+    # 수집은 계속하지만, '몇 개 시도교육청'을 셀 때는 한 곳으로 본다.
+    agency_count = sum(1 for o in offices.values()
+                       if o.get("is_active") and not o.get("merged_into"))
 
     # 교육청 단위 요약 — 사용자가 가장 먼저 보는 정보
     office_stats = []
@@ -185,7 +189,8 @@ def run(office_filter=None):
         "count": len(docs),
         # total은 16으로 박아두면 교육청을 추가할 때마다 '17 / 16곳'처럼 어긋난다.
         "coverage": {"connected": len({s["office"] for s in sources}), "total": total_offices,
-                     "boards": len(sources), "active_offices": total_offices},
+                     "boards": len(sources), "active_offices": total_offices,
+                     "agency_count": agency_count},
         "office_stats": office_stats,
         "sources": sources,
         "logs": logs,

@@ -28,7 +28,7 @@ export const InfoGuideModal: React.FC<InfoGuideModalProps> = ({ onClose }) => {
             <Target className="w-4 h-4 text-indigo-600" /> 1. 무엇이 문제인가? 
           </h3>
           <p className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
-            전국 17개 시도교육청은 해마다 수천 건의 정책계획서(기본계획·추진계획·운영계획·시행계획 등)를 수립하지만, 각 교육청 10여 개 게시판에 파편화되어 실제로 찾을 수 없는 상태에 가깝습니다.
+            전국 16개 시도교육청은 해마다 수천 건의 정책계획서(기본계획·추진계획·운영계획·시행계획 등)를 수립하지만, 각 교육청 10여 개 게시판에 파편화되어 실제로 찾을 수 없는 상태에 가깝습니다.
           </p>
 
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
@@ -60,7 +60,7 @@ export const InfoGuideModal: React.FC<InfoGuideModalProps> = ({ onClose }) => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[11px]">
             <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
               <strong className="text-emerald-900 block font-bold mb-1">찾을 수 있게</strong>
-              17개 교육청 계획을 제목 한 번으로 색인
+              16개 교육청 계획을 제목 한 번으로 색인
             </div>
             <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-200">
               <strong className="text-indigo-900 block font-bold mb-1">원문으로 연결</strong>
