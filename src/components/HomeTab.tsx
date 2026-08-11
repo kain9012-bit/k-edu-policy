@@ -71,10 +71,12 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           (넘치는 부분은 최상위 div의 overflow-x-clip이 잘라낸다) */}
       <section
         className="relative left-1/2 w-screen -translate-x-1/2 -mt-6
-                   px-4 sm:px-6 lg:px-8 py-14 sm:py-20
-                   bg-blue-50 border-b border-blue-100"
+                   px-4 sm:px-6 lg:px-8 py-14 sm:py-20"
       >
-        <div className="max-w-4xl mx-auto text-center space-y-6">
+        {/* 파란 배경만 따로 둔다. 탭이 바뀔 때 이 판 하나만 크기를 이어 바꿔서,
+            글자가 두 겹으로 겹쳐 보이는 잔상 없이 영역만 부드럽게 움직인다. */}
+        <div className="tab-band-bg absolute inset-0 bg-blue-50 border-b border-blue-100" aria-hidden="true" />
+        <div className="relative max-w-4xl mx-auto text-center space-y-6">
           <h2 className="text-4xl sm:text-[3rem] font-bold text-slate-900 leading-tight">
             전국 시도교육청 <span className="text-blue-700">교육정책 통합검색</span>
           </h2>

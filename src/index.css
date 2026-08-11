@@ -306,17 +306,38 @@ mark {
 }
 
 /* ---- 탭 전환 ----
-   두 화면을 겹쳐 놓고 움직이면 글자가 두 겹으로 보여 잔상처럼 어지럽다.
-   그래서 겹치지 않게, 이전 화면이 먼저 사라진 뒤에 새 화면이 나타나게 한다.
+   파란 영역'만' 크기를 이어 바꾼다(PPT 모핑과 같은 방식).
+   글자까지 함께 겹쳐 움직이면 두 겹으로 보여 잔상처럼 어지러웠다.
+   그래서 배경 판 하나에만 이름을 붙이고, 나머지 내용은 겹치지 않게
+   먼저 사라진 뒤에 나타나도록 한다.
    View Transitions API를 쓰며, 없는 브라우저에서는 그냥 즉시 바뀐다. */
 @keyframes tab-fade-out { to { opacity: 0; } }
 @keyframes tab-fade-in { from { opacity: 0; } }
 
+/* 본문: 겹치지 않게 차례로 */
 ::view-transition-old(root) {
-  animation: tab-fade-out 90ms linear forwards;
+  animation: tab-fade-out 110ms linear forwards;
 }
 ::view-transition-new(root) {
-  animation: tab-fade-in 150ms 90ms linear backwards;
+  animation: tab-fade-in 190ms 110ms linear backwards;
+}
+
+/* 파란 배경 판: 높이가 이어지며 바뀐다 */
+.tab-band-bg {
+  view-transition-name: tab-band-bg;
+}
+::view-transition-group(tab-band-bg) {
+  animation-duration: 380ms;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+/* 판은 단색이라 서로 흐려질 필요가 없다. 새 판만 늘려 그린다. */
+::view-transition-old(tab-band-bg) {
+  animation: none;
+  opacity: 0;
+}
+::view-transition-new(tab-band-bg) {
+  animation: none;
+  height: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
