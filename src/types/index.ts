@@ -125,6 +125,13 @@ export interface BudgetData {
   years: number[];
   regions: string[];
   policy_items: string[];
+  /** 정책사업 아래 단위사업. 합계가 총액을 넘지 않도록 목록을 나눠 쓴다. */
+  unit_items?: string[];
+  item_levels?: {
+    total: string;
+    policy_items: string[];
+    children: Record<string, string[]>;
+  };
   rows: BudgetRow[];
 }
 

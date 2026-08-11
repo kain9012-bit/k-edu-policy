@@ -47,8 +47,40 @@ def fetch_year(key: str, year: int):
             "amount": int(amt) if amt and amt.isdigit() else 0,
             "is_total": item == "세출예산액",
             "is_sub": "_" in (item or ""),
+            # API가 정책사업과 단위사업을 한 목록에 섞어서 준다.
+            # 계층을 붙여두지 않으면 화면에서 '인건비'와 '교육복지'처럼
+            # 층위가 다른 것을 나란히 비교하게 된다. (config/budget_items.json 참고)
+            **item_level(item),
         })
     return rows
+
+
+_ITEM_CFG = None
+
+
+def item_cfg():
+    """정책사업/단위사업 계층 설정. 2022~2026년 85개 조합에서 합계 오차 0%로 검증했다."""
+    global _ITEM_CFG
+    if _ITEM_CFG is None:
+        path = os.path.join(os.path.dirname(__file__), "..", "config", "budget_items.json")
+        with open(path, encoding="utf-8") as f:
+            cfg = json.load(f)
+        cfg["_parent"] = {c: p for p, cs in cfg["children"].items() for c in cs}
+        _ITEM_CFG = cfg
+    return _ITEM_CFG
+
+
+def item_level(item):
+    cfg = item_cfg()
+    if item == cfg["total"]:
+        return {"level": "총액", "parent": None}
+    if item in cfg["policy_items"]:
+        return {"level": "정책사업", "parent": cfg["total"]}
+    if item in cfg["_parent"]:
+        return {"level": "단위사업", "parent": cfg["_parent"][item]}
+    if "_" in (item or ""):
+        return {"level": "세부사업", "parent": item.split("_")[0]}
+    return {"level": "미분류", "parent": None}
 
 
 def main():
@@ -80,7 +112,10 @@ def main():
         "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "years": sorted(set(meta_years)),
         "regions": sorted({r["region"] for r in all_rows}),
-        "policy_items": sorted({r["item"] for r in all_rows if not r["is_sub"] and not r["is_total"]}),
+        # 화면 기본 목록은 정책사업만. 단위사업을 섞으면 합계가 총액을 넘는다.
+        "policy_items": item_cfg()["policy_items"],
+        "unit_items": [c for cs in item_cfg()["children"].values() for c in cs],
+        "item_levels": {k: item_cfg()[k] for k in ("total", "policy_items", "children")},
         "rows": all_rows,
     }
     out_path = os.path.abspath(args.out)

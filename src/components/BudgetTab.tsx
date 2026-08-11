@@ -22,7 +22,27 @@ interface BudgetTabProps {
 export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
   const [selectedYear, setSelectedYear] = useState<number>(2026);
   const [selectedItem, setSelectedItem] = useState<string>('세출예산액');
-  const [highlightRegion, setHighlightRegion] = useState<string>('경남');
+  const [highlightRegion, setHighlightRegion] = useState<string>('전북');
+
+  // 정책사업(상위)과 그 아래 단위사업을 묶어서 보여준다.
+  // 섞어서 나열하면 '인건비'와 '교육복지'처럼 층위가 다른 것을 나란히 비교하게 된다.
+  const itemGroups = useMemo(() => {
+    const children = data.item_levels?.children ?? {};
+    return (data.policy_items ?? []).map((policy) => ({
+      policy,
+      children: children[policy] ?? [],
+    }));
+  }, [data.policy_items, data.item_levels]);
+
+  // 지금 고른 항목이 어느 층위인지
+  const selectedLevel = useMemo(() => {
+    if (selectedItem === (data.item_levels?.total ?? '세출예산액')) return '총액';
+    if ((data.policy_items ?? []).includes(selectedItem)) return '정책사업';
+    for (const [p, cs] of Object.entries<string[]>(data.item_levels?.children ?? {})) {
+      if (cs.includes(selectedItem)) return `${p}의 단위사업`;
+    }
+    return '';
+  }, [selectedItem, data.policy_items, data.item_levels]);
 
   // 교육청은 행정구역 순서로 늘어놓는다.
   const regionOptions = useMemo(() => sortOffices<string>(data.regions, (r) => r), [data.regions]);
@@ -127,6 +147,9 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
         <div>
           <label className="block text-xs font-bold text-slate-600 mb-1 flex items-center gap-1">
             <DollarSign className="w-3.5 h-3.5 text-amber-600" /> 세출예산 항목 선택
+            {selectedLevel && (
+              <span className="ml-1 font-medium text-slate-400">· {selectedLevel}</span>
+            )}
           </label>
           <select
             value={selectedItem}
@@ -134,10 +157,15 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
             className="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-semibold text-slate-800 focus:ring-1 focus:ring-amber-500"
           >
             <option value="세출예산액">세출예산액 (총액)</option>
-            {data.policy_items.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
+            {itemGroups.map(({ policy, children }) => (
+              <optgroup key={policy} label={policy}>
+                <option value={policy}>{policy}</option>
+                {children.map((c) => (
+                  <option key={c} value={c}>
+                    {'\u00A0\u00A0'}└ {c}
+                  </option>
+                ))}
+              </optgroup>
             ))}
           </select>
         </div>
