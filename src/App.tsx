@@ -113,8 +113,6 @@ export default function App() {
         savedCount={savedDocIds.length}
         onOpenSavedModal={() => setShowSavedModal(true)}
         onOpenInfoModal={() => setShowInfoModal(true)}
-        generatedAt={documentsData.generated_at}
-        totalDocsCount={documentsData.count}
       />
 
       {/* Main Content Area */}

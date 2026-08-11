@@ -8,8 +8,6 @@ interface HeaderProps {
   savedCount: number;
   onOpenSavedModal: () => void;
   onOpenInfoModal: () => void;
-  generatedAt?: string;
-  totalDocsCount?: number;
 }
 
 /** KRDS GNB: 아이콘 + 라벨, 선택 시 하단 밑줄 강조 */
@@ -27,8 +25,6 @@ export const Header: React.FC<HeaderProps> = ({
   savedCount,
   onOpenSavedModal,
   onOpenInfoModal,
-  generatedAt,
-  totalDocsCount = 3820,
 }) => {
   return (
     <header className="bg-white sticky top-0 z-30 border-b-2 border-slate-900">
@@ -47,26 +43,6 @@ export const Header: React.FC<HeaderProps> = ({
             <Info className="w-4 h-4" aria-hidden="true" />
             기획 의도 및 안내
           </button>
-        </div>
-      </div>
-
-      {/* ── 수집 상태 줄 ── */}
-      <div className="bg-slate-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-600">
-          <span className="inline-flex items-center gap-1.5 font-bold text-emerald-600">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
-            17개 시도교육청 수집 정상
-          </span>
-          <span className="text-slate-200" aria-hidden="true">|</span>
-          <span>
-            색인 문서 <strong className="font-bold text-slate-900 tabular-nums">{totalDocsCount.toLocaleString()}</strong>건
-          </span>
-          {generatedAt && (
-            <>
-              <span className="hidden md:inline text-slate-200" aria-hidden="true">|</span>
-              <span className="hidden md:inline">최근 수집 {generatedAt}</span>
-            </>
-          )}
         </div>
       </div>
 
