@@ -8,8 +8,6 @@ import {
   FileText,
   Lock,
   Download,
-  Bookmark,
-  BookmarkCheck,
   RotateCcw,
   Tag,
   Building2,
@@ -23,15 +21,11 @@ import {
 
 interface PolicyDocumentsTabProps {
   data: DocumentsData;
-  savedDocIds: string[];
-  onToggleSave: (doc: PolicyDocument) => void;
   initialSearchTerm?: string;
 }
 
 export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   data,
-  savedDocIds,
-  onToggleSave,
   initialSearchTerm = '',
 }) => {
   // Search & Filter state
@@ -470,7 +464,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
       ) : (
         <div className="grid grid-cols-1 gap-3">
           {visibleDocuments.map((doc) => {
-            const isSaved = savedDocIds.includes(doc.id);
             return (
               <div
                 key={doc.id}
@@ -584,27 +577,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                   </a>
 
                   <div className="flex items-center gap-1.5 w-full md:w-auto">
-                    {/* Bookmark Toggle */}
-                    <button
-                      onClick={() => onToggleSave(doc)}
-                      className={`flex-1 md:flex-initial px-3 py-1.5 text-xs font-semibold rounded-lg border transition flex items-center justify-center gap-1 ${
-                        isSaved
-                          ? 'bg-amber-50 text-amber-800 border-amber-300'
-                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-transparent'
-                      }`}
-                    >
-                      {isSaved ? (
-                        <>
-                          <BookmarkCheck className="w-3.5 h-3.5 text-amber-500 fill-amber-500/20" />
-                          <span>보관됨</span>
-                        </>
-                      ) : (
-                        <>
-                          <Bookmark className="w-3.5 h-3.5 text-slate-400" />
-                          <span>보관</span>
-                        </>
-                      )}
-                    </button>
 
                     {/* Copy Summary */}
                     <button

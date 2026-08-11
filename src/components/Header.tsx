@@ -1,12 +1,10 @@
 import React from 'react';
 import { ActiveTab } from '../types';
-import { Search, Database, FileText, Landmark, BarChart3, Bookmark, Info, Home } from 'lucide-react';
+import { Search, Database, FileText, Landmark, BarChart3, Info, Home } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
-  savedCount: number;
-  onOpenSavedModal: () => void;
   onOpenInfoModal: () => void;
 }
 
@@ -22,8 +20,6 @@ const TABS: { id: ActiveTab; label: string; Icon: typeof Home }[] = [
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
-  savedCount,
-  onOpenSavedModal,
   onOpenInfoModal,
 }) => {
   return (
@@ -46,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* ── 서비스명 + 보관함 ── */}
+      {/* ── 서비스명 ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
         <button
           type="button"
@@ -71,21 +67,6 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
         </button>
 
-        <button
-          type="button"
-          onClick={onOpenSavedModal}
-          className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-md
- border border-slate-300 bg-white text-slate-700
-                     hover:border-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-colors"
-        >
-          <Bookmark className="w-4 h-4" aria-hidden="true" />
-          <span className="hidden sm:inline">보관함</span>
-          {savedCount > 0 && (
-            <span className="min-w-5 px-1.5 py-0.5 rounded-full text-xs font-bold tabular-nums bg-blue-600 text-white">
-              {savedCount}
-            </span>
-          )}
-        </button>
       </div>
 
       {/* ── GNB (KRDS 탭 스타일: 선택 항목 하단 밑줄) ── */}

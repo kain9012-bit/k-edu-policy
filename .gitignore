@@ -24,3 +24,6 @@ node_modules/
 dist/
 .vite/
 *.tsbuildinfo
+
+# 재디자인 전 백업(되돌리기용)
+.backup/

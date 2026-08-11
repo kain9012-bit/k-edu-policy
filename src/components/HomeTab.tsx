@@ -197,7 +197,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
               points: [
                 '원문 게시글과 첨부파일로 바로 연결',
                 '교육청·연도·분야별 상세 필터',
-                '보관함에 담아두고 나중에 다시 보기',
+                '제목에 없어도 분야로 이어지는 문서까지',
               ],
               go: 'documents' as ActiveTab,
               cta: '공개 계획서 검색',

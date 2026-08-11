@@ -12,7 +12,6 @@ import { PolicyDocumentsTab } from './components/PolicyDocumentsTab';
 import { InternalInfoTab } from './components/InternalInfoTab';
 import { BudgetTab } from './components/BudgetTab';
 import { CollectionStatusTab } from './components/CollectionStatusTab';
-import { SavedDocsModal } from './components/SavedDocsModal';
 import { InfoGuideModal } from './components/InfoGuideModal';
 
 export default function App() {
@@ -24,18 +23,7 @@ export default function App() {
   const [infoListData, setInfoListData] = useState<InfoListData>(fallbackInfoListData);
   const [budgetData, setBudgetData] = useState<BudgetData>(fallbackBudgetData);
 
-  // Saved bookmark IDs in LocalStorage
-  const [savedDocIds, setSavedDocIds] = useState<string[]>(() => {
-    try {
-      const stored = localStorage.getItem('edupolicy_saved_ids');
-      return stored ? JSON.parse(stored) : ['112cde182ad0a760'];
-    } catch {
-      return ['112cde182ad0a760'];
-    }
-  });
-
   // Modal controls
-  const [showSavedModal, setShowSavedModal] = useState(false);
   const [showInfoModal, setShowInfoModal] = useState(false);
 
   // 수집 데이터 로딩 상태 (내부결재 목록이 20MB라 표시가 필요하다)
@@ -76,29 +64,6 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [activeTab]);
 
-  // Save bookmark IDs to LocalStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem('edupolicy_saved_ids', JSON.stringify(savedDocIds));
-    } catch (e) {
-      console.error('Failed to write bookmark IDs to localStorage', e);
-    }
-  }, [savedDocIds]);
-
-  // Toggle bookmark function
-  const handleToggleSave = (doc: PolicyDocument) => {
-    setSavedDocIds((prev) => {
-      if (prev.includes(doc.id)) {
-        return prev.filter((id) => id !== doc.id);
-      } else {
-        return [...prev, doc.id];
-      }
-    });
-  };
-
-  // Saved documents list
-  const savedDocsList = documentsData.documents.filter((doc) => savedDocIds.includes(doc.id));
-
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased flex flex-col selection:bg-blue-600 selection:text-white">
       {/* 본문 바로가기 — KRDS 접근성 필수 요소 */}
@@ -110,8 +75,6 @@ export default function App() {
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        savedCount={savedDocIds.length}
-        onOpenSavedModal={() => setShowSavedModal(true)}
         onOpenInfoModal={() => setShowInfoModal(true)}
       />
 
@@ -138,8 +101,6 @@ export default function App() {
         {activeTab === 'documents' && (
           <PolicyDocumentsTab
             data={documentsData}
-            savedDocIds={savedDocIds}
-            onToggleSave={handleToggleSave}
             initialSearchTerm={searchQuery}
           />
         )}
@@ -191,15 +152,6 @@ export default function App() {
       </footer>
 
       {/* Modals */}
-      {showSavedModal && (
-        <SavedDocsModal
-          savedDocs={savedDocsList}
-          onClose={() => setShowSavedModal(false)}
-          onRemoveDoc={(id) => setSavedDocIds((prev) => prev.filter((i) => i !== id))}
-          onClearAll={() => setSavedDocIds([])}
-        />
-      )}
-
       {showInfoModal && <InfoGuideModal onClose={() => setShowInfoModal(false)} />}
 
       <ScrollToTopButton />
