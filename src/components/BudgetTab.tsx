@@ -212,7 +212,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
           {data.regions.length}개 시도교육청 세출예산 현황 비교
         </h2>
 
-        <div className="pt-3 border-t border-blue-200 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {/* Item Selector */}
         <div>
           <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">

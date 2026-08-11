@@ -348,7 +348,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         </div>
 
         {/* Detailed Filters Grid */}
-        <div className="pt-3 border-t border-blue-200 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {/* Office Filter */}
           <div>
             <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">

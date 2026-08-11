@@ -144,7 +144,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
         </div>
 
         {/* 아랫줄: 필터 */}
-        <div className="pt-3 border-t border-blue-200 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           <div>
             <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">
               <Building2 className="w-3 h-3 text-slate-400" /> 교육청
