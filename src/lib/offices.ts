@@ -93,6 +93,15 @@ export function fullOfficeName(name: string): string {
   return name || '';
 }
 
+/**
+ * 화면 표시용 이름. 약칭 + '교육청'.
+ * '경상남도교육청' · 'gyeongnam' · '경남' → '경남교육청'
+ */
+export function officeLabel(name: string): string {
+  const short = shortOfficeName(name);
+  return short.endsWith('교육청') ? short : `${short}교육청`;
+}
+
 /** 교육청 목록을 정식 순서로 정렬한다(원본 배열은 건드리지 않는다). */
 export function sortOffices<T>(items: T[], key: (item: T) => string): T[] {
   return [...items].sort((a, b) => {

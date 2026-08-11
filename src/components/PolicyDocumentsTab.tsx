@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { DocumentsData, PolicyDocument, DocumentClassificationStatus } from '../types';
-import { sortOffices } from '../lib/offices';
+import { sortOffices, officeLabel } from '../lib/offices';
 import {
   Search,
   Filter,
@@ -360,7 +360,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               <option value="ALL">전체 교육청 ({data.offices.length}개)</option>
               {officeOptions.map((off) => (
                 <option key={off} value={off}>
-                  {off}교육청
+                  {officeLabel(off)}교육청
                 </option>
               ))}
             </select>

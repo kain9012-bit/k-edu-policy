@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { sortOffices, shortOfficeName } from '../lib/offices';
+import { sortOffices, officeLabel } from '../lib/offices';
 import { InfoListData, InternalDocument } from '../types';
 import {
   Search,
@@ -172,7 +172,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
               <option value="ALL">전체 교육청 ({data.offices.length}개)</option>
               {officeOptions.map((off) => (
                 <option key={off} value={off}>
-                  {shortOfficeName(off)}
+                  {officeLabel(off)}
                 </option>
               ))}
             </select>
@@ -256,7 +256,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
                   <div className="space-y-1.5 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="px-2.5 py-0.5 rounded font-bold text-xs bg-emerald-50 text-emerald-800 border border-emerald-200">
-                        {shortOfficeName(doc.office)}
+                        {officeLabel(doc.office)}
                       </span>
                       <span className="px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700">
                         {doc.department}
