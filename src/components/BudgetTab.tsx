@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { BudgetData, BudgetRow } from '../types';
 import { sortOffices, fullOfficeName } from '../lib/offices';
+import { buildItemGroups, budgetItemLevel } from '../lib/budgetItems';
 import { BarChart3, TrendingUp, Award, Building2, Calendar, Filter, DollarSign, Info } from 'lucide-react';
 import {
   BarChart,
@@ -26,23 +27,9 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
 
   // 정책사업(상위)과 그 아래 단위사업을 묶어서 보여준다.
   // 섞어서 나열하면 '인건비'와 '교육복지'처럼 층위가 다른 것을 나란히 비교하게 된다.
-  const itemGroups = useMemo(() => {
-    const children = data.item_levels?.children ?? {};
-    return (data.policy_items ?? []).map((policy) => ({
-      policy,
-      children: children[policy] ?? [],
-    }));
-  }, [data.policy_items, data.item_levels]);
-
-  // 지금 고른 항목이 어느 층위인지
-  const selectedLevel = useMemo(() => {
-    if (selectedItem === (data.item_levels?.total ?? '세출예산액')) return '총액';
-    if ((data.policy_items ?? []).includes(selectedItem)) return '정책사업';
-    for (const [p, cs] of Object.entries<string[]>(data.item_levels?.children ?? {})) {
-      if (cs.includes(selectedItem)) return `${p}의 단위사업`;
-    }
-    return '';
-  }, [selectedItem, data.policy_items, data.item_levels]);
+  // 계층은 데이터에 실려 오지만, 아직 갱신 전이면 lib의 기준값을 쓴다.
+  const itemGroups = useMemo(() => buildItemGroups(data), [data]);
+  const selectedLevel = useMemo(() => budgetItemLevel(selectedItem, data), [selectedItem, data]);
 
   // 교육청은 행정구역 순서로 늘어놓는다.
   const regionOptions = useMemo(() => sortOffices<string>(data.regions, (r) => r), [data.regions]);
