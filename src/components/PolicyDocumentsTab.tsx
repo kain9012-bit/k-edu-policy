@@ -41,7 +41,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   // Specification requirement: "화면 기본값은 정책계획서만 표시한다"
   const [selectedStatus, setSelectedStatus] = useState<DocumentClassificationStatus | 'ALL'>('정책계획서');
-  const [loginRequiredFilter, setLoginRequiredFilter] = useState<'ALL' | 'PUBLIC' | 'LOGIN'>('ALL');
 
   // Active detail modal doc
   const [activeDetailDoc, setActiveDetailDoc] = useState<PolicyDocument | null>(null);
@@ -101,10 +100,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         return false;
       }
 
-      // Login required filter
-      if (loginRequiredFilter === 'PUBLIC' && doc.login_required) return false;
-      if (loginRequiredFilter === 'LOGIN' && !doc.login_required) return false;
-
       return true;
     });
   }, [
@@ -114,7 +109,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     selectedYear,
     selectedCategory,
     selectedStatus,
-    loginRequiredFilter,
   ]);
 
   // 조건이 바뀌면 목록을 처음부터 다시 보여준다
@@ -126,7 +120,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     selectedYear,
     selectedCategory,
     selectedStatus,
-    loginRequiredFilter,
   ]);
 
   const visibleDocuments = filteredDocuments.slice(0, visibleCount);
@@ -147,8 +140,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         if (selectedOffice !== 'ALL' && doc.short_name !== selectedOffice && doc.office !== selectedOffice) return false;
         if (selectedYear !== 'ALL' && doc.policy_year !== Number(selectedYear)) return false;
         if (selectedCategory !== 'ALL' && !doc.policy_category?.includes(selectedCategory)) return false;
-        if (loginRequiredFilter === 'PUBLIC' && doc.login_required) return false;
-        if (loginRequiredFilter === 'LOGIN' && !doc.login_required) return false;
         // 낱말 중 하나라도 분야·첨부·부서·게시판에 걸리면 관련 문서로 본다
         const hay = [
           ...(doc.policy_category ?? []),
@@ -159,7 +150,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         return keywords.some((k) => hay.includes(k));
       })
       .sort((a, b) => (b.published_date || '').localeCompare(a.published_date || ''));
-  }, [data.documents, keywords, titleMatches, selectedStatus, selectedOffice, selectedYear, selectedCategory, loginRequiredFilter]);
+  }, [data.documents, keywords, titleMatches, selectedStatus, selectedOffice, selectedYear, selectedCategory]);
 
   useEffect(() => {
     setShowRelated(false);
@@ -213,14 +204,12 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
       if (selectedStatus !== 'ALL' && doc.classification_status !== selectedStatus) continue;
       if (selectedOffice !== 'ALL' && doc.short_name !== selectedOffice && doc.office !== selectedOffice) continue;
       if (selectedCategory !== 'ALL' && !doc.policy_category?.includes(selectedCategory)) continue;
-      if (loginRequiredFilter === 'PUBLIC' && doc.login_required) continue;
-      if (loginRequiredFilter === 'LOGIN' && !doc.login_required) continue;
       if (!titleMatches(doc.title)) continue;
       if (!doc.policy_year) continue;
       n.set(doc.policy_year, (n.get(doc.policy_year) ?? 0) + 1);
     }
     return [...n.entries()].sort((a, b) => b[0] - a[0]).map(([year, count]) => ({ year, count }));
-  }, [data.documents, selectedStatus, selectedOffice, selectedCategory, loginRequiredFilter, titleMatches]);
+  }, [data.documents, selectedStatus, selectedOffice, selectedCategory, titleMatches]);
 
   // 고른 연도에 문서가 없으면(예: 조건을 좁혔을 때) 전체 연도로 되돌린다.
   useEffect(() => {
@@ -235,7 +224,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     setSelectedYear(String(new Date().getFullYear()));
     setSelectedCategory('ALL');
     setSelectedStatus('정책계획서');
-    setLoginRequiredFilter('ALL');
   };
 
   const handleCopySummary = (doc: PolicyDocument) => {
@@ -260,63 +248,68 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
           <label htmlFor="docSearch" className="sr-only">
             계획서 제목 검색
           </label>
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-              <Search className="w-5 h-5" aria-hidden="true" />
-            </span>
-            <input
-              id="docSearch"
-              type="search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="계획서 제목 검색 · 여러 낱말은 쉼표나 띄어쓰기로 (예: 늘봄, 방과후)"
-              className="w-full h-12 pl-11 pr-24 bg-white text-slate-900 placeholder-slate-400
-                         text-base rounded-md border border-slate-300
-                         focus:border-blue-600 outline-none transition-colors"
-            />
-            {searchTerm && (
-              <button
-                type="button"
-                onClick={() => setSearchTerm('')}
-                className="absolute inset-y-0 right-3 flex items-center text-sm text-slate-500 hover:text-slate-900 font-medium"
-              >
-                지우기
-              </button>
-            )}
+
+          <div className="flex flex-col sm:flex-row gap-2">
+            {/* 여러 낱말을 어떻게 묶을지. 낱말이 하나여도 늘 보이게 두어
+                지금 어떤 방식으로 찾는지 알 수 있게 한다. */}
+            <div
+              role="group"
+              aria-label="여러 낱말 검색 방식"
+              className="inline-flex h-12 shrink-0 rounded-md border border-slate-300 overflow-hidden text-sm"
+            >
+              {([
+                ['all', '모두 포함', '넣은 낱말이 제목에 다 들어간 계획서만 찾습니다'],
+                ['any', '하나라도', '넣은 낱말 중 하나만 들어가도 찾습니다'],
+              ] as const).map(([mode, label, hint]) => (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setMatchMode(mode)}
+                  aria-pressed={matchMode === mode}
+                  title={hint}
+                  className={`px-3.5 font-bold whitespace-nowrap transition-colors ${
+                    matchMode === mode
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            <div className="relative flex-1">
+              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <Search className="w-5 h-5" aria-hidden="true" />
+              </span>
+              <input
+                id="docSearch"
+                type="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="계획서 제목 검색 · 여러 낱말은 쉼표나 띄어쓰기로 (예: 늘봄, 방과후)"
+                className="w-full h-12 pl-11 pr-20 bg-white text-slate-900 placeholder-slate-400
+                           text-base rounded-md border border-slate-300
+                           focus:border-blue-600 outline-none transition-colors"
+              />
+              {searchTerm && (
+                <button
+                  type="button"
+                  onClick={() => setSearchTerm('')}
+                  className="absolute inset-y-0 right-3 flex items-center text-sm text-slate-500 hover:text-slate-900 font-medium"
+                >
+                  지우기
+                </button>
+              )}
+            </div>
           </div>
 
-          {/* 낱말이 둘 이상일 때만 묶는 방식을 물어본다. 한 낱말이면 의미가 없다. */}
           {keywords.length > 1 && (
-            <div className="mt-2.5 flex flex-wrap items-center gap-2 text-sm">
-              <span className="text-slate-500">
-                낱말 {keywords.length}개를
-              </span>
-              <div className="inline-flex rounded-md border border-slate-300 overflow-hidden">
-                {([
-                  ['all', '모두 포함'],
-                  ['any', '하나라도 포함'],
-                ] as const).map(([mode, label]) => (
-                  <button
-                    key={mode}
-                    type="button"
-                    onClick={() => setMatchMode(mode)}
-                    aria-pressed={matchMode === mode}
-                    className={`px-3 py-1.5 font-bold transition-colors ${
-                      matchMode === mode
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-white text-slate-600 hover:bg-slate-50'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-              <span className="text-slate-400 text-xs">
-                {matchMode === 'all'
-                  ? `제목에 ${keywords.join(' · ')} 가 모두 든 계획서`
-                  : `제목에 ${keywords.join(' 또는 ')} 중 하나라도 든 계획서`}
-              </span>
-            </div>
+            <p className="mt-2 text-xs text-slate-500">
+              {matchMode === 'all'
+                ? `‘${keywords.join('’, ‘')}’ 를 제목에 모두 담은 계획서를 찾습니다.`
+                : `‘${keywords.join('’, ‘')}’ 중 하나라도 제목에 담은 계획서를 찾습니다.`}
+            </p>
           )}
         </div>
 
@@ -454,18 +447,6 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <label className="text-slate-500 text-xs font-medium">로그인 조건:</label>
-          <select
-            value={loginRequiredFilter}
-            onChange={(e) => setLoginRequiredFilter(e.target.value as any)}
-            className="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-800 focus:ring-1 focus:ring-blue-500"
-          >
-            <option value="ALL">전체 문서</option>
-            <option value="PUBLIC">로그인 불필요 (바로 다운로드 가능)</option>
-            <option value="LOGIN">로그인 필요 (기관 회원)</option>
-          </select>
-        </div>
       </div>
 
       {/* Document List View */}

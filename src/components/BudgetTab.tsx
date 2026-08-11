@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { BudgetData, BudgetRow } from '../types';
-import { sortOffices } from '../lib/offices';
+import { sortOffices, fullOfficeName } from '../lib/offices';
 import { BarChart3, TrendingUp, Award, Building2, Calendar, Filter, DollarSign, Info } from 'lucide-react';
 import {
   BarChart,
@@ -109,13 +109,13 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
           </div>
           <div className="space-y-1">
             <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              17개 시도교육청 세출예산 현황 비교
+              {data.regions.length}개 시도교육청 세출예산 현황 비교
               <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">
                 지방교육재정알리미 Open API
               </span>
             </h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              교육청 계획문서와 연동되는 예산 규모를 한눈에 대조합니다. 전국 17개 교육청의 예산순위 및 사업별 비중을 비교해 보세요.
+              지방교육재정알리미 자료로 정책사업별 세출예산을 교육청끼리 견줍니다. 우리 교육청이 어디쯤인지 확인해 보세요.
             </p>
           </div>
         </div>
@@ -172,7 +172,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
           >
             {regionOptions.map((reg) => (
               <option key={reg} value={reg}>
-                {reg}교육청
+                {fullOfficeName(reg)}
               </option>
             ))}
           </select>
@@ -191,7 +191,8 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
                 {selectedYear}년 {selectedItem} 기준
               </div>
               <h4 className="text-base font-bold text-white">
-                <span className="text-amber-400">{highlightRegion}교육청</span>은 전국 17개 교육청 중{' '}
+                <span className="text-amber-400">{fullOfficeName(highlightRegion)}</span>은 전국{' '}
+                {highlightedRankInfo.total}개 교육청 중{' '}
                 <strong className="text-amber-300 underline underline-offset-4 font-bold">
                   {highlightedRankInfo.rank}위
                 </strong>{' '}
@@ -237,7 +238,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
                 />
                 <Tooltip
                   formatter={(val: number) => [`${formatAmount(val)} (${Math.round(val / 100_000_000).toLocaleString()}억)`, '예산액']}
-                  labelFormatter={(lbl) => `${lbl}교육청`}
+                  labelFormatter={(lbl) => fullOfficeName(String(lbl))}
                   contentStyle={{ borderRadius: '8px', borderColor: '#cdd1d5', fontSize: '13px' }}
                 />
                 <Bar dataKey="amount" radius={[4, 4, 0, 0]} isAnimationActive={false}>
@@ -258,7 +259,7 @@ export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
           <div>
             <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-amber-500" />
-              {highlightRegion}교육청 연도별 추이 (2022~2026)
+              {fullOfficeName(highlightRegion)} 연도별 추이
             </h4>
             <p className="text-xs text-slate-500 mt-0.5">[{selectedItem}] 항목 예산 변동</p>
           </div>

@@ -58,6 +58,41 @@ export function shortOfficeName(name: string): string {
   return (name || '').replace(/교육청$/, '');
 }
 
+/**
+ * 정식 명칭. 약칭에 '교육청'을 그냥 붙이면
+ * '경기교육청' · '강원교육청'처럼 실제로 없는 이름이 된다.
+ */
+const FULL_NAMES: Record<string, string> = {
+  서울: '서울특별시교육청',
+  전남광주: '전남광주통합특별시교육청',
+  부산: '부산광역시교육청',
+  대구: '대구광역시교육청',
+  인천: '인천광역시교육청',
+  광주: '광주광역시교육청',
+  대전: '대전광역시교육청',
+  울산: '울산광역시교육청',
+  세종: '세종특별자치시교육청',
+  경기: '경기도교육청',
+  강원: '강원특별자치도교육청',
+  충북: '충청북도교육청',
+  충남: '충청남도교육청',
+  전북: '전북특별자치도교육청',
+  전남: '전라남도교육청',
+  경북: '경상북도교육청',
+  경남: '경상남도교육청',
+  제주: '제주특별자치도교육청',
+};
+
+/**
+ * 어떤 표기로 들어와도 정식 명칭으로 바꾼다.
+ * '경기' · 'gyeonggi' · '경기도교육청' → '경기도교육청'
+ */
+export function fullOfficeName(name: string): string {
+  const rank = officeRank(name);
+  if (rank < OFFICE_ORDER.length) return FULL_NAMES[OFFICE_ORDER[rank]];
+  return name || '';
+}
+
 /** 교육청 목록을 정식 순서로 정렬한다(원본 배열은 건드리지 않는다). */
 export function sortOffices<T>(items: T[], key: (item: T) => string): T[] {
   return [...items].sort((a, b) => {
