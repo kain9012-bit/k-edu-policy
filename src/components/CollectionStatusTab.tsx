@@ -167,14 +167,16 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
         <div className="space-y-4">
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-5 space-y-2">
             <h4 className="text-base font-bold text-slate-900">
-              계획을 안 세우는 게 아니라, 공개를 안 하는 것입니다
+              홈페이지에 공개하는 범위는 교육청마다 다릅니다
             </h4>
             <div className="text-sm text-slate-700 leading-relaxed space-y-1">
-              <p>내부결재 계획은 교육청마다 비슷한 규모로 쌓입니다.</p>
-              <p>그런데 홈페이지에 공개하는 양은 교육청마다 크게 다릅니다.</p>
               <p>
                 아래 <strong className="font-bold">공개율</strong>은 내부결재 계획 대비 홈페이지에
                 올라온 계획서의 비율입니다.
+              </p>
+              <p className="text-slate-500">
+                게시판 구성과 자료 분류 방식에 따라 달라질 수 있어, 수치만으로 공개에
+                소극적이라고 보기는 어렵습니다.
               </p>
             </div>
             <p className="text-xs text-slate-500">
