@@ -76,7 +76,9 @@ export const HomeTab: React.FC<HomeTabProps> = ({
       >
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <h2 className="text-3xl sm:text-[3rem] font-bold text-slate-900 leading-tight">
-            전국 시도교육청 <span className="text-blue-700">교육정책 통합검색</span>
+            {/* 좁은 화면에서는 '전국 시도교육청' 다음에서 줄을 바꾼다 */}
+            <span className="block sm:inline">전국 시도교육청</span>{' '}
+            <span className="text-blue-700">교육정책 통합검색</span>
           </h2>
           <p className="text-base sm:text-lg text-slate-600">
             16개 시도교육청의 <strong className="font-bold text-slate-900">공개 계획서</strong> ·
@@ -117,8 +119,8 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             </div>
           </form>
 
-          {/* 추천 검색어 */}
-          <div className="flex flex-wrap items-center justify-center gap-2 text-base">
+          {/* 추천 검색어. 좁은 화면에서는 자리만 차지해서 감춘다 */}
+          <div className="hidden sm:flex flex-wrap items-center justify-center gap-2 text-base">
             <span className="inline-flex items-center gap-1 text-slate-500 font-medium mr-1">
               <Tag className="w-5 h-5" aria-hidden="true" />
               이렇게 찾아보세요

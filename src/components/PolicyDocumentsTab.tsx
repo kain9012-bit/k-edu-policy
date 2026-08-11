@@ -302,6 +302,9 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                 </button>
               )}
             </div>
+            {/* 좁은 화면에서는 방식 토글과 검색 버튼을 한 줄에 나란히 둔다.
+                sm 이상에서는 sm:contents 로 감싼 층이 사라져 예전 그대로다. */}
+            <div className="flex gap-2 sm:contents">
             {/* 여러 낱말을 어떻게 묶을지. 낱말이 하나여도 늘 보이게 두어
                 지금 어떤 방식으로 찾는지 알 수 있게 한다. */}
             <div
@@ -336,7 +339,8 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                          font-bold rounded-md transition-colors"
             >
               검색
-            </button>
+              </button>
+            </div>
           </form>
 
           {keywords.length > 1 && (
@@ -349,7 +353,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         </div>
 
         {/* Quick Topic Chips */}
-        <div className="flex items-center gap-1.5 flex-wrap text-xs pt-1">
+        <div className="hidden sm:flex items-center gap-1.5 flex-wrap text-xs pt-1">
           <span className="text-slate-400 font-bold text-[11px] flex items-center gap-1 shrink-0 mr-1">
             <Tag className="w-3.5 h-3.5 text-blue-600" />
             주요 주제:
@@ -382,7 +386,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         </div>
 
         {/* Detailed Filters Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {/* Office Filter */}
           <div>
             <label className="block text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">

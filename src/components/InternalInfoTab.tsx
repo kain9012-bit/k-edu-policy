@@ -170,6 +170,9 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
               )}
             </div>
 
+            {/* 좁은 화면에서는 방식 토글과 검색 버튼을 한 줄에 나란히 둔다.
+                sm 이상에서는 sm:contents 로 감싼 층이 사라져 예전 그대로다. */}
+            <div className="flex gap-2 sm:contents">
             {/* 여러 낱말을 어떻게 묶을지. 낱말이 하나여도 늘 보이게 두어
                 지금 어떤 방식으로 찾는지 알 수 있게 한다. */}
             <div
@@ -204,7 +207,8 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
                          font-bold rounded-md transition-colors"
             >
               검색
-            </button>
+              </button>
+            </div>
           </form>
 
           {keywords.length > 1 && (
