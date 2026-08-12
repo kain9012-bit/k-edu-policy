@@ -82,7 +82,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           </h2>
           <p className="text-base sm:text-lg text-slate-600">
             16개 시도교육청의 <strong className="font-bold text-slate-900">공개 계획서</strong> ·
-            <strong className="font-bold text-slate-900"> 내부결재 목록</strong> ·
+            <strong className="font-bold text-slate-900"> 결재문서 목록</strong> ·
             <strong className="font-bold text-slate-900"> 세출예산</strong>을 한곳에서 찾습니다
           </p>
 
@@ -222,15 +222,15 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             {
               Icon: Landmark,
               n: '02',
-              title: '내부결재 정보목록',
-              desc: '정보공개포털(open.go.kr)에 등록된 각 교육청 본청 부서의 내부결재 문서 제목과 문서번호를 모았습니다.',
+              title: '결재문서 목록',
+              desc: '정보공개포털(open.go.kr)의 정보목록·원문정보에 등록된 각 교육청 본청 부서의 결재문서 제목과 문서번호를 모았습니다.',
               points: [
                 '홈페이지에 없는 계획까지 확인',
                 '문서번호 확인 (예: 초등교육과-12097)',
                 '정보공개청구에 활용',
               ],
               go: 'infolist' as ActiveTab,
-              cta: '내부결재 목록 조회',
+              cta: '결재문서 목록 조회',
             },
             {
               Icon: BarChart3,

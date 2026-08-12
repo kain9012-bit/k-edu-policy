@@ -12,7 +12,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
   const [activeSubTab, setActiveSubTab] =
     useState<'openness' | 'offices' | 'sources' | 'logs'>('openness');
 
-  // 홈페이지에 공개한 계획서 수와 내부결재로만 남은 계획 수를 나란히 놓는다.
+  // 홈페이지에 공개한 계획서 수와 결재문서로만 남은 것의 수를 나란히 놓는다.
   // 두 데이터의 교육청 표기가 달라(경기 / 경기도교육청) 정식 명칭으로 맞춘다.
   const opennessRows = React.useMemo(() => {
     const internal = new Map<string, number>();
@@ -26,7 +26,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
       return { key: o.name, short: o.short_name, name: o.name, inner, open, ratio: inner > 0 ? open / inner : 0, note: '' };
     });
 
-    // 홈페이지를 따로 수집하지 않는 기관도 내부결재에는 잡힌다.
+    // 홈페이지를 따로 수집하지 않는 기관도 결재문서 목록에는 잡힌다.
     // 표에서 통째로 빠지면 합계가 안 맞고 '왜 없냐'는 오해를 부른다.
     const covered = new Set(rows.map((r) => r.name));
     for (const [office, inner] of internal) {
@@ -171,7 +171,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
             </h4>
             <div className="text-sm text-slate-700 leading-relaxed space-y-1">
               <p>
-                아래 <strong className="font-bold">공개율</strong>은 내부결재 계획 대비 홈페이지에
+                아래 <strong className="font-bold">공개율</strong>은 결재문서 대비 홈페이지에
                 올라온 계획서의 비율입니다.
               </p>
               <p className="text-slate-500">
@@ -180,7 +180,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
               </p>
             </div>
             <p className="text-xs text-slate-500">
-              내부결재 수집 기간: {infoData?.coverage?.from ?? '-'} ~ {infoData?.coverage?.to ?? '-'} ·
+              결재문서 수집 기간: {infoData?.coverage?.from ?? '-'} ~ {infoData?.coverage?.to ?? '-'} ·
               홈페이지 수집 기준: {data.generated_at}
             </p>
           </div>
@@ -193,7 +193,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
                   <tr>
                     <th className="text-left py-3 px-4 font-bold">교육청</th>
                     <th className="text-right py-3 px-4 font-bold">홈페이지 공개</th>
-                    <th className="text-right py-3 px-4 font-bold">내부결재</th>
+                    <th className="text-right py-3 px-4 font-bold">결재문서</th>
                     <th className="text-right py-3 px-4 font-bold">공개율</th>
                     <th className="text-left py-3 px-4 font-bold w-1/3">비교</th>
                   </tr>
@@ -227,7 +227,7 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
                           )}
                         </td>
                         <td className="py-3 px-4">
-                          {/* 회색 막대 = 내부결재 전체, 파란 막대 = 그중 공개된 몫 */}
+                          {/* 회색 막대 = 결재문서 전체, 파란 막대 = 그중 공개된 몫 */}
                           <div className="relative h-4 bg-slate-100 rounded-sm overflow-hidden">
                             <div
                               className="absolute inset-y-0 left-0 bg-slate-300"
@@ -252,10 +252,10 @@ export const CollectionStatusTab: React.FC<CollectionStatusTabProps> = ({ data, 
                 <span className="inline-block w-3 h-3 rounded-sm bg-blue-600 align-middle mr-1" />
                 홈페이지에 공개된 계획서
                 <span className="inline-block w-3 h-3 rounded-sm bg-slate-300 align-middle ml-3 mr-1" />
-                정보공개포털에만 있는 내부결재 계획
+                정보공개포털에만 있는 결재문서
               </p>
               <p>
-                내부결재 목록은 본청 부서 문서만 모은 것이라 실제 계획 수는 더 많을 수 있습니다.
+                결재문서 목록은 본청 부서 문서만 모은 것이라 실제 계획 수는 더 많을 수 있습니다.
                 홈페이지 공개분은 게시판에서 계획서로 판별된 문서만 셉니다.
               </p>
             </div>

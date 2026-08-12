@@ -12,7 +12,7 @@ interface HeaderProps {
 const TABS: { id: ActiveTab; label: string }[] = [
   { id: 'home', label: '홈' },
   { id: 'documents', label: '공개 계획서' },
-  { id: 'infolist', label: '내부 결재' },
+  { id: 'infolist', label: '결재문서' },
   { id: 'budget', label: '예산 데이터' },
   { id: 'sources', label: '수집 출처' },
 ];

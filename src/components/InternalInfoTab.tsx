@@ -81,7 +81,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
     });
   }, [data.documents, keywords, matchMode, selectedOffice, selectedDept, selectedYear]);
 
-  // 내부결재 목록은 4만 건이 넘는다. 한 번에 그리면 브라우저가 멈추므로 나눠 그린다.
+  // 결재문서 목록은 4만 건이 넘는다. 한 번에 그리면 브라우저가 멈추므로 나눠 그린다.
   // 교육청은 행정구역 순서로 늘어놓는다.
   const officeOptions = useMemo(() => sortOffices<string>(data.offices, (o) => o), [data.offices]);
 
@@ -132,17 +132,17 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-2 sm:gap-2.5">
             <Landmark className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 shrink-0" aria-hidden="true" />
-            내부결재 정보목록
+            결재문서 목록
           </h2>
           <p className="text-sm text-slate-500">
-            정보공개포털(open.go.kr) {data.count.toLocaleString()}건
+            정보공개포털(open.go.kr) 정보목록·원문정보 {data.count.toLocaleString()}건
           </p>
         </div>
 
         {/* 윗줄: 검색창 — 공개 계획서 탭과 같은 짜임 */}
         <div className="w-full">
           <label htmlFor="openSearch" className="sr-only">
-            내부결재 제목 검색
+            결재문서 제목 검색
           </label>
           <form onSubmit={runSearch} className="flex flex-col sm:flex-row gap-2">
             <div className="relative flex-1">
@@ -294,7 +294,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
       {/* Results Stats */}
       <div className="flex items-center justify-between px-1 text-slate-700 text-xs font-medium">
         <div>
-          정보목록 검색 결과 <strong className="text-emerald-700 text-sm font-bold">{filteredDocs.length}</strong>건 (전체 {data.count.toLocaleString()}건 중)
+          결재문서 검색 결과 <strong className="text-emerald-700 text-sm font-bold">{filteredDocs.length}</strong>건 (전체 {data.count.toLocaleString()}건 중)
         </div>
         <div className="text-slate-400 text-[11px]">
           수집 기간: {data.coverage.from} ~ {data.coverage.to}
@@ -307,7 +307,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
           <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
             <Landmark className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-slate-800">일치하는 내부결재 문서목록이 없습니다</h3>
+          <h3 className="text-base font-bold text-slate-800">조건에 맞는 결재문서가 없습니다</h3>
           <p className="text-xs text-slate-500">다른 검색어나 교육청 필터를 선택해 보세요.</p>
         </div>
       ) : (
@@ -420,7 +420,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
 
             <div className="space-y-3 text-xs text-slate-700 leading-relaxed">
               <p className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                교육청 홈페이지 게시판에 업로드되지 않은 내부결재 계획서는 <strong>대한민국 정보공개포털(open.go.kr)</strong>을 통해 원문을 청구할 수 있습니다.
+                교육청 홈페이지 게시판에 올라오지 않은 결재문서는 <strong>대한민국 정보공개포털(open.go.kr)</strong>을 통해 원문을 청구할 수 있습니다.
               </p>
 
               <ol className="space-y-2.5 list-decimal list-inside font-medium text-slate-800">

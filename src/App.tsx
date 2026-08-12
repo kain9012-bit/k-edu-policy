@@ -28,7 +28,7 @@ export default function App() {
 
   // 수집 데이터 로딩 상태
   const [loading, setLoading] = useState(true);
-  // 내부결재 목록은 압축해도 3MB가 넘는다. 필요한 탭을 열 때만 받는다.
+  // 결재문서 목록은 압축해도 3MB가 넘는다. 필요한 탭을 열 때만 받는다.
   const [infoLoading, setInfoLoading] = useState(false);
   const infoRequested = React.useRef(false);
 
@@ -57,7 +57,7 @@ export default function App() {
     })();
   }, [load]);
 
-  // 내부결재 목록은 그 자료를 쓰는 탭(내부 결재·수집 출처)에 들어갈 때 받는다.
+  // 결재문서 목록은 그 자료를 쓰는 탭(결재문서·수집 출처)에 들어갈 때 받는다.
   // 첫 화면에서 미리 받으면, 그 탭을 안 여는 사람도 3MB를 내려받게 된다.
   useEffect(() => {
     if (activeTab !== 'infolist' && activeTab !== 'sources') return;
@@ -133,13 +133,13 @@ export default function App() {
                 교육정책 통합검색 <span className="text-slate-400 font-medium">EduPolicy Search</span>
               </p>
               <p className="text-sm text-slate-300">
-                전국 16개 시도교육청 공개 정책계획서 · 정보공개포털 정보목록 · 지방교육재정 세출예산
+                전국 16개 시도교육청 공개 정책계획서 · 정보공개포털 결재문서 · 지방교육재정 세출예산
               </p>
             </div>
 
             <div className="text-sm text-slate-300 md:text-right space-y-1">
               <p>정책계획 출처: 각 시도교육청 공개 게시판</p>
-              <p>내부결재 계획 출처: 정보공개포털(open.go.kr)</p>
+              <p>결재문서 출처: 정보공개포털(open.go.kr)</p>
               <p>예산 출처: 지방교육재정알리미 Open API (공공누리 출처표시)</p>
             </div>
           </div>
@@ -147,7 +147,7 @@ export default function App() {
 
       </footer>
 
-      {/* 내부결재 목록을 받는 동안 알려준다. 3MB라 회선이 느리면 몇 초 걸린다. */}
+      {/* 결재문서 목록을 받는 동안 알려준다. 3MB라 회선이 느리면 몇 초 걸린다. */}
       {infoLoading && (
         <div
           role="status"
@@ -155,7 +155,7 @@ export default function App() {
                      rounded-full bg-slate-900 text-white text-sm font-bold shadow-lg"
         >
           <span className="w-3.5 h-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-          내부결재 목록을 불러오는 중입니다
+          결재문서 목록을 불러오는 중입니다
         </div>
       )}
 

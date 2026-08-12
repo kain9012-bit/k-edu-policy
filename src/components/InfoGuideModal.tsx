@@ -41,7 +41,7 @@ export const InfoGuideModal: React.FC<InfoGuideModalProps> = ({ onClose }) => {
               "다른 교육청은 늘봄학교 계획을 어떻게 세웠나" 한 번에 확인 불가능.
             </li>
             <li className="p-2.5 rounded-lg bg-indigo-50/50 border border-indigo-100 font-medium">
-              <strong className="text-indigo-900 block mb-0.5">내부결재 파편화</strong>
+              <strong className="text-indigo-900 block mb-0.5">결재문서 파편화</strong>
               게시판 미공개 계획은 정보공개포털 목록에만 흔적이 남음.
             </li>
             <li className="p-2.5 rounded-lg bg-indigo-50/50 border border-indigo-100 font-medium">
