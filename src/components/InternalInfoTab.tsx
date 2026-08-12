@@ -65,15 +65,16 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
         return false;
       }
 
-      // 제목·문서번호·부서·교육청을 한데 묶어 낱말별로 본다
+      // 검색은 제목만 본다.
+      // 부서명까지 훑으면 '특수교육'을 찾았을 때 특수교육과가 낸 문서가 전부 딸려 나온다.
+      // 문서번호에도 부서명이 들어 있어(초등교육과-12097) 같은 일이 생긴다.
+      // 부서로 좁히는 일은 아래 담당부서 필터가 맡는다.
+      // 다만 문서번호를 그대로 붙여넣는 경우가 많아, 숫자가 섞인 낱말은 문서번호도 본다.
       if (keywords.length > 0) {
-        const hay = [doc.title, doc.doc_no, doc.department, doc.office]
-          .join(' ')
-          .toLowerCase();
-        const ok =
-          matchMode === 'all'
-            ? keywords.every((k) => hay.includes(k))
-            : keywords.some((k) => hay.includes(k));
+        const title = doc.title.toLowerCase();
+        const docNo = doc.doc_no.toLowerCase();
+        const hit = (k: string) => (/\d/.test(k) ? title.includes(k) || docNo.includes(k) : title.includes(k));
+        const ok = matchMode === 'all' ? keywords.every(hit) : keywords.some(hit);
         if (!ok) return false;
       }
 
@@ -154,7 +155,7 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
                 type="search"
                 value={inputTerm}
                 onChange={(e) => setInputTerm(e.target.value)}
-                placeholder="제목·문서번호·부서명 검색 · 여러 낱말은 쉼표나 띄어쓰기로 (예: 초등, 연수)"
+                placeholder="결재문서 제목 검색 · 여러 낱말은 쉼표나 띄어쓰기로 (예: 늘봄, 연수)"
                 className="w-full h-12 pl-11 pr-20 bg-white text-slate-900 placeholder-slate-400
                            text-base rounded-md border border-slate-300
                            focus:border-blue-600 outline-none transition-colors"
