@@ -108,6 +108,12 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
     );
   }, [data.documents, keywords, matchMode, selectedDept, selectedYear]);
 
+  // 왼쪽 목록 맨 위에 적는 합계. 교육청별 건수를 그대로 더한 값이다.
+  const facetTotal = useMemo(
+    () => officeFacets.reduce((n, x) => n + x.count, 0),
+    [officeFacets]
+  );
+
   // 연도 선택지는 실제 문서에서 뽑는다. 지금은 2026뿐이지만 해가 쌓이면 자동으로 늘어난다.
   const yearOptions = useMemo(() => {
     const n = new Map<string, number>();
@@ -330,9 +336,14 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
                               : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
                           }`}
             >
-              <span>전체</span>
-              <span className={`tabular-nums ${selectedOffice === 'ALL' ? 'text-blue-100' : 'text-slate-400'}`}>
-                {officeFacets.length}
+              <span>
+                전체{' '}
+                <span className={`font-medium ${selectedOffice === 'ALL' ? 'text-blue-100' : 'text-slate-400'}`}>
+                  ({officeFacets.length})
+                </span>
+              </span>
+              <span className={`tabular-nums ${selectedOffice === 'ALL' ? 'text-blue-100' : 'text-slate-500'}`}>
+                {facetTotal.toLocaleString()}
               </span>
             </button>
 

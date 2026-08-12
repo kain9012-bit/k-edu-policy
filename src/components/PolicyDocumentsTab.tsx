@@ -200,6 +200,12 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     );
   }, [data.documents, titleMatches, selectedStatus, selectedYear, selectedCategory]);
 
+  // 왼쪽 목록 맨 위에 적는 합계. 교육청별 건수를 그대로 더한 값이다.
+  const facetTotal = React.useMemo(
+    () => officeFacets.reduce((n, x) => n + x.count, 0),
+    [officeFacets]
+  );
+
   // 소제목 아래에 적는 건수. 화면 기본값과 같게 정책계획서만 센다.
   const planCount = React.useMemo(
     () => data.documents.filter((d) => d.classification_status === '정책계획서').length,
@@ -511,9 +517,14 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
                               : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
                           }`}
             >
-              <span>전체</span>
-              <span className={`tabular-nums ${selectedOffice === 'ALL' ? 'text-blue-100' : 'text-slate-400'}`}>
-                {officeFacets.length}
+              <span>
+                전체{' '}
+                <span className={`font-medium ${selectedOffice === 'ALL' ? 'text-blue-100' : 'text-slate-400'}`}>
+                  ({officeFacets.length})
+                </span>
+              </span>
+              <span className={`tabular-nums ${selectedOffice === 'ALL' ? 'text-blue-100' : 'text-slate-500'}`}>
+                {facetTotal.toLocaleString()}
               </span>
             </button>
 
