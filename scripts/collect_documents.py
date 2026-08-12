@@ -105,6 +105,19 @@ def run(office_filter=None):
         print(f"  [ok] {off['short_name']}/{board['board_name']}: 수집 {len(raws)}건 · 저장 {kept}건 · 제외 {log['skipped_count']}건")
 
     docs = list(existing.values())
+
+    # 꺼둔 게시판에서 모은 문서는 목록에서 뺀다.
+    # 병합 방식이라 이 걸러내기가 없으면, 게시판을 꺼도 예전에 모은 문서가 계속 남는다.
+    # (예: 충북 '일반고 교육력 프로젝트'는 학교가 올리는 곳이라 본청 계획이 아니다)
+    active_board_ids = {
+        b["id"] for b in boards
+        if b.get("is_active") and (offices.get(b["office"]) or {}).get("is_active")
+    }
+    dropped = sum(1 for d in docs if d.get("board_id") not in active_board_ids)
+    if dropped:
+        print(f"  꺼둔 게시판의 문서 {dropped}건 제외")
+    docs = [d for d in docs if d.get("board_id") in active_board_ids]
+
     docs.sort(key=lambda d: (d.get("published_date") or ""), reverse=True)
 
     # 출처·수집현황(모든 활성 게시판)

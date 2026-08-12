@@ -1460,7 +1460,7 @@
       "menu_path": "중등교육과 > 일반고 교육력 프로젝트",
       "collector_type": "goe",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
@@ -1473,7 +1473,8 @@
         "bbs_sn": "1976",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "inactive_reason": "학교별 운영계획서를 학교가 직접 올리는 게시판(진천고·세명고 등). 본청 계획이 아니다."
     },
     {
       "id": "chungbuk-d25-1487",
@@ -1482,7 +1483,7 @@
       "menu_path": "중등교육과 > 자율장학계획",
       "collector_type": "goe",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
@@ -1495,7 +1496,8 @@
         "bbs_sn": "1487",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "inactive_reason": "학교별 자율장학 운영계획을 학교가 직접 올리는 게시판. 본청 계획이 아니다."
     },
     {
       "id": "chungbuk-d25-1966",
