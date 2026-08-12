@@ -39,9 +39,11 @@ export const VisitorCount: React.FC = () => {
   if (!total) return null;
 
   return (
+    // 단위를 붙이지 않는다. 오늘 값은 다녀간 사람 수에 가깝지만
+    // 누적 값은 날짜별 값을 더한 것이라, '명'이든 '회'든 한쪽은 틀린 말이 된다.
     <p className="tabular-nums">
-      오늘 <strong className="font-bold text-slate-900">{today ?? '-'}</strong>명 · 누적{' '}
-      <strong className="font-bold text-slate-900">{total}</strong>명
+      오늘 방문 <strong className="font-bold text-slate-900">{today ?? '-'}</strong> · 누적{' '}
+      <strong className="font-bold text-slate-900">{total}</strong>
     </p>
   );
 };
