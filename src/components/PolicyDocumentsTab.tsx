@@ -181,6 +181,25 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   // 교육청은 가나다순이 아니라 행정구역 순서로 늘어놓는다.
   const officeOptions = React.useMemo(() => sortOffices<string>(data.offices, (o) => o), [data.offices]);
 
+  // 왼쪽에 세울 교육청별 건수.
+  // 교육청 조건만 빼고 나머지 조건을 적용해 센다. 그래야 한 곳을 골라도
+  // 다른 곳에 몇 건이 있는지 계속 보이고, 0건인 곳은 아예 나오지 않는다.
+  const officeFacets = React.useMemo(() => {
+    const n = new Map<string, number>();
+    for (const doc of data.documents) {
+      if (selectedStatus !== 'ALL' && doc.classification_status !== selectedStatus) continue;
+      if (!titleMatches(doc.title)) continue;
+      if (selectedYear !== 'ALL' && doc.policy_year !== Number(selectedYear)) continue;
+      if (selectedCategory !== 'ALL' && !doc.policy_category?.includes(selectedCategory)) continue;
+      const key = doc.short_name || doc.office;
+      if (key) n.set(key, (n.get(key) ?? 0) + 1);
+    }
+    return sortOffices<{ office: string; count: number }>(
+      [...n.entries()].map(([office, count]) => ({ office, count })),
+      (x) => x.office
+    );
+  }, [data.documents, titleMatches, selectedStatus, selectedYear, selectedCategory]);
+
   // 소제목 아래에 적는 건수. 화면 기본값과 같게 정책계획서만 센다.
   const planCount = React.useMemo(
     () => data.documents.filter((d) => d.classification_status === '정책계획서').length,
@@ -476,6 +495,54 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
         </div>
       </section>
 
+      {/* 왼쪽 교육청 목록 + 오른쪽 결과.
+          좁은 화면에서는 자리가 없어 목록을 감춘다(위 교육청 필터로 대신한다). */}
+      <div className="flex gap-5">
+        <aside className="hidden lg:block w-44 shrink-0">
+          <nav aria-label="교육청별 검색 결과" className="sticky top-24 space-y-1">
+            <button
+              type="button"
+              onClick={() => setSelectedOffice('ALL')}
+              aria-pressed={selectedOffice === 'ALL'}
+              className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-sm
+                          font-bold transition-colors ${
+                            selectedOffice === 'ALL'
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
+                          }`}
+            >
+              <span>전체</span>
+              <span className={`tabular-nums ${selectedOffice === 'ALL' ? 'text-blue-100' : 'text-slate-400'}`}>
+                {officeFacets.length}
+              </span>
+            </button>
+
+            {officeFacets.map(({ office, count }) => {
+              const on = selectedOffice === office;
+              return (
+                <button
+                  key={office}
+                  type="button"
+                  onClick={() => setSelectedOffice(on ? 'ALL' : office)}
+                  aria-pressed={on}
+                  className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-sm
+                              transition-colors ${
+                                on
+                                  ? 'bg-blue-600 text-white font-bold'
+                                  : 'text-slate-700 hover:bg-slate-100'
+                              }`}
+                >
+                  <span className="truncate">{officeLabel(office)}</span>
+                  <span className={`tabular-nums shrink-0 ${on ? 'text-blue-100' : 'text-slate-400'}`}>
+                    {count.toLocaleString()}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+        </aside>
+
+        <div className="flex-1 min-w-0 space-y-6">
       {/* Results Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 px-1 text-slate-700 text-xs font-medium">
         <div className="flex items-center gap-2">
@@ -754,6 +821,9 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
           )}
         </div>
       )}
+
+        </div>
+      </div>
 
       {/* Detail Modal */}
       {activeDetailDoc && (

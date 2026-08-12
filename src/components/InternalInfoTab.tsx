@@ -86,6 +86,28 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
   // 교육청은 행정구역 순서로 늘어놓는다.
   const officeOptions = useMemo(() => sortOffices<string>(data.offices, (o) => o), [data.offices]);
 
+  // 왼쪽에 세울 교육청별 건수.
+  // 교육청 조건만 빼고 나머지 조건을 적용해 센다. 그래야 한 곳을 골라도
+  // 다른 곳에 몇 건이 있는지 계속 보이고, 0건인 곳은 아예 나오지 않는다.
+  const officeFacets = useMemo(() => {
+    const n = new Map<string, number>();
+    for (const doc of data.documents) {
+      if (selectedDept !== 'ALL' && doc.department !== selectedDept) continue;
+      if (selectedYear !== 'ALL' && (doc.published_date || '').slice(0, 4) !== selectedYear) continue;
+      if (keywords.length > 0) {
+        const title = doc.title.toLowerCase();
+        const docNo = doc.doc_no.toLowerCase();
+        const hit = (k: string) => (/\d/.test(k) ? title.includes(k) || docNo.includes(k) : title.includes(k));
+        if (!(matchMode === 'all' ? keywords.every(hit) : keywords.some(hit))) continue;
+      }
+      if (doc.office) n.set(doc.office, (n.get(doc.office) ?? 0) + 1);
+    }
+    return sortOffices<{ office: string; count: number }>(
+      [...n.entries()].map(([office, count]) => ({ office, count })),
+      (x) => x.office
+    );
+  }, [data.documents, keywords, matchMode, selectedDept, selectedYear]);
+
   // 연도 선택지는 실제 문서에서 뽑는다. 지금은 2026뿐이지만 해가 쌓이면 자동으로 늘어난다.
   const yearOptions = useMemo(() => {
     const n = new Map<string, number>();
@@ -292,6 +314,54 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
         </div>
       </section>
 
+      {/* 왼쪽 교육청 목록 + 오른쪽 결과.
+          좁은 화면에서는 자리가 없어 목록을 감춘다(위 교육청 필터로 대신한다). */}
+      <div className="flex gap-5">
+        <aside className="hidden lg:block w-44 shrink-0">
+          <nav aria-label="교육청별 검색 결과" className="sticky top-24 space-y-1">
+            <button
+              type="button"
+              onClick={() => setSelectedOffice('ALL')}
+              aria-pressed={selectedOffice === 'ALL'}
+              className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-sm
+                          font-bold transition-colors ${
+                            selectedOffice === 'ALL'
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
+                          }`}
+            >
+              <span>전체</span>
+              <span className={`tabular-nums ${selectedOffice === 'ALL' ? 'text-blue-100' : 'text-slate-400'}`}>
+                {officeFacets.length}
+              </span>
+            </button>
+
+            {officeFacets.map(({ office, count }) => {
+              const on = selectedOffice === office;
+              return (
+                <button
+                  key={office}
+                  type="button"
+                  onClick={() => setSelectedOffice(on ? 'ALL' : office)}
+                  aria-pressed={on}
+                  className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md text-sm
+                              transition-colors ${
+                                on
+                                  ? 'bg-blue-600 text-white font-bold'
+                                  : 'text-slate-700 hover:bg-slate-100'
+                              }`}
+                >
+                  <span className="truncate">{officeLabel(office)}</span>
+                  <span className={`tabular-nums shrink-0 ${on ? 'text-blue-100' : 'text-slate-400'}`}>
+                    {count.toLocaleString()}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+        </aside>
+
+        <div className="flex-1 min-w-0 space-y-6">
       {/* Results Stats */}
       <div className="flex items-center justify-between px-1 text-slate-700 text-xs font-medium">
         <div>
@@ -401,6 +471,9 @@ export const InternalInfoTab: React.FC<InternalInfoTabProps> = ({ data }) => {
           </div>
         </div>
       )}
+
+        </div>
+      </div>
 
       {/* Information Request Guide Modal */}
       {showInfoGuide && (
