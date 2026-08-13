@@ -1784,7 +1784,7 @@
       "menu_path": "학교발전기금공개방",
       "collector_type": "goe",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
@@ -1796,7 +1796,8 @@
         "page_param": "currPage",
         "bbs_sn": "2347",
         "base": "https://www.pen.go.kr"
-      }
+      },
+      "inactive_reason": "학교가 학교발전기금 운용계획을 직접 올리는 게시판. 본청 계획이 아니다."
     },
     {
       "id": "busan-2349",
