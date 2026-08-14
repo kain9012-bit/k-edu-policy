@@ -1806,7 +1806,7 @@
       "menu_path": "공무국외출장",
       "collector_type": "goe",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
@@ -1818,7 +1818,8 @@
         "page_param": "currPage",
         "bbs_sn": "2349",
         "base": "https://www.pen.go.kr"
-      }
+      },
+      "inactive_reason": "학교가 공무국외출장 계획을 직접 올리는 게시판. 본청 계획이 아니다."
     },
     {
       "id": "busan-2444",
@@ -1869,7 +1870,7 @@
       "menu_path": "학교교육계획(교육계획서)",
       "collector_type": "goe",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
@@ -1881,7 +1882,8 @@
         "page_param": "currPage",
         "bbs_sn": "2481",
         "base": "https://www.pen.go.kr"
-      }
+      },
+      "inactive_reason": "학교가 학교교육계획서를 직접 올리는 게시판. 본청 계획이 아니다."
     },
     {
       "id": "busan-2609",
@@ -2866,7 +2868,7 @@
       "menu_path": "학교평가",
       "collector_type": "gen",
       "board_type": "분산형",
-      "is_active": true,
+      "is_active": false,
       "login_required": false,
       "keep_all": false,
       "license": "공공누리(기관 표기 확인)",
@@ -2876,7 +2878,8 @@
         "list_url": "http://www.gen.go.kr/xboard/board.php?tbnum=258",
         "page_param": "page",
         "base": "http://www.gen.go.kr"
-      }
+      },
+      "inactive_reason": "학교가 학교 자체평가 계획서를 직접 올리는 게시판. 본청 계획이 아니다."
     },
     {
       "id": "gwangju-156",
