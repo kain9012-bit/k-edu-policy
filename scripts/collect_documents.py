@@ -97,15 +97,35 @@ def run(office_filter=None):
         kept = 0
         for raw in raws:
             doc = bc.build_document(off["id"], off["short_name"], board, raw)
+            prev = existing.get(doc["id"])
+
+            # 상세 수집으로 채워둔 첨부 정보를 빈 값으로 덮지 않는다.
+            # 매일 도는 수집은 SKIP_DETAIL=1이라 첨부가 늘 비어 있는데,
+            # 첨부파일명은 계획서 판별에도 쓰여서 그대로 덮으면 판별 결과가 조금씩 나빠진다.
+            # 되살린 첨부명으로 판별을 다시 해야 상태가 예전 그대로 돌아온다.
+            if prev and not doc["attachments"] and prev.get("attachments"):
+                doc["attachments"] = prev["attachments"]
+                doc["attachment_names"] = prev.get("attachment_names", [])
+                status, dtype, cats = bc.classify(doc["title"], doc["attachment_names"])
+                doc["classification_status"] = status
+                doc["document_type"] = dtype or doc["document_type"]
+                doc["policy_category"] = cats
+                doc["searchtext"] = " ".join(
+                    [doc["title"], doc.get("department", ""), " ".join(doc["attachment_names"])]
+                )
+
             if doc["classification_status"] not in keep_status:
                 log["skipped_count"] += 1
                 continue
-            if doc["id"] in existing:
+            if prev:
                 log["updated_count"] += 1
             else:
                 log["new_count"] += 1
             existing[doc["id"]] = doc
             kept += 1
+        # 이번 실행에서 목록 페이지에서 실제로 읽어낸 글 수.
+        # 총 문서 수는 병합이라 파서가 깨져도 줄지 않는다. 파서가 살아 있는지는 이 값으로만 안다.
+        log["fetched_count"] = len(raws)
         log["finished_at"] = datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
         if log["error_count"]:
             log["status"] = "부분성공"

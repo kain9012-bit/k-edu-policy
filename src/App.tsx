@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { ActiveTab, DocumentsData, InfoListData, BudgetData, PolicyDocument } from './types';
 import {
-  fallbackDocumentsData,
-  fallbackInfoListData,
-  fallbackBudgetData,
+  emptyDocumentsData,
+  emptyInfoListData,
+  emptyBudgetData,
 } from './data/fallbackData';
 import { Header } from './components/Header';
 import { HomeTab } from './components/HomeTab';
@@ -18,16 +18,20 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Data states initialized with fallbacks for zero delay & resilient offline rendering
-  const [documentsData, setDocumentsData] = useState<DocumentsData>(fallbackDocumentsData);
-  const [infoListData, setInfoListData] = useState<InfoListData>(fallbackInfoListData);
-  const [budgetData, setBudgetData] = useState<BudgetData>(fallbackBudgetData);
+  // 데이터가 도착하기 전에는 빈 껍데기를 쓴다.
+  // 그럴듯한 표본을 채워두면 못 받았을 때 가짜 문서번호가 진짜처럼 보인다.
+  const [documentsData, setDocumentsData] = useState<DocumentsData>(emptyDocumentsData);
+  const [infoListData, setInfoListData] = useState<InfoListData>(emptyInfoListData);
+  const [budgetData, setBudgetData] = useState<BudgetData>(emptyBudgetData);
 
   // Modal controls
   const [showInfoModal, setShowInfoModal] = useState(false);
 
   // 수집 데이터 로딩 상태
   const [loading, setLoading] = useState(true);
+  // 못 받았으면 숨기지 않고 알린다. 다시 시도할 수 있게 값을 올린다.
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [retryToken, setRetryToken] = useState(0);
   // 결재문서 목록은 압축해도 3MB가 넘는다. 필요한 탭을 열 때만 받는다.
   const [infoLoading, setInfoLoading] = useState(false);
   const infoRequested = React.useRef(false);
@@ -44,22 +48,29 @@ export default function App() {
         apply(await res.json());
         return true;
       }
-      console.warn(`${name} 응답 ${res.status} — 표본 데이터로 표시합니다.`);
+      console.warn(`${name} 응답 ${res.status} — 해당 자료 없이 표시합니다.`);
     } catch (err) {
-      console.warn(`${name} 을 불러오지 못했습니다. 표본 데이터로 표시합니다.`, err);
+      console.warn(`${name} 을 불러오지 못했습니다.`, err);
     }
     return false;
   }, []);
 
   useEffect(() => {
+    let alive = true;
+    setLoading(true);
     (async () => {
-      await Promise.all([
+      const [okDocs, okBudget] = await Promise.all([
         load<DocumentsData>('documents.json', setDocumentsData),
         load<BudgetData>('budget.json', setBudgetData),
       ]);
+      if (!alive) return;
+      setLoadFailed(!okDocs || !okBudget);
       setLoading(false);
     })();
-  }, [load]);
+    return () => {
+      alive = false;
+    };
+  }, [load, retryToken]);
 
   // 결재문서 목록은 그 자료를 쓰는 탭(결재문서·수집 출처)에 들어갈 때 받는다.
   // 첫 화면에서 미리 받으면, 그 탭을 안 여는 사람도 3MB를 내려받게 된다.
@@ -71,7 +82,7 @@ export default function App() {
     load<InfoListData>('infolist.json', setInfoListData).then((ok) => {
       setInfoLoading(false);
       // 실패했으면 표시를 되돌려, 탭을 다시 눌렀을 때 한 번 더 시도하게 한다.
-      // 그러지 않으면 한 번 끊긴 뒤로는 새로고침 전까지 계속 표본 데이터만 보인다.
+      // 그러지 않으면 한 번 끊긴 뒤로는 새로고침 전까지 계속 빈 목록만 보인다.
       if (!ok) infoRequested.current = false;
     });
   }, [activeTab, load]);
@@ -100,9 +111,32 @@ export default function App() {
       {/* Main Content Area */}
       <main id="container" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {loading && (
-          <p className="sr-only" role="status">
-            수집 데이터를 불러오는 중입니다.
+          <p className="text-sm text-slate-500 py-2" role="status">
+            수집 데이터를 불러오는 중입니다…
           </p>
+        )}
+
+        {!loading && loadFailed && (
+          <div
+            role="alert"
+            className="mb-6 rounded-lg border border-amber-300 bg-amber-50 p-5 space-y-2"
+          >
+            <p className="font-bold text-slate-900">수집 데이터를 불러오지 못했습니다</p>
+            <p className="text-sm text-slate-700">
+              화면에 아무 문서도 표시되지 않습니다. 없는 자료를 임의로 채워 보여주지 않습니다.
+              연결 상태를 확인한 뒤 다시 시도해 주세요.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                infoRequested.current = false;
+                setRetryToken((n) => n + 1);
+              }}
+              className="px-4 py-2 rounded-md bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold"
+            >
+              다시 시도
+            </button>
+          </div>
         )}
         {activeTab === 'home' && (
           <HomeTab

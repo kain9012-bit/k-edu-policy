@@ -80,32 +80,47 @@ jobs:
           offices = len(d['offices'])
           print(f"문서 {before} → {after} · 정책계획서 {plans} · 교육청 {offices}곳")
 
-          # 실패한 게시판 로그
-          fails = [l for l in d.get('logs', []) if l.get('status') == '실패']
-          # '수집 0건' = 목록을 아예 못 읽은 게시판(파서 깨짐 의심).
-          # 새 글이 없어 new/updated가 0인 것은 정상이므로 경고하지 않는다.
-          docs_by_board = {}
-          for x in d['documents']:
-              docs_by_board[x['board_id']] = docs_by_board.get(x['board_id'], 0) + 1
-          zero = [l for l in d.get('logs', [])
-                  if l.get('status') != '실패' and docs_by_board.get(l['board_id'], 0) == 0]
+          logs = d.get('logs', [])
+          fails = [l for l in logs if l.get('status') == '실패']
+
+          # 파서가 살아 있는지는 '이번 실행에서 목록에서 읽어낸 글 수'로만 알 수 있다.
+          # 총 문서 수는 병합이라, 모든 수집기가 깨져 한 건도 못 읽어도 그대로 유지된다.
+          # 예전 가드는 그 총량만 봐서 몇 달째 아무것도 못 모아도 매일 성공으로 표시됐다.
+          ran = [l for l in logs if 'fetched_count' in l]
+          dead = [l for l in ran if l.get('fetched_count', 0) == 0]
+          fetched = sum(l.get('fetched_count', 0) for l in ran)
+
           if fails:
               print(f"::warning::수집 실패 게시판 {len(fails)}개: " +
                     ", ".join(l['board_id'] for l in fails[:10]))
-          if zero:
-              print(f"::warning::문서 0건 게시판 {len(zero)}개(파서 점검 대상): " +
-                    ", ".join(l['board_id'] for l in zero[:10]))
+          if dead:
+              print(f"::warning::목록을 한 건도 못 읽은 게시판 {len(dead)}개(파서 점검 대상): " +
+                    ", ".join(l['board_id'] for l in dead[:10]))
 
-          # 이전 대비 20% 이상 급감하면 실패 처리(파서 깨짐 조기 감지)
-          if before > 100 and after < before * 0.8:
-              print(f"::error::수집량 급감: {before} → {after} (20% 이상 감소). 파서 점검 필요")
+          # ① 이번 실행이 사실상 아무것도 못 읽었다면 즉시 실패.
+          if ran and fetched == 0:
+              print("::error::이번 실행에서 어떤 게시판에서도 글을 읽지 못했습니다. 전면 파서 점검 필요")
               sys.exit(1)
+
+          # ② 못 읽은 게시판이 너무 많으면 실패.
+          #    평소 0건 게시판은 7% 안팎(글이 없는 게시판)이라 40%를 경계로 둔다.
+          bad = len(dead) + len(fails)
+          if len(ran) >= 20 and bad > len(ran) * 0.4:
+              print(f"::error::{len(ran)}개 중 {bad}개 게시판이 글을 못 읽었습니다(40% 초과). 파서 점검 필요")
+              sys.exit(1)
+
+          # ③ 문서가 크게 줄었다면 실패(설정 사고·대량 삭제 감지용).
+          if before > 100 and after < before * 0.8:
+              print(f"::error::문서 급감: {before} → {after} (20% 이상 감소). 설정 변경을 확인하세요")
+              sys.exit(1)
+
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as f:
               f.write(f"## 수집 결과\n\n"
                       f"- 문서: **{before} → {after}**\n"
+                      f"- 이번에 읽은 글: **{fetched}건** (게시판 {len(ran)}개)\n"
                       f"- 정책계획서: **{plans}건**\n"
                       f"- 교육청: **{offices}곳** / 게시판 {d['coverage']['boards']}개\n"
-                      f"- 실패 게시판: {len(fails)}개 / 문서 0건 게시판: {len(zero)}개\n")
+                      f"- 실패 게시판: {len(fails)}개 / 한 건도 못 읽은 게시판: {len(dead)}개\n")
           PY
 
       - name: 변경분 커밋
