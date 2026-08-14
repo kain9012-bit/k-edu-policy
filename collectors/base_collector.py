@@ -195,8 +195,15 @@ def classify(title, attach_names):
     return "제외대상", dtype, cats
 
 
-def doc_id(office, external_post_id):
-    return hashlib.md5(f"{office}:{external_post_id}".encode()).hexdigest()[:16]
+def doc_id(office, external_post_id, board_id=""):
+    """문서 식별자.
+
+    게시판 ID를 반드시 넣는다. 글번호는 게시판·서브사이트 단위 카운터라
+    한 교육청 안에서도 다른 게시판의 다른 글이 같은 번호를 가질 수 있다.
+    (충북은 게시판 47개의 번호 범위가 서로 겹친다)
+    예전에는 office:글번호만 써서, 그런 글이 흔적 없이 서로 덮어써졌다.
+    """
+    return hashlib.md5(f"{office}:{board_id}:{external_post_id}".encode()).hexdigest()[:16]
 
 
 # 게시판이 새 글에 붙이는 표시. 목록에서 제목과 함께 긁혀 들어온다.
@@ -234,7 +241,7 @@ def build_document(office, short_name, board, raw):
     status, dtype, cats = classify(title_raw, att_names)
     now = datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
     return {
-        "id": doc_id(office, raw["external_post_id"]),
+        "id": doc_id(office, raw["external_post_id"], board["id"]),
         "office": office,
         "short_name": short_name,
         "board_id": board["id"],

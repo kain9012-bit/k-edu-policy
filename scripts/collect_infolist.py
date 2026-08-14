@@ -424,7 +424,12 @@ def save(existing, stats=None):
     existing에는 본청 문서가 필터 없이 전부 들어 있다. 계획 판별은 저장 시점에
     하므로, 나중에 필터를 고치면 --refilter 한 번으로 다시 만들 수 있다.
     """
-    raw = sorted(existing.values(), key=lambda x: x.get("published_date") or "", reverse=True)
+    # 정렬 기준에 id 를 함께 넣어 순서를 고정한다.
+    # 게시일만으로 정렬하면 같은 날짜 문서의 순서가 실행마다 뒤바뀌고,
+    # 실제로 몇 건만 바뀌어도 20MB 파일 전체가 달라진 것으로 취급돼 저장소가 급히 커진다.
+    raw = sorted(existing.values(),
+                 key=lambda x: (x.get("published_date") or "", x.get("id") or ""),
+                 reverse=True)
     kept = [d for d in raw if is_plan(d.get("title", ""))]
     write_json_atomic(RAW, _pack(raw, stats, "본청 문서 원본(계획 판별 전). 필터 재적용용이며 웹에는 쓰지 않는다."),
                       ensure_ascii=False, separators=(",", ":"))
