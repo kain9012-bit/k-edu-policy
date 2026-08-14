@@ -48,9 +48,12 @@ jobs:
           fi
 
       - name: 정책계획 수집
+        # 입력값은 env 로 넘긴다. run: 에 직접 끼워 넣으면 셸이 그대로 실행해 버린다.
+        env:
+          OFFICE: ${{ inputs.office }}
         run: |
-          if [ -n "${{ inputs.office }}" ]; then
-            python scripts/collect_documents.py --office "${{ inputs.office }}"
+          if [ -n "$OFFICE" ]; then
+            python scripts/collect_documents.py --office "$OFFICE"
           else
             python scripts/collect_documents.py
           fi

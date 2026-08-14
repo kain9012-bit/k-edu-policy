@@ -16,6 +16,8 @@ import datetime
 # GitHub Actions 러너는 UTC라, 그냥 now() 를 쓰면 새벽 5시(KST)에 돌린 수집이
 # 전날 20시로 기록돼 화면에 하루 어긋나 보인다.
 from zoneinfo import ZoneInfo
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from collectors.io_util import write_json_atomic
 KST = ZoneInfo("Asia/Seoul")
 
 
@@ -113,6 +115,12 @@ def main():
             print(f"  [ok] {y}: {len(rows)}건")
         time.sleep(0.3)
 
+    # 한 해도 못 받았는데 덮어쓰면 예산 탭이 통째로 빈다.
+    # 키 만료·API 장애는 흔하므로 여기서 멈추고 직전 파일을 지킨다.
+    if not all_rows:
+        sys.exit("예산 데이터를 한 건도 받지 못했습니다. 기존 파일을 그대로 두고 중단합니다. "
+                 "(EDUINFO_KEY 만료나 API 장애를 확인하세요)")
+
     out = {
         "source": "지방교육재정알리미 Open API (opbdfnctByPoli)",
         "license": "공공누리 출처표시",
@@ -126,9 +134,7 @@ def main():
         "rows": all_rows,
     }
     out_path = os.path.abspath(args.out)
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
+    write_json_atomic(out_path, out, ensure_ascii=False, separators=(",", ":"))
     print(f"저장: {out_path}  (총 {len(all_rows)}행, 연도 {out['years']})")
 
 

@@ -24,6 +24,7 @@ from collectors import base_collector as bc
 from collectors import (jbe_collector, goe_collector, jje_collector, gwe_collector,
                         gne_collector, dje_collector, dge_collector, gen_collector,
                         cne_collector)
+from collectors.io_util import write_json_atomic
 
 COLLECTORS = {"jbe": jbe_collector, "goe": goe_collector, "jje": jje_collector,
               "gwe": gwe_collector, "gne": gne_collector, "dje": dje_collector,
@@ -42,10 +43,17 @@ def run(office_filter=None):
     # 자동 발견된 부서 게시판(config/boards_auto.json) 병합
     auto_path = os.path.join(bc.ROOT, "config", "boards_auto.json")
     if os.path.exists(auto_path):
+        # 여기서 조용히 넘어가면 안 된다.
+        # 아래 '꺼둔 게시판 문서 제외'가 자동발견 게시판 191개를 전부 '없는 게시판'으로 보고
+        # 그 문서를 통째로 지운 뒤 커밋·배포해 버린다. 파일이 깨졌으면 그 자리에서 멈춘다.
         try:
-            boards += json.load(open(auto_path, encoding="utf-8")).get("boards", [])
-        except Exception:
-            pass
+            auto = json.load(open(auto_path, encoding="utf-8")).get("boards", [])
+        except Exception as e:
+            sys.exit(f"config/boards_auto.json 을 읽지 못했습니다: {e}\n"
+                     f"이대로 진행하면 자동발견 게시판의 문서가 전부 지워집니다.")
+        if not auto:
+            sys.exit("config/boards_auto.json 에 게시판이 없습니다. 파일이 비었는지 확인하세요.")
+        boards += auto
     session = bc.make_session()
 
     # 기존 문서 로드(병합)
@@ -216,7 +224,7 @@ def run(office_filter=None):
         "documents": docs,
     }
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
-    json.dump(out, open(DATA_PATH, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    write_json_atomic(DATA_PATH, out, ensure_ascii=False, separators=(",", ":"))
     print(f"\n저장: {DATA_PATH} · 총 {len(docs)}건 (교육청 {len(out['offices'])}곳)")
 
 

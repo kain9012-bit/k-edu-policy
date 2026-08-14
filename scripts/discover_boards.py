@@ -20,6 +20,8 @@ KST = ZoneInfo("Asia/Seoul")
 
 import requests
 from bs4 import BeautifulSoup
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from collectors.io_util import write_json_atomic
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) K-EduPolicyBot/1.0"
@@ -297,7 +299,7 @@ def main():
             print(f"  - {office}: {msg}")
     out = {"generated_at": datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"), "boards": existing}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    write_json_atomic(OUT, out, ensure_ascii=False, indent=2)
     print(f"\n저장: {OUT} · 총 {len(existing)}개")
 
 

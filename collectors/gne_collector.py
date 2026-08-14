@@ -50,8 +50,16 @@ def collect(board, session, log):
                     date = date or bc.parse_date(t)
                 elif t and t != title and not t.isdigit() and "과" in t and len(t) <= 12:
                     dept = dept or t
-            post_url = urljoin(base_list, href) if href else \
-                f"https://www.gne.go.kr/user/bbs/BD_selectBbs.do?q_bbsSn={board['config'].get('bbs_sn','1464')}&q_bbsDocNo={pid}"
+            # href가 없을 때만 주소를 조립한다.
+            # 예전에는 gne.go.kr(경남)로 박아뒀는데, 이 수집기를 서울·울산도 같이 써서
+            # 엉뚱한 교육청 사이트로 연결됐다. 목록 주소를 기준으로 만든다.
+            if href:
+                post_url = urljoin(base_list, href)
+            else:
+                post_url = urljoin(
+                    base_list,
+                    f"/user/bbs/BD_selectBbs.do?q_bbsSn={board['config'].get('bbs_sn', '1464')}&q_bbsDocNo={pid}",
+                )
             raws.append({
                 "external_post_id": pid,
                 "title": title,

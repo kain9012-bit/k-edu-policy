@@ -5,7 +5,7 @@ name: 게시판 재발견 (주간)
 # - 매일 하기엔 무겁고 서버에도 부담이라 주 1회(일요일 새벽)로 둔다.
 on:
   schedule:
-    - cron: "0 19 * * 0"     # 일요일 04:00 KST (19:00 UTC 토)
+    - cron: "0 19 * * 6"     # 일요일 04:00 KST (토요일 19:00 UTC)
   workflow_dispatch:
     inputs:
       office:
@@ -47,9 +47,12 @@ jobs:
           PY
 
       - name: 게시판 재발견
+        # 입력값은 env 로 넘긴다. run: 에 직접 끼워 넣으면 셸이 그대로 실행해 버린다.
+        env:
+          OFFICE: ${{ inputs.office }}
         run: |
-          if [ -n "${{ inputs.office }}" ]; then
-            python scripts/discover_boards.py "${{ inputs.office }}"
+          if [ -n "$OFFICE" ]; then
+            python scripts/discover_boards.py "$OFFICE"
           else
             python scripts/discover_boards.py
           fi

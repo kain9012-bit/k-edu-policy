@@ -39,12 +39,22 @@ interface BudgetTabProps {
 }
 
 export const BudgetTab: React.FC<BudgetTabProps> = ({ data }) => {
-  const [selectedYear, setSelectedYear] = useState<number>(2026);
+  // 기본 연도를 숫자로 박아두면, 그 해 데이터가 빠지거나 다음 해가 오면 화면이 통째로 빈다.
+  const [selectedYear, setSelectedYear] = useState<number>(
+    () => Math.max(...(data.years?.length ? data.years : [new Date().getFullYear()]))
+  );
   const [selectedItem, setSelectedItem] = useState<string>('세출예산액');
   const [highlightRegion, setHighlightRegion] = useState<string>('전북');
   // 추이를 금액으로 볼지 비중으로 볼지
   const [trendMode, setTrendMode] = useState<'amount' | 'share'>('amount');
   const narrow = useNarrowScreen();
+
+  // 데이터는 화면이 그려진 뒤에 도착한다. 고른 연도가 실제 연도 목록에 없으면 최신 연도로 맞춘다.
+  useEffect(() => {
+    if (data.years?.length && !data.years.includes(selectedYear)) {
+      setSelectedYear(Math.max(...data.years));
+    }
+  }, [data.years, selectedYear]);
 
   // 정책사업(상위)과 그 아래 단위사업을 묶어서 보여준다.
   // 섞어서 나열하면 '인건비'와 '교육복지'처럼 층위가 다른 것을 나란히 비교하게 된다.

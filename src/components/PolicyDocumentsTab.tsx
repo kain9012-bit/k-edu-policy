@@ -22,11 +22,14 @@ import {
 interface PolicyDocumentsTabProps {
   data: DocumentsData;
   initialSearchTerm?: string;
+  /** 넘겨받은 검색어를 화면에 반영한 뒤 부모에게 알린다(한 번만 쓰도록) */
+  onConsumeInitialSearch?: () => void;
 }
 
 export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   data,
   initialSearchTerm = '',
+  onConsumeInitialSearch,
 }) => {
   // Search & Filter state
   // 입력칸에 적는 값과 실제로 찾는 값을 나눈다.
@@ -147,9 +150,11 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
   }, [data.documents, keywords, titleMatches, selectedStatus, selectedOffice, selectedYear, selectedCategory]);
 
   useEffect(() => {
+    if (!initialSearchTerm) return;
     setInputTerm(initialSearchTerm);
     setSearchTerm(initialSearchTerm);
-  }, [initialSearchTerm]);
+    onConsumeInitialSearch?.();
+  }, [initialSearchTerm, onConsumeInitialSearch]);
 
   useEffect(() => {
     setShowRelated(false);
@@ -267,7 +272,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
     const text = `[교육청 정책계획서]
 제목: ${doc.title}
 교육청: ${doc.short_name}교육청 (${doc.department || '담당부서 미기재'})
-발행일: ${doc.published_date || '미상'} (연도: ${doc.policy_year})
+발행일: ${doc.published_date || '미상'} (연도: ${doc.policy_year ?? '미상'})
 구분: ${doc.document_type || '기본계획'} / ${doc.policy_category.join(', ')}
 원문 게시글: ${doc.post_url}`;
 
@@ -621,7 +626,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
 
                     {/* Policy Year Badge */}
                     <span className="px-2 py-0.5 rounded text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200/80">
-                      {doc.policy_year}년도
+                      {doc.policy_year ? `${doc.policy_year}년도` : '연도 미상'}
                     </span>
 
                     {/* Login Required Badge */}
@@ -876,7 +881,7 @@ export const PolicyDocumentsTab: React.FC<PolicyDocumentsTabProps> = ({
               <div>
                 <span className="text-slate-400 font-semibold block mb-0.5">게시 연도 및 문서유형</span>
                 <span className="font-medium text-slate-800">
-                  {activeDetailDoc.policy_year}년도 / {activeDetailDoc.document_type || '미분류'}
+                  {activeDetailDoc.policy_year ? `${activeDetailDoc.policy_year}년도` : '연도 미상'} / {activeDetailDoc.document_type || '미분류'}
                 </span>
               </div>
               <div>

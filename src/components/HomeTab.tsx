@@ -30,6 +30,9 @@ export const HomeTab: React.FC<HomeTabProps> = ({
   const planCount = (data.office_stats ?? []).reduce((n, o) => n + (o.plan_count ?? 0), 0);
   // 전남·광주가 전남광주로 통합돼 실제 기관은 16곳이다(수집 대상은 옛 홈페이지까지 18곳).
   const agencyCount = data.coverage.agency_count ?? data.coverage.total;
+  // 실제로 문서가 들어온 교육청 수와, 수집에 실패한 게시판 수
+  const connected = Math.min(data.coverage.connected ?? agencyCount, agencyCount);
+  const failedBoards = (data.office_stats ?? []).reduce((n, o) => n + (o.failed_boards ?? 0), 0);
 
   // 추천 검색어.
   // 예전에는 '중등교육'처럼 분야 이름을 넣었는데, 이 검색은 제목만 보기 때문에
@@ -144,10 +147,14 @@ export const HomeTab: React.FC<HomeTabProps> = ({
             {[
               {
                 // 수집 대상은 18곳이지만 전남·광주는 전남광주로 통합돼 기관은 16곳이다.
+                // 분자는 실제로 문서가 들어온 교육청 수다. 예전에는 분모와 같은 값을 써서
+                // 절반이 실패해도 늘 '전국 수집 완료'로 보였다.
                 t: '연동 시도교육청',
-                v: `${agencyCount} / ${agencyCount}곳`,
-                sub: '전국 수집 완료',
-                ok: true,
+                v: `${connected} / ${agencyCount}곳`,
+                sub: failedBoards > 0
+                  ? `수집 실패 게시판 ${failedBoards}개`
+                  : connected >= agencyCount ? '전국 수집 완료' : `${agencyCount - connected}곳 미연동`,
+                ok: failedBoards === 0 && connected >= agencyCount,
               },
               {
                 t: '공개된 계획서',

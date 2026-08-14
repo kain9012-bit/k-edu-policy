@@ -1,5 +1,7 @@
-requests>=2.31
-beautifulsoup4>=4.12
-lxml>=5.1
-PyMuPDF>=1.24
-playwright>=1.40
+# 상한을 두는 이유: 하한만 두면 매일 새로 해석돼,
+# 업스트림 배포 하나로 야간 수집이 예고 없이 깨질 수 있다.
+requests>=2.31,<3
+beautifulsoup4>=4.12,<5
+lxml>=5.1,<7
+PyMuPDF>=1.24,<2
+playwright>=1.40,<2

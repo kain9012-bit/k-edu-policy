@@ -42,6 +42,9 @@ import os, re, json, time, argparse, datetime
 # GitHub Actions 러너는 UTC라, 그냥 now() 를 쓰면 새벽 5시(KST)에 돌린 수집이
 # 전날 20시로 기록돼 화면에 하루 어긋나 보인다.
 from zoneinfo import ZoneInfo
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from collectors.io_util import write_json_atomic
 KST = ZoneInfo("Asia/Seoul")
 
 
@@ -423,14 +426,13 @@ def save(existing, stats=None):
     """
     raw = sorted(existing.values(), key=lambda x: x.get("published_date") or "", reverse=True)
     kept = [d for d in raw if is_plan(d.get("title", ""))]
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump(_pack(raw, stats, "본청 문서 원본(계획 판별 전). 필터 재적용용이며 웹에는 쓰지 않는다."),
-              open(RAW, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-    json.dump(_pack([_slim(d) for d in kept], stats,
+    write_json_atomic(RAW, _pack(raw, stats, "본청 문서 원본(계획 판별 전). 필터 재적용용이며 웹에는 쓰지 않는다."),
+                      ensure_ascii=False, separators=(",", ":"))
+    write_json_atomic(OUT, _pack([_slim(d) for d in kept], stats,
                     "각 교육청 본청 부서가 생산한 계획 문서 목록. 문서 파일은 제공하지 않으며 "
                     "담당자명은 수집하지 않는다. 상세는 정보공개포털 링크에서 확인. "
                     "detail_url은 id의 등록번호·생산일시로 조립한다."),
-              open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+                      ensure_ascii=False, separators=(",", ":"))
     return len(kept), len(raw)
 
 

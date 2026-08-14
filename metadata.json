@@ -1,6 +1,0 @@
-{
-  "name": "교육정책 통합검색 (EduPolicy Search)",
-  "description": "전국 17개 시도교육청의 공개 정책계획서, 정보공개포털 내부결재 목록, 세출예산 현황 통합 검색 및 비교 서비스",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

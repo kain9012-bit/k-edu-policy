@@ -1,10 +1,14 @@
 name: Refresh budget data
 
-# 세출예산은 연 단위 갱신 → 매월 1일 + 수동 실행
+# 세출예산은 연 단위 갱신 → 매월 한 번 + 수동 실행
 on:
   schedule:
-    - cron: "0 21 1 * *"   # 매월 1일 06:00 KST
+    - cron: "0 21 1 * *"   # 매월 2일 06:00 KST (1일 21:00 UTC)
   workflow_dispatch:
+
+# 봇이 data/budget.json 을 커밋한다. 이 권한이 없으면 push가 403으로 조용히 실패한다.
+permissions:
+  contents: write
 
 jobs:
   refresh:

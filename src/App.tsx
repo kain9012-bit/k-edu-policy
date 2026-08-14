@@ -35,16 +35,20 @@ export default function App() {
   // 수집기가 만든 data/*.json 을 읽는다.
   // GitHub Pages 하위 경로에서도 동작하도록 절대경로(/data)가 아닌
   // import.meta.env.BASE_URL 기준 상대경로를 쓴다.
-  const load = React.useCallback(async <T,>(name: string, apply: (v: T) => void) => {
+  const load = React.useCallback(async <T,>(name: string, apply: (v: T) => void): Promise<boolean> => {
     const base = import.meta.env.BASE_URL || './';
     const url = `${base}data/${name}`.replace(/([^:]\/)\/+/g, '$1');
     try {
       const res = await fetch(url);
-      if (res.ok) apply(await res.json());
-      else console.warn(`${name} 응답 ${res.status} — 표본 데이터로 표시합니다.`);
+      if (res.ok) {
+        apply(await res.json());
+        return true;
+      }
+      console.warn(`${name} 응답 ${res.status} — 표본 데이터로 표시합니다.`);
     } catch (err) {
       console.warn(`${name} 을 불러오지 못했습니다. 표본 데이터로 표시합니다.`, err);
     }
+    return false;
   }, []);
 
   useEffect(() => {
@@ -64,7 +68,12 @@ export default function App() {
     if (infoRequested.current) return;
     infoRequested.current = true;
     setInfoLoading(true);
-    load<InfoListData>('infolist.json', setInfoListData).finally(() => setInfoLoading(false));
+    load<InfoListData>('infolist.json', setInfoListData).then((ok) => {
+      setInfoLoading(false);
+      // 실패했으면 표시를 되돌려, 탭을 다시 눌렀을 때 한 번 더 시도하게 한다.
+      // 그러지 않으면 한 번 끊긴 뒤로는 새로고침 전까지 계속 표본 데이터만 보인다.
+      if (!ok) infoRequested.current = false;
+    });
   }, [activeTab, load]);
 
   // 탭을 바꾸면 화면 맨 위부터 보여준다.
@@ -112,6 +121,9 @@ export default function App() {
           <PolicyDocumentsTab
             data={documentsData}
             initialSearchTerm={searchQuery}
+            // 홈에서 넘어온 검색어는 한 번만 쓴다. 남겨두면 나중에 탭을 다시 눌렀을 때
+            // 사용자가 지운 옛 검색어가 말없이 되살아난다.
+            onConsumeInitialSearch={() => setSearchQuery('')}
           />
         )}
 
