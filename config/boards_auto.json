@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-11 04:47:43",
+  "generated_at": "2026-08-16 04:30:33",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -1142,7 +1142,8 @@
         "bbs_sn": "1567",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "교육시설과"
+      "dept_default": "교육시설과",
+      "missing_since": "2026-08-16"
     },
     {
       "id": "chungbuk-d19-2024",
@@ -1585,7 +1586,8 @@
         "bbs_sn": "2020",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "교육활동보호센터"
+      "dept_default": "교육활동보호센터",
+      "missing_since": "2026-08-16"
     },
     {
       "id": "chungbuk-d27-2010",
@@ -1649,7 +1651,8 @@
         "page_param": "currPage",
         "bbs_sn": "1876",
         "base": "https://www.gbe.kr"
-      }
+      },
+      "missing_since": "2026-08-16"
     },
     {
       "id": "gyeongbuk-1886",
@@ -3710,7 +3713,8 @@
         "page_param": "currPage",
         "bbs_sn": "1776",
         "base": "https://www.ice.go.kr"
-      }
+      },
+      "missing_since": "2026-08-16"
     },
     {
       "id": "chungbuk-d11-1398",
@@ -3859,7 +3863,8 @@
         "page_param": "currPage",
         "bbs_sn": "1942",
         "base": "https://www.goe.go.kr"
-      }
+      },
+      "missing_since": "2026-08-16"
     },
     {
       "id": "jeonnam-118",
