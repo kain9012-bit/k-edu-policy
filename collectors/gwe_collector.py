@@ -52,12 +52,14 @@ def collect(board, session, log):
             else:
                 title = raw_title
             tds = [td.get_text(" ", strip=True) for td in tr.select("td")]
+            # 날짜는 pick_date 로 고른다. 셀을 훑어 처음 걸린 값을 쓰면
+            # 제목에 적힌 날짜('2026.9.1.자 …')를 게시일로 잘못 집는다.
+            date = bc.pick_date(tds)
             author = ""
-            date = ""
             for t in tds:
                 if bc.parse_date(t):
-                    date = date or bc.parse_date(t)
-                elif t and not t.isdigit() and len(t) <= 8 and t not in raw_title and not re.search(r"계획|알림", t):
+                    continue
+                if t and not t.isdigit() and len(t) <= 8 and t not in raw_title and not re.search(r"계획|알림", t):
                     author = author or t
             raws.append({
                 "external_post_id": pid,

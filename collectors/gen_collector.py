@@ -39,12 +39,14 @@ def collect(board, session, log):
             seen.add(pid); added += 1
             title = re.sub(r"\s+", " ", a.get_text(" ", strip=True)).strip()
             tds = [re.sub(r"\s+", " ", td.get_text(" ", strip=True)) for td in tr.select("td")]
-            date = ""
+            # 날짜는 pick_date 로 고른다. 셀을 훑어 처음 걸린 값을 쓰면
+            # 제목에 적힌 날짜('2026.9.1.자 …')를 게시일로 잘못 집는다.
+            date = bc.pick_date(tds)
             dept = ""
             for t in tds:
                 mm = bc.parse_date(t)
                 if mm:
-                    date = date or mm
+                    pass
                 elif t and t != title and re.search(r"(과|관|담당관|단|실)$", t) and len(t) <= 12:
                     dept = dept or t
             raws.append({

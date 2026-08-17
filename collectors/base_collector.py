@@ -122,6 +122,26 @@ def pick_date(cells):
     return ""
 
 
+def sane_published_date(date_text, today=None):
+    """게시일로 말이 되는 값만 남긴다.
+
+    목록의 제목 칸에 적힌 날짜를 게시일로 잘못 집는 일이 있었다.
+      '2026.9.1.자 중등 교장공모제 심사 관련 …' → 게시일 2026-09-01 (오늘보다 미래)
+    게시글이 미래에 올라올 수는 없으므로, 하루 이상 앞선 날짜는 버린다.
+    버리면 연도는 제목에서 조심스럽게 찾는 쪽으로 넘어간다.
+    """
+    if not date_text:
+        return ""
+    try:
+        d = datetime.date.fromisoformat(str(date_text)[:10])
+    except ValueError:
+        return ""
+    today = today or datetime.datetime.now(KST).date()
+    if d > today + datetime.timedelta(days=1):
+        return ""
+    return d.isoformat()
+
+
 def extract_year(text, fallback_date=None):
     """문서의 연도. **게시일(생산일) 기준**이다.
 
@@ -239,6 +259,7 @@ def build_document(office, short_name, board, raw):
         dept = dept or pm.group(1).strip()
         title_raw = pm.group(2).strip()
     status, dtype, cats = classify(title_raw, att_names)
+    published = sane_published_date(raw.get("published_date"))
     now = datetime.datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
     return {
         "id": doc_id(office, raw["external_post_id"], board["id"]),
@@ -251,8 +272,8 @@ def build_document(office, short_name, board, raw):
         "title": title_raw,
         "department": dept,
         "author": (raw.get("author") or "").strip(),
-        "published_date": raw.get("published_date", ""),
-        "policy_year": extract_year(title_raw, raw.get("published_date")),
+        "published_date": published,
+        "policy_year": extract_year(title_raw, published),
         "document_type": dtype or "",
         "policy_category": cats,
         "post_url": raw["post_url"],

@@ -43,12 +43,12 @@ def collect(board, session, log):
             seen.add(pid); added += 1
             title = re.sub(r"\s+", " ", a.get_text(" ", strip=True)).strip()
             tds = [re.sub(r"\s+", " ", td.get_text(" ", strip=True)) for td in tr.select("td")]
+            # 날짜는 pick_date 로 고른다. 셀을 훑어 처음 걸린 값을 쓰면
+            # 제목에 적힌 날짜('2026.9.1.자 …')를 게시일로 잘못 집는다.
+            date = bc.pick_date(tds)
             dept = ""
-            date = ""
             for t in tds:
-                if bc.parse_date(t):
-                    date = date or bc.parse_date(t)
-                elif t and t != title and not t.isdigit() and "과" in t and len(t) <= 12:
+                if t and t != title and not t.isdigit() and "과" in t and len(t) <= 12:
                     dept = dept or t
             # href가 없을 때만 주소를 조립한다.
             # 예전에는 gne.go.kr(경남)로 박아뒀는데, 이 수집기를 서울·울산도 같이 써서

@@ -55,12 +55,14 @@ def collect(board, session, log):
             seen.add(pid); added += 1
             title = re.sub(r"^제목\s*", "", re.sub(r"\s+", " ", a.get_text(" ", strip=True))).strip()
             tds = [re.sub(r"\s+", " ", td.get_text(" ", strip=True)) for td in tr.select("td")]
+            # 날짜는 pick_date 로 고른다. 셀을 훑어 처음 걸린 값을 쓰면
+            # 제목에 적힌 날짜('2026.9.1.자 …')를 게시일로 잘못 집는다.
+            date = bc.pick_date(tds)
             dept = ""
-            date = ""
             for t in tds:
                 mm = bc.parse_date(t)
                 if mm:
-                    date = date or mm
+                    pass
                 else:
                     tt = re.sub(r"^(부서|게시자|작성자|담당)\s*", "", t).strip()
                     if tt and tt != title and "과" in tt and len(tt) <= 12 and not tt.isdigit():

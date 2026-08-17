@@ -46,12 +46,9 @@ def collect(board, session, log):
             title = a.get_text(" ", strip=True)
             # 컬럼: 번호, 제목, 부서, 등록일, 조회
             dept = tds[2] if len(tds) > 2 else ""
-            date = ""
-            for t in tds:
-                mm = bc.parse_date(t)
-                if mm:
-                    date = mm
-                    break
+            # 날짜는 pick_date 로 고른다. 셀을 훑어 처음 걸린 값을 쓰면
+            # 제목에 적힌 날짜('2026.9.1.자 …')를 게시일로 잘못 집는다.
+            date = bc.pick_date(tds)
             raws.append({
                 "external_post_id": pid,
                 "title": title,

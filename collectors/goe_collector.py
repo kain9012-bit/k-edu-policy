@@ -42,14 +42,13 @@ def collect(board, session, log):
             # 제목: 링크 텍스트에서 '제목' 라벨 제거
             title = re.sub(r"^제목\s*", "", a.get_text(" ", strip=True)).strip()
             tds = [td.get_text(" ", strip=True) for td in tr.select("td")]
+            # 날짜는 pick_date 로 고른다. 셀을 훑어 처음 걸린 값을 쓰면
+            # 제목에 적힌 날짜('2026.9.1.자 …')를 게시일로 잘못 집는다.
+            date = bc.pick_date(tds)
             author = ""
-            date = ""
             for t in tds:
                 if t.startswith("작성자"):
                     author = t.replace("작성자", "").strip()
-                mm = bc.parse_date(t)
-                if mm:
-                    date = date or mm
             raws.append({
                 "external_post_id": pid,
                 "title": title,
