@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23 04:32:00",
+  "generated_at": "2026-08-30 06:39:53",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -899,8 +899,7 @@
         "bbs_sn": "1394",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-23"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1412",
@@ -922,8 +921,7 @@
         "bbs_sn": "1412",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-23"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1396",
@@ -945,8 +943,7 @@
         "bbs_sn": "1396",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-23"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1410",
@@ -968,8 +965,7 @@
         "bbs_sn": "1410",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-23"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1407",
@@ -991,8 +987,7 @@
         "bbs_sn": "1407",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-23"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d14-1564",
@@ -3747,8 +3742,7 @@
         "bbs_sn": "1398",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-08-23"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d21-1416",
@@ -4130,6 +4124,48 @@
         "page_param": "currPage",
         "bbs_sn": "1076",
         "base": "https://www.jge.go.kr"
+      }
+    },
+    {
+      "id": "chungbuk-1798",
+      "office": "chungbuk",
+      "board_name": "학교",
+      "menu_path": "학교",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.cbe.go.kr/cbe/na/ntt/selectNttList.do?bbsId=1798&mi=11716",
+        "view_url": "https://www.cbe.go.kr/cbe/na/ntt/selectNttInfo.do?bbsId=1798&mi=11716&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "1798",
+        "base": "https://www.cbe.go.kr"
+      }
+    },
+    {
+      "id": "gyeonggi-2675",
+      "office": "gyeonggi",
+      "board_name": "통합자료실",
+      "menu_path": "통합자료실",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=2675&mi=10961",
+        "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=2675&mi=10961&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "2675",
+        "base": "https://www.goe.go.kr"
       }
     }
   ]
