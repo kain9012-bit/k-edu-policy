@@ -14,7 +14,13 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- 방문 통계 (GoatCounter). 쿠키·개인식별자를 쓰지 않는다. -->
+    <!-- 방문 통계 (GoatCounter). 쿠키·개인식별자를 쓰지 않는다.
+         경로를 전부 '/'로 통일해 보낸다. 그러지 않으면 주소에 ?t=1 같은 것이 붙거나
+         옛 주소(/k-edu-policy)로 들어온 방문이 다른 경로로 따로 세어져 수가 흩어진다.
+         이 설정은 반드시 count.js 보다 먼저 와야 한다. -->
+    <script>
+      window.goatcounter = { path: function () { return '/'; } };
+    </script>
     <script
       data-goatcounter="https://k-edu-policy.goatcounter.com/count"
       async
