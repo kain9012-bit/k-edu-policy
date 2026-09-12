@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-06 06:06:21",
+  "generated_at": "2026-09-13 06:19:36",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -899,8 +899,7 @@
         "bbs_sn": "1394",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-09-06"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1412",
@@ -922,8 +921,7 @@
         "bbs_sn": "1412",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-09-06"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1396",
@@ -945,8 +943,7 @@
         "bbs_sn": "1396",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-09-06"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1410",
@@ -968,8 +965,7 @@
         "bbs_sn": "1410",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-09-06"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d11-1407",
@@ -991,8 +987,7 @@
         "bbs_sn": "1407",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-09-06"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d14-1564",
@@ -1081,7 +1076,8 @@
         "bbs_sn": "1810",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "재정복지과"
+      "dept_default": "재정복지과",
+      "missing_since": "2026-09-13"
     },
     {
       "id": "chungbuk-d15-1629",
@@ -1103,7 +1099,8 @@
         "bbs_sn": "1629",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "재정복지과"
+      "dept_default": "재정복지과",
+      "missing_since": "2026-09-13"
     },
     {
       "id": "chungbuk-d15-1812",
@@ -1125,7 +1122,8 @@
         "bbs_sn": "1812",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "재정복지과"
+      "dept_default": "재정복지과",
+      "missing_since": "2026-09-13"
     },
     {
       "id": "chungbuk-d16-1567",
@@ -1390,8 +1388,7 @@
         "bbs_sn": "1654",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과",
-      "missing_since": "2026-09-06"
+      "dept_default": "노사정책과"
     },
     {
       "id": "chungbuk-d23-1642",
@@ -1413,8 +1410,7 @@
         "bbs_sn": "1642",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과",
-      "missing_since": "2026-09-06"
+      "dept_default": "노사정책과"
     },
     {
       "id": "chungbuk-d24-1600",
@@ -1593,8 +1589,7 @@
         "bbs_sn": "2020",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "교육활동보호센터",
-      "missing_since": "2026-09-06"
+      "dept_default": "교육활동보호센터"
     },
     {
       "id": "chungbuk-d27-2010",
@@ -3746,8 +3741,7 @@
         "bbs_sn": "1398",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과",
-      "missing_since": "2026-09-06"
+      "dept_default": "체육건강안전과"
     },
     {
       "id": "chungbuk-d21-1416",
