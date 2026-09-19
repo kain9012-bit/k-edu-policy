@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-13 06:19:36",
+  "generated_at": "2026-09-20 06:28:05",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -877,7 +877,8 @@
         "bbs_sn": "1627",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "창의특수교육과"
+      "dept_default": "창의특수교육과",
+      "missing_since": "2026-09-20"
     },
     {
       "id": "chungbuk-d11-1394",
@@ -1076,8 +1077,7 @@
         "bbs_sn": "1810",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "재정복지과",
-      "missing_since": "2026-09-13"
+      "dept_default": "재정복지과"
     },
     {
       "id": "chungbuk-d15-1629",
@@ -1099,8 +1099,7 @@
         "bbs_sn": "1629",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "재정복지과",
-      "missing_since": "2026-09-13"
+      "dept_default": "재정복지과"
     },
     {
       "id": "chungbuk-d15-1812",
@@ -1122,8 +1121,7 @@
         "bbs_sn": "1812",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "재정복지과",
-      "missing_since": "2026-09-13"
+      "dept_default": "재정복지과"
     },
     {
       "id": "chungbuk-d16-1567",
@@ -1145,8 +1143,7 @@
         "bbs_sn": "1567",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "교육시설과",
-      "missing_since": "2026-09-06"
+      "dept_default": "교육시설과"
     },
     {
       "id": "chungbuk-d19-2024",
@@ -1388,7 +1385,8 @@
         "bbs_sn": "1654",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과"
+      "dept_default": "노사정책과",
+      "missing_since": "2026-09-20"
     },
     {
       "id": "chungbuk-d23-1642",
@@ -1410,7 +1408,8 @@
         "bbs_sn": "1642",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과"
+      "dept_default": "노사정책과",
+      "missing_since": "2026-09-20"
     },
     {
       "id": "chungbuk-d24-1600",
@@ -4144,8 +4143,7 @@
         "page_param": "currPage",
         "bbs_sn": "1798",
         "base": "https://www.cbe.go.kr"
-      },
-      "missing_since": "2026-09-06"
+      }
     },
     {
       "id": "gyeonggi-2675",
@@ -4190,6 +4188,27 @@
         "base": "https://www.cbe.go.kr"
       },
       "dept_default": "중등교육과"
+    },
+    {
+      "id": "gyeonggi-2585",
+      "office": "gyeonggi",
+      "board_name": "교육공무직원",
+      "menu_path": "교육공무직원",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=2585&mi=11040",
+        "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=2585&mi=11040&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "2585",
+        "base": "https://www.goe.go.kr"
+      }
     }
   ]
 }
