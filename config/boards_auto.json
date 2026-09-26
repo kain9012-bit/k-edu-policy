@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-20 06:28:05",
+  "generated_at": "2026-09-27 07:00:54",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -877,8 +877,7 @@
         "bbs_sn": "1627",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "창의특수교육과",
-      "missing_since": "2026-09-20"
+      "dept_default": "창의특수교육과"
     },
     {
       "id": "chungbuk-d11-1394",
@@ -1143,7 +1142,8 @@
         "bbs_sn": "1567",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "교육시설과"
+      "dept_default": "교육시설과",
+      "missing_since": "2026-09-27"
     },
     {
       "id": "chungbuk-d19-2024",
@@ -1385,8 +1385,7 @@
         "bbs_sn": "1654",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과",
-      "missing_since": "2026-09-20"
+      "dept_default": "노사정책과"
     },
     {
       "id": "chungbuk-d23-1642",
@@ -1408,8 +1407,7 @@
         "bbs_sn": "1642",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과",
-      "missing_since": "2026-09-20"
+      "dept_default": "노사정책과"
     },
     {
       "id": "chungbuk-d24-1600",
