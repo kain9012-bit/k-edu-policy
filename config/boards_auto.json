@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-27 07:00:54",
+  "generated_at": "2026-10-04 07:06:08",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -899,7 +899,8 @@
         "bbs_sn": "1394",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과"
+      "dept_default": "체육건강안전과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d11-1412",
@@ -921,7 +922,8 @@
         "bbs_sn": "1412",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과"
+      "dept_default": "체육건강안전과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d11-1396",
@@ -943,7 +945,8 @@
         "bbs_sn": "1396",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과"
+      "dept_default": "체육건강안전과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d11-1410",
@@ -965,7 +968,8 @@
         "bbs_sn": "1410",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과"
+      "dept_default": "체육건강안전과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d11-1407",
@@ -987,7 +991,8 @@
         "bbs_sn": "1407",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과"
+      "dept_default": "체육건강안전과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d14-1564",
@@ -1142,8 +1147,7 @@
         "bbs_sn": "1567",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "교육시설과",
-      "missing_since": "2026-09-27"
+      "dept_default": "교육시설과"
     },
     {
       "id": "chungbuk-d19-2024",
@@ -1475,7 +1479,8 @@
         "base": "https://www.cbe.go.kr"
       },
       "dept_default": "중등교육과",
-      "inactive_reason": "학교별 운영계획서를 학교가 직접 올리는 게시판(진천고·세명고 등). 본청 계획이 아니다."
+      "inactive_reason": "학교별 운영계획서를 학교가 직접 올리는 게시판(진천고·세명고 등). 본청 계획이 아니다.",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d25-1487",
@@ -1498,7 +1503,8 @@
         "base": "https://www.cbe.go.kr"
       },
       "dept_default": "중등교육과",
-      "inactive_reason": "학교별 자율장학 운영계획을 학교가 직접 올리는 게시판. 본청 계획이 아니다."
+      "inactive_reason": "학교별 자율장학 운영계획을 학교가 직접 올리는 게시판. 본청 계획이 아니다.",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d25-1966",
@@ -1520,7 +1526,8 @@
         "bbs_sn": "1966",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d25-1957",
@@ -1542,7 +1549,8 @@
         "bbs_sn": "1957",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d25-1097",
@@ -1564,7 +1572,8 @@
         "bbs_sn": "1097",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d26-2020",
@@ -1586,7 +1595,8 @@
         "bbs_sn": "2020",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "교육활동보호센터"
+      "dept_default": "교육활동보호센터",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d27-2010",
@@ -3543,7 +3553,8 @@
         "page_param": "currPage",
         "bbs_sn": "1763",
         "base": "https://www.cbe.go.kr"
-      }
+      },
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-1778",
@@ -3738,7 +3749,8 @@
         "bbs_sn": "1398",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "체육건강안전과"
+      "dept_default": "체육건강안전과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "chungbuk-d21-1416",
@@ -4141,7 +4153,8 @@
         "page_param": "currPage",
         "bbs_sn": "1798",
         "base": "https://www.cbe.go.kr"
-      }
+      },
+      "missing_since": "2026-10-04"
     },
     {
       "id": "gyeonggi-2675",
@@ -4185,7 +4198,8 @@
         "bbs_sn": "2114",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "missing_since": "2026-10-04"
     },
     {
       "id": "gyeonggi-2585",
@@ -4205,6 +4219,48 @@
         "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=2585&mi=11040&nttSn=",
         "page_param": "currPage",
         "bbs_sn": "2585",
+        "base": "https://www.goe.go.kr"
+      }
+    },
+    {
+      "id": "busan-2342",
+      "office": "busan",
+      "board_name": "공고",
+      "menu_path": "공고",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2342&mi=30361",
+        "view_url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?bbsId=2342&mi=30361&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "2342",
+        "base": "https://www.pen.go.kr"
+      }
+    },
+    {
+      "id": "gyeonggi-2430",
+      "office": "gyeonggi",
+      "board_name": "공고등록부",
+      "menu_path": "공고등록부",
+      "collector_type": "goe",
+      "board_type": "분산형",
+      "is_active": true,
+      "login_required": false,
+      "keep_all": false,
+      "license": "공공누리(기관 표기 확인)",
+      "robots": "확인 필요",
+      "max_pages": 2,
+      "config": {
+        "list_url": "https://www.goe.go.kr/goe/na/ntt/selectNttList.do?bbsId=2430&mi=10963",
+        "view_url": "https://www.goe.go.kr/goe/na/ntt/selectNttInfo.do?bbsId=2430&mi=10963&nttSn=",
+        "page_param": "currPage",
+        "bbs_sn": "2430",
         "base": "https://www.goe.go.kr"
       }
     }
