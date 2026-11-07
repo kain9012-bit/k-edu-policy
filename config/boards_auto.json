@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01 07:19:33",
+  "generated_at": "2026-11-08 07:41:14",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -1147,8 +1147,7 @@
         "bbs_sn": "1567",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "교육시설과",
-      "missing_since": "2026-11-01"
+      "dept_default": "교육시설과"
     },
     {
       "id": "chungbuk-d19-2024",
@@ -1170,8 +1169,7 @@
         "bbs_sn": "2024",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "유초등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "유초등교육과"
     },
     {
       "id": "chungbuk-d19-1452",
@@ -1193,8 +1191,7 @@
         "bbs_sn": "1452",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "유초등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "유초등교육과"
     },
     {
       "id": "chungbuk-d19-1610",
@@ -1216,8 +1213,7 @@
         "bbs_sn": "1610",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "유초등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "유초등교육과"
     },
     {
       "id": "chungbuk-d19-1548",
@@ -1239,8 +1235,7 @@
         "bbs_sn": "1548",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "유초등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "유초등교육과"
     },
     {
       "id": "chungbuk-d19-1626",
@@ -1262,8 +1257,7 @@
         "bbs_sn": "1626",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "유초등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "유초등교육과"
     },
     {
       "id": "chungbuk-d21-1655",
@@ -1395,7 +1389,8 @@
         "bbs_sn": "1654",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과"
+      "dept_default": "노사정책과",
+      "missing_since": "2026-11-08"
     },
     {
       "id": "chungbuk-d23-1642",
@@ -1417,7 +1412,8 @@
         "bbs_sn": "1642",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과"
+      "dept_default": "노사정책과",
+      "missing_since": "2026-11-08"
     },
     {
       "id": "chungbuk-d24-1600",
@@ -1485,8 +1481,7 @@
         "base": "https://www.cbe.go.kr"
       },
       "dept_default": "중등교육과",
-      "inactive_reason": "학교별 운영계획서를 학교가 직접 올리는 게시판(진천고·세명고 등). 본청 계획이 아니다.",
-      "missing_since": "2026-11-01"
+      "inactive_reason": "학교별 운영계획서를 학교가 직접 올리는 게시판(진천고·세명고 등). 본청 계획이 아니다."
     },
     {
       "id": "chungbuk-d25-1487",
@@ -1509,8 +1504,7 @@
         "base": "https://www.cbe.go.kr"
       },
       "dept_default": "중등교육과",
-      "inactive_reason": "학교별 자율장학 운영계획을 학교가 직접 올리는 게시판. 본청 계획이 아니다.",
-      "missing_since": "2026-11-01"
+      "inactive_reason": "학교별 자율장학 운영계획을 학교가 직접 올리는 게시판. 본청 계획이 아니다."
     },
     {
       "id": "chungbuk-d25-1966",
@@ -1532,8 +1526,7 @@
         "bbs_sn": "1966",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "중등교육과"
     },
     {
       "id": "chungbuk-d25-1957",
@@ -1555,8 +1548,7 @@
         "bbs_sn": "1957",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "중등교육과"
     },
     {
       "id": "chungbuk-d25-1097",
@@ -1578,8 +1570,7 @@
         "bbs_sn": "1097",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "중등교육과"
     },
     {
       "id": "chungbuk-d26-2020",
@@ -1601,8 +1592,7 @@
         "bbs_sn": "2020",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "교육활동보호센터",
-      "missing_since": "2026-11-01"
+      "dept_default": "교육활동보호센터"
     },
     {
       "id": "chungbuk-d27-2010",
@@ -1858,7 +1848,8 @@
         "page_param": "currPage",
         "bbs_sn": "2444",
         "base": "https://www.pen.go.kr"
-      }
+      },
+      "missing_since": "2026-11-08"
     },
     {
       "id": "busan-2445",
@@ -3624,8 +3615,7 @@
         "bbs_sn": "1437",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "유초등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "유초등교육과"
     },
     {
       "id": "chungbuk-d25-1662",
@@ -4204,8 +4194,7 @@
         "bbs_sn": "2114",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과",
-      "missing_since": "2026-11-01"
+      "dept_default": "중등교육과"
     },
     {
       "id": "gyeonggi-2585",
