@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08 07:41:14",
+  "generated_at": "2026-11-15 08:00:24",
   "boards": [
     {
       "id": "seoul-bu01",
@@ -1389,8 +1389,7 @@
         "bbs_sn": "1654",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과",
-      "missing_since": "2026-11-08"
+      "dept_default": "노사정책과"
     },
     {
       "id": "chungbuk-d23-1642",
@@ -1412,8 +1411,7 @@
         "bbs_sn": "1642",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "노사정책과",
-      "missing_since": "2026-11-08"
+      "dept_default": "노사정책과"
     },
     {
       "id": "chungbuk-d24-1600",
@@ -1435,7 +1433,8 @@
         "bbs_sn": "1600",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "예산과"
+      "dept_default": "예산과",
+      "missing_since": "2026-11-15"
     },
     {
       "id": "chungbuk-d24-1599",
@@ -1481,7 +1480,8 @@
         "base": "https://www.cbe.go.kr"
       },
       "dept_default": "중등교육과",
-      "inactive_reason": "학교별 운영계획서를 학교가 직접 올리는 게시판(진천고·세명고 등). 본청 계획이 아니다."
+      "inactive_reason": "학교별 운영계획서를 학교가 직접 올리는 게시판(진천고·세명고 등). 본청 계획이 아니다.",
+      "missing_since": "2026-11-15"
     },
     {
       "id": "chungbuk-d25-1487",
@@ -1504,7 +1504,8 @@
         "base": "https://www.cbe.go.kr"
       },
       "dept_default": "중등교육과",
-      "inactive_reason": "학교별 자율장학 운영계획을 학교가 직접 올리는 게시판. 본청 계획이 아니다."
+      "inactive_reason": "학교별 자율장학 운영계획을 학교가 직접 올리는 게시판. 본청 계획이 아니다.",
+      "missing_since": "2026-11-15"
     },
     {
       "id": "chungbuk-d25-1966",
@@ -1526,7 +1527,8 @@
         "bbs_sn": "1966",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "missing_since": "2026-11-15"
     },
     {
       "id": "chungbuk-d25-1957",
@@ -1548,7 +1550,8 @@
         "bbs_sn": "1957",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "missing_since": "2026-11-15"
     },
     {
       "id": "chungbuk-d25-1097",
@@ -1570,7 +1573,8 @@
         "bbs_sn": "1097",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "missing_since": "2026-11-15"
     },
     {
       "id": "chungbuk-d26-2020",
@@ -4194,7 +4198,8 @@
         "bbs_sn": "2114",
         "base": "https://www.cbe.go.kr"
       },
-      "dept_default": "중등교육과"
+      "dept_default": "중등교육과",
+      "missing_since": "2026-11-15"
     },
     {
       "id": "gyeonggi-2585",
